@@ -1,0 +1,71 @@
+{
+    "story_count": 3,
+    "storys": [
+        {
+            "storyTitle": "제 1장",
+            "storyNumber": 1,
+            "story": "스토리 스토리 스토리",
+            "options": [
+                {
+                    "name": "좋아",
+                    "result": "health_+_1",
+                    "condition": null
+                },
+                {
+                    "name": "싫어",
+                    "result": "health_-_1",
+                    "condition": null
+                }
+            ]
+        },
+        {
+            "storyTitle": "제 2장",
+            "storyNumber": 1,
+            "story": "어느날 ...",
+            "options": [
+                {
+                    "name": "뭔 개소리여",
+                    "result": "item_+_야구방망이",
+                    "condition": null
+                },
+                {
+                    "name": "응",
+                    "result": "item_-_야구공",
+                    "condition": null
+                },
+                {
+                    "name": "딱히",
+                    "result": "item_+_야구배트",
+                    "condition": null
+                },
+                {
+                    "name": "자결한다",
+                    "result": "item_+_야구배트",
+                    "condition": "item_총_1"
+                }
+            ]
+        },
+        {
+            "storyTitle": "제 3장",
+            "storyNumber": 1,
+            "story": "토리토리 스토리",
+            "options": [
+                {
+                    "name": "좋아",
+                    "result": "money_+_1",
+                    "condition": null
+                },
+                {
+                    "name": "싫어",
+                    "result": "condition_+_겁쟁이",
+                    "condition": null
+                },
+                {
+                    "name": "손들어",
+                    "result": "condition_-_겁쟁이",
+                    "condition": "item_야구방망이_1"
+                }
+            ]
+        }
+    ]
+}
