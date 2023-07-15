@@ -1,69 +1,211 @@
 {
-    "story_count": 3,
+    "story_count": 10,
     "storys": [
         {
-            "storyTitle": "제 1장",
+            "storyTitle": "들개 출물",
             "storyNumber": 1,
-            "story": "스토리 스토리 스토리",
+            "story": "마트로 가는 길 굶주린 들개들과 눈을 마주쳤습니다.",
             "options": [
                 {
-                    "name": "좋아",
-                    "result": "health_+_1",
+                    "name": "먹이를 준다",
+                    "result": ["item_-_1"],
+                    "condition": "item_1_1"
+                },
+                {
+                    "name": "맞서서 덤빈다",
+                    "result": ["health_-_1", "item_+_6"],
                     "condition": null
                 },
                 {
-                    "name": "싫어",
-                    "result": "health_-_1",
+                    "name": "무시하고 지나간다",
+                    "result": ["health_-_1"],
+                    "condition": null
+                },
+                {
+                    "name": "알루미늄 배트로 때린다",
+                    "result": ["health_-_1", "item_-_3"],
+                    "condition": "item_3_1"
+                }
+            ]
+        },
+        {
+            "storyTitle": "바리게이트 쳐진 편의점",
+            "storyNumber": 2,
+            "story": "어느 저녁 바리게이트 쳐진 편의점을 발견했습니다.",
+            "options": [
+                {
+                    "name": "도끼를 부수고 들어간다",
+                    "result": ["item_+_1", "item_-_2"],
+                    "condition": "item_2_1"
+                },
+                {
+                    "name": "주먹으로 부순다",
+                    "result": ["health_-_1","item_+_1"],
+                    "condition": null
+                },
+                {
+                    "name": "그냥 지나간다",
+                    "result": null,
                     "condition": null
                 }
             ]
         },
         {
-            "storyTitle": "제 2장",
-            "storyNumber": 1,
-            "story": "어느날 ...",
+            "storyTitle": "길을 묻는 노인",
+            "storyNumber": 3,
+            "story": "'혹시 여기가 어딘지 압니까?' 한 노인이 당신에게 길을 물어봅니다.",
             "options": [
                 {
-                    "name": "뭔 개소리여",
-                    "result": "item_+_야구방망이",
+                    "name": "길을 알려준다",
+                    "result": ["item_+_1"],
                     "condition": null
                 },
                 {
-                    "name": "응",
-                    "result": "item_-_야구공",
+                    "name": "무시하고 지나간다",
+                    "result": null,
                     "condition": null
                 },
                 {
-                    "name": "딱히",
-                    "result": "item_+_야구배트",
-                    "condition": null
-                },
-                {
-                    "name": "자결한다",
-                    "result": "item_+_야구배트",
-                    "condition": "item_총_1"
+                    "name": "가방을 약탈한다",
+                    "result": ["charateristic_+_3", "item_+_5"],
+                    "condition": "charateristic_1_1"
                 }
             ]
         },
         {
-            "storyTitle": "제 3장",
-            "storyNumber": 1,
-            "story": "토리토리 스토리",
+            "storyTitle": "구걸하는 부랑자",
+            "storyNumber": 4,
+            "story": "'통조림 하나만요...' 한 떠돌이가 당신에게 구걸을 합니다.",
             "options": [
                 {
-                    "name": "좋아",
-                    "result": "money_+_1",
+                    "name": "길을 알려준다",
+                    "result": ["charateristic_+_2", "item_-_1"],
+                    "condition": "item_1_1"
+                },
+                {
+                    "name": "무시하고 지나간다",
+                    "result": null,
                     "condition": null
                 },
                 {
-                    "name": "싫어",
-                    "result": "condition_+_겁쟁이",
+                    "name": "가방을 약탈한다",
+                    "result": ["charateristic_+_3", "item_+_1"],
+                    "condition": "charateristic_1_1"
+                }
+            ]
+        },
+        {
+            "storyTitle": "울고 있는 아이",
+            "storyNumber": 5,
+            "story": "'응애~!' 아기가 당신에게 구걸을 합니다.",
+            "options": [
+                {
+                    "name": "아이의 엄마를 찾아준다",
+                    "result": ["item_+_5"],
                     "condition": null
                 },
                 {
-                    "name": "손들어",
-                    "result": "condition_-_겁쟁이",
-                    "condition": "item_야구방망이_1"
+                    "name": "무시하고 지나간다",
+                    "result": null,
+                    "condition": null
+                }
+            ]
+        },
+        {
+            "storyTitle": "갱단의 위협",
+            "storyNumber": 6,
+            "story": "'돈내놔!' 갱단이 당신에게 구걸을 합니다.",
+            "options": [
+                {
+                    "name": "갱단과 친구가 된다",
+                    "result": ["item_+_3"],
+                    "condition": "charateristic_3_1"
+                },
+                {
+                    "name": "보석으로 합의를 본다",
+                    "result": ["item_-_5"],
+                    "condition": "item_5_1"
+                },
+                {
+                    "name": "맞서 싸운다",
+                    "result": ["health_-_2", "charateristic_+_1"],
+                    "condition": null
+                },
+                {
+                    "name": "도망친다",
+                    "result": ["health_-_1"],
+                    "condition": null
+                }
+            ]
+        },
+        {
+            "storyTitle": "좀비와 여성",
+            "storyNumber": 7,
+            "story": "좀비를 해치우면서 길을 가던 도중 뒤에서 무엇인가 다가오는 소리가 들릅니다. 깜짝 놀란 당신은 뒤로 돌아보자 한 유모차 안에는 좀비가 된 아이가 있고 유모차를 있끄는 한 여성이 보입니다. '저기요! 제발 한번만 도와주세요!' 여성이 무릎을 꿇고 빌고 있습니다.'",
+            "options": [
+                {
+                    "name": "도와준다.",
+                    "result": ["item_-_4", "item_+_5", "item_+_1", "item_+_1", "item_+_1"],
+                    "condition": "item_4_1"
+                },
+                {
+                    "name": "약탈한다.",
+                    "result": ["health_-_2", "item_+_5"],
+                    "condition": "charateristic_3_1"
+                },
+                {
+                    "name": "무시하고 지나간다",
+                    "result": null,
+                    "condition": null
+                }
+            ]
+        },
+        {
+            "storyTitle": "물물교환",
+            "storyNumber": 8,
+            "story": "당근이세요...?",
+            "options": [
+                {
+                    "name": "보석을 바꾼다.",
+                    "result": ["item_+_2", "item_+_3", "item_+_1", "item_-_5"],
+                    "condition": "item_5_1"
+                },
+                {
+                    "name": "가죽을 바꾼다.",
+                    "result": ["item_+_1", "item_+_1", "item_-_6"],
+                    "condition": "charateristic_3_1"
+                },
+                {
+                    "name": "번개라고 한다",
+                    "result": null,
+                    "condition": null
+                }
+            ]
+        },
+        {
+            "storyTitle": "약국과 갱단",
+            "storyNumber": 9,
+            "story": "한 생존자 무리가 약국 앞을 지키고 있습니다.",
+            "options": [
+                {
+                    "name": "생존자 무리와 정보를 공유한다.",
+                    "result": ["item_+_2"],
+                    "condition": "charateristic_2_1"
+                },
+                {
+                    "name": "생존무리를 공격한다",
+                    "result": ["health_-_2", "item_+_4"],
+                    "condition": "charateristic_3_1"
+                },
+                {
+                    "name": "삥 뜯는다",
+                    "result": ["item_+_1", "item_+_1"],
+                    "condition": "charateristic_1_1"
+                },
+                {
+                    "name": "그냥 지나간다",
+                    "result": null,
+                    "condition": null
                 }
             ]
         }

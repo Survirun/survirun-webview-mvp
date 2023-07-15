@@ -1,0 +1,231 @@
+{
+    "story_count": 2,
+    "storys": [
+        {
+            "storyTitle": "도끼를 찾아달라는 노인",
+            "storyNumber": 1,
+            "progress": [
+                {
+                    "story": "길을 가다가 누군가 당신에게 말을 겁니다. '거기 젊은이 잠시만기다려보게나!'. 깜짝 놀라 뒤를 돌아보니 한 노인이 있습니다. 그 노인은 당신에게 간절한 눈빛으로 바로보고 있습니다. '거기 젊은이 혹시 부탁하나만 들어줄 수 있겠나? 내가 이 근처에 아주 소중한 도끼를 잃어버렸다네. 그 도끼좀 찾아주면 안되겠나?'",
+                    "progessNumber": 1,
+                    "options": [
+                        {
+                            "name": "어디에서 잃어버리셨는데요?",
+                            "result": null,
+                            "condition": null,
+                            "nextStroy": 3
+                        },
+                        {
+                            "name": "바쁜일이 있어서요",
+                            "result": null,
+                            "condition": null,
+                            "nextStroy": 2
+                        }
+                    ]
+                },
+                {
+                    "story": "당신은 할아버지를 뒤로한체 가던길을 갑니다.",
+                    "progessNumber": 2,
+                    "options": [
+                        {
+                            "name": "다음 이야기로",
+                            "result": null,
+                            "condition": null,
+                            "nextStroy": null
+                        }
+                    ]
+                },
+                {
+                    "story": "내 집에서 잃어버렸다네. 아무리 찾아봐도 안 보여. 같이 좀 찾아주게나.",
+                    "progessNumber": 3,
+                    "options": [
+                        {
+                            "name": "네...? 네...",
+                            "result": null,
+                            "condition": null,
+                            "nextStroy": 4
+                        }
+                    ]
+                },
+                {
+                    "story": "할아버지 집에 도착하자 당신은 깜짝 놀랍니다. 바로 할아버지의 집이 궁전으로 되어있었거든요. '어이 젊은이 빨리 안 찾고 뭐해'. 한참을 도끼를 찾아지만 도끼는 나오지가 않았습니다. '아니 할아버지 도끼가 안보여요.' '잔소리 말고 찾게나.' 그때 당신은 할아버지 옆 소매에 도끼가 있는 것을 발견했습니다. '어! 할아버지! 옆구리에 그거 도끼 아닌가요?' '어라 유레카! 드디어 찾아구만 고맙구만 젊으니. 근데 이제 필요 없어졌어. 전기톱을 찾았거든. 이 도끼는 너 가져'",
+                    "progessNumber": 4,
+                    "options": [
+                        {
+                            "name": "아... 네...",
+                            "result": [
+                                {
+                                    "getOrLose": "get",
+                                    "kind": "item",
+                                    "number": 2
+                                }
+                            ],
+                            "condition": null,
+                            "nextStroy": 5
+                        },
+                        {
+                            "name": "아니 이 망할 할아범이. 내가 얼마나 고생했는데. 가진거 다 내놔!",
+                            "result": [
+                                {
+                                    "getOrLose": "lose",
+                                    "kind": "item",
+                                    "number": 2
+                                },
+                                {
+                                    "getOrLose": "lose",
+                                    "kind": "money",
+                                    "number": 10
+                                }
+                            ],
+                            "condition": [
+                                {
+                                    "kind": "charateristic",
+                                    "number": 1,
+                                    "count": 1
+                                }
+                            ],
+                            "nextStroy": 6
+                        }
+                    ]
+                },
+                {
+                    "story": "당신은 손에 도끼를 든체로 계속 모험을 떠납니다.",
+                    "progessNumber": 5,
+                    "options": [
+                        {
+                            "name": "다음 이야기로",
+                            "result": null,
+                            "condition": null,
+                            "nextStroy": null
+                        }
+                    ]
+                },
+                {
+                    "story": "당신은 할아버지에게 덤벼보지만 UDT출신 할아버지를 이이기엔 역 부족이였습니다.",
+                    "progessNumber": 6,
+                    "options": [
+                        {
+                            "name": "다음 이야기로",
+                            "result": null,
+                            "condition": null,
+                            "nextStroy": null
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "storyTitle": "도끼를 찾아달라는 노인2",
+            "startNumber": 2,
+            "progress": [
+                {
+                    "story": "길을 가다가 누군가 당신에게 말을 겁니다. '거기 젊은이 잠시만기다려보게나!'. 깜짝 놀라 뒤를 돌아보니 한 노인이 있습니다. 그 노인은 당신에게 간절한 눈빛으로 바로보고 있습니다. '거기 젊은이 혹시 부탁하나만 들어줄 수 있겠나? 내가 이 근처에 아주 소중한 도끼를 잃어버렸다네. 그 도끼좀 찾아주면 안되겠나?'",
+                    "progessNumber": 1,
+                    "options": [
+                        {
+                            "name": "어디에서 잃어버리셨는데요?",
+                            "result": null,
+                            "condition": null,
+                            "nextStroy": 3
+                        },
+                        {
+                            "name": "바쁜일이 있어서요",
+                            "result": null,
+                            "condition": null,
+                            "nextStroy": 2
+                        }
+                    ]
+                },
+                {
+                    "story": "당신은 할아버지를 뒤로한체 가던길을 갑니다.",
+                    "progessNumber": 2,
+                    "options": [
+                        {
+                            "name": "다음 이야기로",
+                            "result": null,
+                            "condition": null,
+                            "nextStroy": null
+                        }
+                    ]
+                },
+                {
+                    "story": "내 집에서 잃어버렸다네. 아무리 찾아봐도 안 보여. 같이 좀 찾아주게나.",
+                    "progessNumber": 3,
+                    "options": [
+                        {
+                            "name": "네...? 네...",
+                            "result": null,
+                            "condition": null,
+                            "nextStroy": 4
+                        }
+                    ]
+                },
+                {
+                    "story": "할아버지 집에 도착하자 당신은 깜짝 놀랍니다. 바로 할아버지의 집이 궁전으로 되어있었거든요. '어이 젊은이 빨리 안 찾고 뭐해'. 한참을 도끼를 찾아지만 도끼는 나오지가 않았습니다. '아니 할아버지 도끼가 안보여요.' '잔소리 말고 찾게나.' 그때 당신은 할아버지 옆 소매에 도끼가 있는 것을 발견했습니다. '어! 할아버지! 옆구리에 그거 도끼 아닌가요?' '어라 유레카! 드디어 찾아구만 고맙구만 젊으니. 근데 이제 필요 없어졌어. 전기톱을 찾았거든. 이 도끼는 너 가져'",
+                    "progessNumber": 4,
+                    "options": [
+                        {
+                            "name": "아... 네...",
+                            "result": [
+                                {
+                                    "getOrLose": "get",
+                                    "kind": "item",
+                                    "number": 5
+                                }
+                            ],
+                            "condition": null,
+                            "nextStroy": 5
+                        },
+                        {
+                            "name": "아니 이 망할 할아범이. 내가 얼마나 고생했는데. 가진거 다 내놔!",
+                            "result": [
+                                {
+                                    "getOrLose": "lose",
+                                    "kind": "item",
+                                    "number": 1
+                                },
+                                {
+                                    "getOrLose": "lose",
+                                    "kind": "money",
+                                    "number": 10
+                                }
+                            ],
+                            "condition": [
+                                {
+                                    "kind": "charateristic",
+                                    "number": 1,
+                                    "count": 1
+                                }
+                            ],
+                            "nextStroy": 6
+                        }
+                    ]
+                },
+                {
+                    "story": "당신은 손에 도끼를 든체로 계속 모험을 떠납니다.",
+                    "progessNumber": 5,
+                    "options": [
+                        {
+                            "name": "다음 이야기로",
+                            "result": null,
+                            "condition": null,
+                            "nextStroy": null
+                        }
+                    ]
+                },
+                {
+                    "story": "당신은 할아버지에게 덤벼보지만 UDT출신 할아버지를 이이기엔 역 부족이였습니다.",
+                    "progessNumber": 6,
+                    "options": [
+                        {
+                            "name": "다음 이야기로",
+                            "result": null,
+                            "condition": null,
+                            "nextStroy": null
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

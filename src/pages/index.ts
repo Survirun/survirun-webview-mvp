@@ -1,4 +1,4 @@
 export * from './Home';
-export * from './StoryPage';
-export * from './Test'
-export * from './Item'
+export * from './Test';
+export * from './ItemGet';
+export * from './StoryPage3';

@@ -1,17 +1,29 @@
 {
-    "items_count": 3,
+    "items_count": 6,
     "items" : [
         {
-            "name": "야구방망이",
+            "name": "통조림",
             "item_numeber": 1
         },
         {
-            "name": "야구공",
+            "name": "도끼",
             "item_numeber": 2
         },
         {
-            "name": "야구글러브",
+            "name": "알루미늄 배트",
             "item_numeber": 3
+        },
+        {
+            "name": "백신",
+            "item_numeber": 4
+        },
+        {
+            "name": "보석",
+            "item_numeber": 5
+        },
+        {
+            "name": "가죽",
+            "item_numeber": 6
         }
     ]
 }

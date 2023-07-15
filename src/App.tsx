@@ -1,13 +1,13 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { StoryPage, Test, Item } from './pages';
+import { Test, ItemGet, StoryPage3 } from './pages';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route element={<StoryPage />} path="/"/>
         <Route element={<Test />} path="/test"/>
-        <Route element={<Item />} path="/test/item"/>
+        <Route element={<ItemGet />} path="/itemget"/>
+        <Route element={<StoryPage3 />} path="/story"/>
       </Routes>
     </BrowserRouter>
 

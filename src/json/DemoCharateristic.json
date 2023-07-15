@@ -1,0 +1,17 @@
+{
+    "charaters_count": 3,
+    "charaters" : [
+        {
+            "name": "위협",
+            "charater_numeber": 1
+        },
+        {
+            "name": "자애심",
+            "charater_numeber": 2
+        },
+        {
+            "name": "악인",
+            "charater_numeber": 3
+        }
+    ]
+}

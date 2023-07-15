@@ -2,19 +2,12 @@ import { useEffect, useState } from "react";
 import styled from "@emotion/styled"
 
 //@ts-ignore
-declare global {
-    interface Window {
-      Andriod?: {
-        postMessage: (message: string) => void;
-      },
-      ReactToAndroidBridge?: {
-        postMessage: (message: string) => void;
-      },
-      ReactNativeWebView?: {
-        postMessage: (message: string) => void;
-      }
-    }
+interface Window {
+  Android?: {
+    showToast: (message: string) => void | undefined;
+    getItem: () => void | undefined;
   }
+}
   
 declare var Android: any;
 
@@ -41,10 +34,25 @@ const Button = styled.button`
 export const Test = () => {
   const [messageFromRN, setMessageFromRN] = useState('Test');
   
-  const sendMessageToRN = () => {
-    const message = 'Hello from React!';
-    window.ReactNativeWebView?.postMessage(message);
-  };
+  // const sendMessageToRN = () => {
+  //   const message = 'Hello from React!';
+  //   window.ReactNativeWebView?.postMessage(message);
+  // };
+
+  // const sendMessageToRN = () => {
+  //   const message = 'Hello from React!';
+  //   window.webkit.messageHandlers
+  // };
+
+    const sendMessageToRN = () => {
+      const message = 'Hello from React!';
+      window.Android?.showToast(message);
+    };
+
+    //@ts-ignore
+    const asd = (event: any) => {
+      alert(event);
+    }
     
     // 웹뷰에서 메시지 수신 시 처리
     useEffect(() => {

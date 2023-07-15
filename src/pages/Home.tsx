@@ -1,14 +1,6 @@
 import styled from "@emotion/styled"
 import { Link } from "react-router-dom";
 
-declare global {
-    interface Window {
-      ReactNativeWebView?: {
-        postMessage: (message: string) => void;
-      };
-    }
-}
-
 const Frame = styled.div`
     position: absolute;
     width: 100vw;
@@ -52,7 +44,7 @@ export const Home = () => {
     function handleButtonClick() {
         // 웹뷰 인터페이스를 통해 네이티브 코드 호출
         if (window.ReactNativeWebView) {
-        window.ReactNativeWebView.postMessage('Hello from React!');
+            window.ReactNativeWebView.postMessage('Hello from React!');
         }
     }
 
