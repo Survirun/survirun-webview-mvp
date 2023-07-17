@@ -7,13 +7,13 @@ declare global {
   interface Window {
     Android?: {
       showToast: (message: string) => void | undefined;
-      getItem: () => void;
+      getItem: () => string | void;
       webViewIsVisible: () => void | undefined;
     },
     ReactNativeWebView?: {
       postMessage: (message: string) => void;
       showToast: (message: string) => void | undefined;
-      getItem: () => void;
+      getItem: () => string | void;
       webViewIsVisible: () => void | undefined;
     };
   }

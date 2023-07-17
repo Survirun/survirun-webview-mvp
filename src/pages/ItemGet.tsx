@@ -52,7 +52,6 @@ export const ItemGet = () => {
             return undefined;
         }
     }
-
     const GetItems = () => {
         try{
             const item = SendAndroidItem();

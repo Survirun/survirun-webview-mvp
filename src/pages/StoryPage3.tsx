@@ -11,7 +11,7 @@ interface Window {
     Android?: {
         webViewIsVisible: () => void | undefined;
     }
-  }
+}
 
 const User = styled.div`
     position: relative;
@@ -70,10 +70,9 @@ const GetItemBox = styled.div`
 `
 
 export const StoryPage3 = () => {
-    const [storyNumber, setStoryNumber] = useState(0);
-    const [progressNumber, setProgressNumber] = useState(0);
+    const [storyNumber, setStoryNumber] = useState<null | number>(null);
+    const [progressNumber, setProgressNumber] = useState<null | number>(null);
     const [storyTitle, setStoryTitle] = useState("");
-    //const [storyText, setStoryText] = useState("");
     const [storyOptionCount, setStoryOptionCount] = useState(0);
 
     const [userHp, setUserHp] = useState(0);
@@ -97,7 +96,8 @@ export const StoryPage3 = () => {
     }
     const GetRanDomStoryNumber = () => {
         try {
-            const number = Math.floor(Math.random() * StoryData.story_count)
+            setStory([]);
+            const number = Math.floor(Math.random() * StoryData.storys.length)
             setStoryNumber(number)
             setProgressNumber(0);
         } catch(e) {
@@ -107,13 +107,16 @@ export const StoryPage3 = () => {
     }
     const GetStoryData = () => {
         try {
+            if(storyNumber === null || progressNumber === null) {
+                return;
+            }
             setStoryTitle(StoryData.storys[storyNumber].storyTitle);
-            //setStoryText(StoryData.storys[storyNumber].progress[progressNumber].story);
             setStoryOptionCount(StoryData.storys[storyNumber].progress[progressNumber].options.length);
             const storyList = [...story];
             const keyValue = storyNumber*100+progressNumber
             storyList.push(<StoryText key={keyValue}>{StoryData.storys[storyNumber].progress[progressNumber].story}</StoryText>);
             setStory(storyList)
+
         } catch(e) {
             console.error("Error: GetStoryData()")
             console.error(e);
@@ -136,6 +139,9 @@ export const StoryPage3 = () => {
     }
     const ButtonOptionName = (index: number) => {
         try {
+            if(storyNumber === null || progressNumber === null) {
+                return;
+            }
             const option = StoryData.storys[storyNumber].progress[progressNumber].options[index];
             const optionName = option?.name;
             const optionCondition = option?.condition;
@@ -159,6 +165,9 @@ export const StoryPage3 = () => {
     }
     const ButtonDisable = (index: number) => {
         try {
+            if(storyNumber === null || progressNumber === null) {
+                return;
+            }
             const optionCondition = StoryData.storys[storyNumber]?.progress[progressNumber]?.options[index]?.condition;
 
             if(optionCondition === undefined || optionCondition === null)
@@ -188,7 +197,7 @@ export const StoryPage3 = () => {
                     case "money":
                         result = result || MoneyDisable(condition.number)
                         break;
-                    case "itme":
+                    case "item":
                         result = result || ItemDisable(condition.number)
                         break;
                     case "charateristic":
@@ -205,6 +214,9 @@ export const StoryPage3 = () => {
     }
     const ResultCheck = (index: number) => {
         try {
+            if(storyNumber === null || progressNumber === null) {
+                return
+            }
             const option = StoryData.storys[storyNumber].progress[progressNumber].options[index];
             const optionResult = option.result;
     
@@ -261,21 +273,24 @@ export const StoryPage3 = () => {
     }
     const NextStory = (index: number) => {
         try{
+            if(storyNumber === null || progressNumber === null) {
+                return;
+            }
             const option = StoryData.storys[storyNumber].progress[progressNumber].options[index];
             if(option.nextStroy === null) {
+                SendAndroidEndStory();
                 GetRanDomStoryNumber();
-                setStory([])
             } else {
                 setProgressNumber(option.nextStroy-1);
             }
         } catch(e) {
-            console.error("Error: window.Android.webViewIsVisible()")
+            console.error("Error: NextStory()");
             console.error(e);
         }
     }
     const SendAndroidEndStory = () => {
         try{
-            window.Android?.webViewIsVisible();
+            return window.Android?.webViewIsVisible();
         } catch(e) {
             console.error("Error: window.Android.webViewIsVisible()")
             console.error(e);
@@ -283,6 +298,9 @@ export const StoryPage3 = () => {
     }
     const AddItemStory = (index: number) => {
         try{
+            if(storyNumber === null || progressNumber === null) {
+                return;
+            }
             const optionResult = StoryData.storys[storyNumber].progress[progressNumber].options[index].result;
             if(optionResult === null) {
                 return
@@ -357,6 +375,9 @@ export const StoryPage3 = () => {
     }
     const AddStoryUser = (index: number) => {
         try{
+            if(storyNumber === null || progressNumber === null) {
+                return;
+            }
             const optionName = StoryData.storys[storyNumber].progress[progressNumber].options[index].name
             return <StoryText key={index}>나: {optionName}</StoryText>;
         } catch(e) {
@@ -373,24 +394,23 @@ export const StoryPage3 = () => {
             ResultCheck(optionNumber);
             GetUserData();
             NextStory(optionNumber);
-            SendAndroidEndStory();
         } catch(e) {
-            console.error("Error: ClickEvent()")
+            console.error("Error: ClickEvent()");
             console.error(e);
         }
     }
+    
+    useEffect(() => {
+        GetStoryData();
+    }, [storyNumber, progressNumber])
+
 
     useEffect(() => {
         //SetUserData();
 
         GetRanDomStoryNumber();
-        GetStoryData();
         GetUserData();
     }, [])
-
-    useEffect(() => {
-        GetStoryData();
-    }, [storyNumber, progressNumber])
 
     return (
         <Frame>
