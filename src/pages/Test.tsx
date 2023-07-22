@@ -64,7 +64,7 @@ export const Test = () => {
   
       // 이벤트 리스너 등록
       window.addEventListener('message', handleRNMessage);
-  
+      
       // 언마운트 시 이벤트 리스너 제거
       return () => {
         window.removeEventListener('message', handleRNMessage);

@@ -1,8 +1,6 @@
 {
     "storyTitles": [
-        {"storyNumber": "S000001", "storyTitle": "도끼를 찾아달라는 노인", "startProgress": "P000001"},
-        {"storyNumber": "S000002", "storyTitle": "들개 출물"},
-        {"storyNumber": "S000003", "storyTitle": "바리게이트 쳐진 편의점"}
+        {"storyNumber": "S000001", "storyTitle": "도끼를 찾아달라는 노인", "startProgress": "P000001"}
     ],
     "progress": [
         {"progressNumber": "P1-000001", "optionNumber": ["T1-000002", "T1-000003"], "storyTitle": "길을 가다가 누군가 당신에게 말을 겁니다. '거기 젊은이 잠시만기다려보게나!'. 깜짝 놀라 뒤를 돌아보니 한 노인이 있습니다. 그 노인은 당신에게 간절한 눈빛으로 바로보고 있습니다. '거기 젊은이 혹시 부탁하나만 들어줄 수 있겠나? 내가 이 근처에 아주 소중한 도끼를 잃어버렸다네. 그 도끼좀 찾아주면 안되겠나?'"},

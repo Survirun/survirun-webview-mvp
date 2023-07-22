@@ -1,5 +1,5 @@
 {
-    "charaters_count": 3,
+    "charaters_count": 5,
     "charaters" : [
         {
             "name": "위협",
@@ -12,6 +12,14 @@
         {
             "name": "악인",
             "charater_numeber": 3
+        },
+        {
+            "name": "마음의 여유",
+            "charater_numeber": 4
+        },
+        {
+            "name": "밝은 귀",
+            "charater_numeber": 5
         }
     ]
 }

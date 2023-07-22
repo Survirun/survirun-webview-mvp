@@ -1,5 +1,5 @@
 {
-    "items_count": 6,
+    "items_count": 8,
     "items" : [
         {
             "name": "통조림",
@@ -24,6 +24,18 @@
         {
             "name": "가죽",
             "item_numeber": 6
+        },
+        {
+            "name": "물",
+            "item_numeber": 7
+        },
+        {
+            "name": "녹슨 식칼",
+            "item_numeber": 8
+        },
+        {
+            "name": "편지",
+            "item_numeber": 9
         }
     ]
 }

@@ -9,6 +9,7 @@ declare global {
       showToast: (message: string) => void | undefined;
       getItem: () => string | void;
       webViewIsVisible: () => void | undefined;
+      zombie: (zombieNumber: number) => void | undefined;
     },
     ReactNativeWebView?: {
       postMessage: (message: string) => void;
