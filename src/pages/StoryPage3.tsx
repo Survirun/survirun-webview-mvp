@@ -78,7 +78,8 @@ export const StoryPage3 = () => {
     const [progressNumber, setProgressNumber] = useState<null | number>(null);
     const [storyTitle, setStoryTitle] = useState("");
     const [storyOptionCount, setStoryOptionCount] = useState(0);
-    const [storyOptionStory, setStoryOptionStory] = useState<string[]>([]);
+    const [storyParts, setStoryParts] = useState(1);
+    const [storyOptionStory,setStoryOptionStory] = useState<string[]>([]);
     const [storyOptionNum, setStoryOptionNum] = useState<number[]>([]);
 
     const [userHp, setUserHp] = useState(0);
@@ -96,6 +97,7 @@ export const StoryPage3 = () => {
             localStorage.setItem('charateristic', JSON.stringify(["위협"]));
             localStorage.setItem('readAbleStory', JSON.stringify([]));
             localStorage.setItem('readStory', JSON.stringify([]));
+            localStorage.setItem('storyParts', "1");
             GetUserData();  //나중에 지우기
         } catch(e) {
             console.error("Error: SetUserData()")
@@ -104,17 +106,17 @@ export const StoryPage3 = () => {
     }
     const GetRanDomStoryNumber = () => {
         try {
-            setStory([]);
-            let number = Math.floor(Math.random() * 2);
-            let storyOpenCheck = jsonStory[number].addition?.open;
-            let storyOnce = jsonStory[number].addition?.once;
+           setStory([]);
+            let number = Math.floor(Math.random() * jsonStory[storyParts].length);
+            let storyOpenCheck = jsonStory[storyParts][number].addition?.open;
+            let storyOnce = jsonStory[storyParts][number].addition?.once;
             const readAbleStory = JSON.parse(localStorage.getItem('readAbleStory') || '[]');
             const readStory = JSON.parse(localStorage.getItem('readStory') || '[]');
             
-            while((!storyOpenCheck && !(readAbleStory.includes(number + 1)) || (storyOnce === true && readStory.includes(number + 1)))) {
-                number = Math.floor(Math.random() * 2);
-                storyOpenCheck = jsonStory[number].addition?.open;
-                storyOnce = jsonStory[number].addition?.once;
+            while(!storyOpenCheck && !(readAbleStory.includes(number + 1)) || (storyOnce === true && readStory.includes(number + 1))) {
+                number = Math.floor(Math.random() * jsonStory[storyParts].length);
+                storyOpenCheck = jsonStory[storyParts][number].addition?.open;
+                storyOnce = jsonStory[storyParts][number].addition?.once;
             };
 
             setStoryNumber(number)
@@ -129,17 +131,21 @@ export const StoryPage3 = () => {
             if(storyNumber === null || progressNumber === null) {
                 return;
             }
-            const existingArray = JSON.parse(localStorage.getItem('readStory') || '[]');
-            !existingArray.find((item: number) => item === storyNumber+1) &&
-                localStorage.setItem('readStory', JSON.stringify([...existingArray, storyNumber+1]));
+            const existingArray: number[] = JSON.parse(localStorage.getItem('readStory') || '[]');
+            const isStoryNumberExists = existingArray.some((item) => item === storyNumber);
+
+            if (!isStoryNumberExists) {
+                existingArray.push(storyNumber);
+                localStorage.setItem('readStory', JSON.stringify(existingArray));
+            }
             
-            setStoryTitle(jsonStory[storyNumber].storyTitle);
-            setStoryOptionNum(jsonStory[storyNumber].progressStory[progressNumber].optionNumber.map(option => Number(option.split('-')[1])-1));
-            setStoryOptionStory(jsonStory[storyNumber].progressStory[progressNumber].optionNumber.map(option => option.split('-')[0]))
-            setStoryOptionCount(jsonStory[storyNumber].progressStory[progressNumber].optionNumber.length);
+            setStoryTitle(jsonStory[storyParts][storyNumber].storyTitle);
+            setStoryOptionNum(jsonStory[storyParts][storyNumber].progressStory[progressNumber].optionNumber.map(option => Number(option.split('-')[1])-1));
+            setStoryOptionStory(jsonStory[storyParts][storyNumber].progressStory[progressNumber].optionNumber.map(option => option.split('-')[0]))
+            setStoryOptionCount(jsonStory[storyParts][storyNumber].progressStory[progressNumber].optionNumber.length);
             const storyList = [...story];
             const keyValue = storyNumber*100+progressNumber
-            storyList.push(<StoryText key={keyValue}>{jsonStory[storyNumber].progressStory[progressNumber].storyText}</StoryText>);
+            storyList.push(<StoryText key={keyValue}>{jsonStory[storyParts][storyNumber].progressStory[progressNumber].storyText}</StoryText>);
             setStory(storyList)
         } catch(e) {
             console.error("Error: GetStoryData()")
@@ -168,10 +174,10 @@ export const StoryPage3 = () => {
             }
 
             let option
-            if(storyOptionStory[0] === 'next'){
-                option = jsonOption[0][0]; 
+            if(storyOptionStory[optionNumber] === 'next'){
+                option = jsonOption[0][0][0]; 
             }  else {
-                option = jsonOption[storyNumber+1][storyOptionNum[optionNumber]];
+                option = jsonOption[storyParts][storyNumber][storyOptionNum[optionNumber]];
             }
 
             const optionName = option.text;
@@ -201,10 +207,10 @@ export const StoryPage3 = () => {
             }
 
             let option
-            if(storyOptionStory[0] === 'next'){
-                option = jsonOption[0][0]; 
+            if(storyOptionStory[optionNumber] === 'next'){
+                option = jsonOption[0][0][0]; 
             }  else {
-                option = jsonOption[storyNumber+1][storyOptionNum[optionNumber]];
+                option = jsonOption[storyParts][storyNumber][storyOptionNum[optionNumber]];
             }
             const optionCondition = option.addition.condition;
 
@@ -257,10 +263,10 @@ export const StoryPage3 = () => {
             }
 
             let option
-            if(storyOptionStory[0] === 'next'){
-                option = jsonOption[0][0]; 
+            if(storyOptionStory[optionNumber] === 'next'){
+                option = jsonOption[0][0][0]; 
             }  else {
-                option = jsonOption[storyNumber+1][storyOptionNum[optionNumber]];
+                option = jsonOption[storyParts][storyNumber][storyOptionNum[optionNumber]];
             }
 
             const optionResult = option.addition.result;
@@ -322,15 +328,16 @@ export const StoryPage3 = () => {
                 return;
             }
 
-            let option
-            if(storyOptionStory[0] === 'next'){
-                option = jsonOption[0][0]; 
+            let option;
+            if(storyOptionStory[optionNumber] === 'next'){
+                option = jsonOption[0][0][0]; 
             }  else {
-                option = jsonOption[storyNumber+1][storyOptionNum[optionNumber]];
+                option = jsonOption[storyParts][storyNumber][storyOptionNum[optionNumber]];
             }
 
             if(option.addition.nextProgress === null) {
                 SendAndroidEndStory();
+                NextStoryPart();
                 GetRanDomStoryNumber();
             } else {
                 const optionNextStory = Number(option.addition.nextProgress?.split('-')[1]);
@@ -371,10 +378,10 @@ export const StoryPage3 = () => {
             }
 
             let option
-            if(storyOptionStory[0] === 'next'){
-                option = jsonOption[0][0]; 
+            if(storyOptionStory[optionNumber] === 'next'){
+                option = jsonOption[0][0][0]; 
             }  else {
-                option = jsonOption[storyNumber+1][storyOptionNum[optionNumber]];
+                option = jsonOption[storyParts][storyNumber][storyOptionNum[optionNumber]];
             }
 
             const optionResult = option.addition.result;
@@ -456,10 +463,10 @@ export const StoryPage3 = () => {
             }
 
             let option
-            if(storyOptionStory[0] === 'next'){
-                option = jsonOption[0][0]; 
+            if(storyOptionStory[optionNumber] === 'next'){
+                option = jsonOption[0][0][0]; 
             }  else {
-                option = jsonOption[storyNumber+1][storyOptionNum[optionNumber]];
+                option = jsonOption[storyParts][storyNumber][storyOptionNum[optionNumber]];
             }
             
             const optionName = option.text;
@@ -476,10 +483,10 @@ export const StoryPage3 = () => {
             }
 
             let option
-            if(storyOptionStory[0] === 'next'){
-                option = jsonOption[0][0]; 
+            if(storyOptionStory[optionNumber] === 'next'){
+                option = jsonOption[0][0][0]; 
             }  else {
-                option = jsonOption[storyNumber+1][storyOptionNum[optionNumber]];
+                option = jsonOption[storyParts][storyNumber][storyOptionNum[optionNumber]];
             }
 
             const optionOpenStory = option.addition.openStroy;
@@ -492,6 +499,27 @@ export const StoryPage3 = () => {
                 localStorage.setItem('readAbleStory', JSON.stringify([...existingArray, storyNum]));
         } catch(e) {
             console.error("Error: OpenStroy()")
+            console.error(e);
+        }
+    }
+    const NextStoryPart = () => {
+        try{
+            const storyRead = JSON.parse(localStorage.getItem('readStory') || '[]');
+            const storyReadNum = storyRead.length;
+            if(storyReadNum > 2) {
+                const storyPart = Number(localStorage.getItem('storyParts'));
+                if(jsonStory.length > storyPart+1){
+                    localStorage.setItem('storyParts', (storyPart+1).toString(10));
+                    setStoryParts(storyPart+1);
+                } else {
+                    localStorage.setItem('storyParts', (1).toString(10));
+                    setStoryParts(1);
+                }
+                localStorage.setItem('readStory', JSON.stringify([]));
+
+            }
+        } catch(e) {
+            console.error("Error: NextStoryPart()")
             console.error(e);
         }
     }
