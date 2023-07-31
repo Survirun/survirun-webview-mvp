@@ -1,0 +1,31 @@
+{
+    "weapons" : [
+        {
+            "name": "손",
+            "weapon_number": 1,
+            "ATK": 1,
+            "CTP": 0,
+            "SPD": 1,
+            "durability": null,
+            "Max_count": 1
+        },
+        {
+            "name": "야구방망이",
+            "weapon_number": 2,
+            "ATK": 3,
+            "CTP": 10,
+            "SPD": 5,
+            "durability": 3,
+            "Max_count": 1
+        },
+        {
+            "name": "수륙탄",
+            "weapon_number": 3,
+            "ATK": 500,
+            "CTP": 100,
+            "SPD": 100,
+            "durability": 1,
+            "Max_count": 3
+        }
+    ]
+}

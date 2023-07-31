@@ -1,0 +1,28 @@
+{
+    "enemys" : [
+        {
+            "name": "테스트 괴물",
+            "enemy_number": 1,
+            "HP": 2,
+            "ATK": 1,
+            "DEF": 1,
+            "SPD": 1
+        },
+        {
+            "name": "몬스터",
+            "enemy_number": 2,
+            "HP": 4,
+            "ATK": 4,
+            "DEF": 4,
+            "SPD": 4
+        },
+        {
+            "name": "에러 괴물",
+            "enemy_number": 3,
+            "HP": 5,
+            "ATK": 5,
+            "DEF": 5,
+            "SPD": 5
+        }
+    ]
+}

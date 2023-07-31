@@ -1,0 +1,16 @@
+{
+    "npcs" : [
+        {
+            "name": "정민재1",
+            "npc_number": 1
+        },
+        {
+            "name": "정민재2",
+            "npc_number": 2
+        },
+        {
+            "name": "정민재3",
+            "npc_number": 3
+        }
+    ]
+}

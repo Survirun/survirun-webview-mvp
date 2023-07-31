@@ -1,0 +1,73 @@
+{
+    "helmets" : [
+        {
+            "name": "맨 머리",
+            "helmet_number": 1,
+            "DEF": [1,2]
+        },
+        {
+            "name": "가죽 투구",
+            "helmet_number": 2,
+            "DEF": [4,10]
+        },
+        {
+            "name": "철 투구",
+            "helmet_number": 3,
+            "DEF": [1,200]
+        }
+    ],
+    "chestplats" : [
+        {
+            "name": "옷",
+            "chestplat_number": 1,
+            "DEF": [1, 2]
+        },
+        {
+            "name": "가죽 갑옷",
+            "chestplat_number": 2,
+            "DEF": [10, 20]
+        },
+        {
+            "name": "철 갑옷",
+            "chestplat_number": 3,
+            "DEF": [100, 200]
+        }
+    ],
+    "leggings" : [
+        {
+            "name": "바지",
+            "legging_number": 1,
+            "DEF": [1, 2]
+        },
+        {
+            "name": "가죽 바지",
+            "legging_number": 2,
+            "DEF": [10, 20]
+        },
+        {
+            "name": "철 바지",
+            "legging_number": 3,
+            "DEF": [100, 200]
+        }
+    ],
+    "boots" : [
+        {
+            "name": "신발",
+            "boot_number": 1,
+            "DEF": [1, 2],
+            "SPD": [1, 2]
+        },
+        {
+            "name": "가죽 부츠",
+            "boot_number": 2,
+            "DEF": [10, 20],
+            "SPD": [10, 20]
+        },
+        {
+            "name": "철 부츠",
+            "boot_number": 3,
+            "DEF": [100, 200],
+            "SPD": [100, 200]
+        }
+    ]
+}
