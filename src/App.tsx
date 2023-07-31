@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { Test, ItemGet, StoryPage3 } from './pages';
+import { Test, ItemGet, StoryPage3, Battle } from './pages';
 
 function App() {
   return (
@@ -8,6 +8,7 @@ function App() {
         <Route element={<Test />} path="/test"/>
         <Route element={<ItemGet />} path="/itemget"/>
         <Route element={<StoryPage3 />} path="/story"/>
+        <Route element={<Battle />} path="/battle"/>
       </Routes>
     </BrowserRouter>
 
