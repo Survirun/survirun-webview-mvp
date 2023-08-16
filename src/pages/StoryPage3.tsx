@@ -10,7 +10,7 @@ import ItemData from '../json/DemoItem.json';
 import CharateristicData from '../json/DemoCharateristic.json';
 
 //@ts-ignore
-interface Window {
+interface Window { 
     Android?: {
         webViewIsVisible: () => void | undefined;
         zombie: (zombieNumber: number) => void | undefined;
@@ -98,6 +98,7 @@ export const StoryPage3 = () => {
             localStorage.setItem('readAbleStory', JSON.stringify([]));
             localStorage.setItem('readStory', JSON.stringify([]));
             localStorage.setItem('storyParts', "1");
+            localStorage.setItem('userData', JSON.stringify({userItem: []}));
             GetUserData();  //나중에 지우기
         } catch(e) {
             console.error("Error: SetUserData()")
@@ -365,6 +366,7 @@ export const StoryPage3 = () => {
     }
     const SendAndroidZombie = (optionZombie: number) => {
         try{
+            console.log("")
             window.Android?.zombie(optionZombie);
         } catch(e) {
             console.error("Error: window.Android.zombie()")
