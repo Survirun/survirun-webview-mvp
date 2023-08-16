@@ -34,7 +34,7 @@ const storyID = (storyNum: number) => {
 const options: Option[][][] = [
   [
     [
-      {optionID: "next", text: "다음 이야기로", addition: {}}
+      {optionID: "next", text: "모험을 계속한다", addition: {}}
     ],
     [
       {optionID: optionID(1, 1), text: "생존자 무리와 정보를 공유한다.", addition:
