@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 
-import Item, {UserItemProps} from "../json/DemoItem";
+import Item, {ItemProps} from "../json/DemoItem";
 
 //@ts-ignore
 interface Window { 
@@ -13,7 +13,7 @@ interface Window {
   
 
 export const Inventory = () => {
-    const [userItem, setUserItem] = useState<UserItemProps[]>([]);
+    const [userItem, setUserItem] = useState<ItemProps[]>([]);
 
     const GetInvenItem = () => {
         setUserItem(JSON.parse(localStorage.getItem('userData') || '[]').userItem)
