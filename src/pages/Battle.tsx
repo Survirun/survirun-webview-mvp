@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react"
 import styled from "@emotion/styled"
 import jsonEnemy from '../json/DemoEnemy.json';
-import jsonWeapon from '../json/DemoWeapon.json';
 
 interface UserInterface{
     userHP: number, 
@@ -69,7 +68,7 @@ export const Battle = () => {
         itemCTP: 0,
         userItem: [],
     }));
-    const [enemyStatus, setEnemyStatus] = useState(new BattleClass({
+    const [enemyStatus] = useState(new BattleClass({
         userHP: jsonEnemy.enemys[0].HP ,
         playerATK: jsonEnemy.enemys[0].ATK,
         itemATK: 200,
