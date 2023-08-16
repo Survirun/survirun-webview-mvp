@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import styled from '@emotion/styled'
-import { Link } from "react-router-dom";
 import { css } from "@emotion/react"
 
 interface OpacityProps {
@@ -13,6 +12,7 @@ interface OpacityProps {
 interface Window {
     Android?: {
         getItem: () => string | undefined;
+        webViewIsVisible: () => void | undefined;
     }
   }
 
@@ -33,10 +33,6 @@ const Button = styled.button`
     height: 50px;
     background-color: #ff4d4d;
 `
-const LinkStyle = styled(Link)({
-    color: "inherit",
-    textDecoration: "none"
-})
 
 
 export const ItemGet = () => {
@@ -79,14 +75,23 @@ export const ItemGet = () => {
     }, [0])
 
     const onClickButton = () => {
-        setIsOpacity(pre => !pre);
+        SendAndroidEndStory();
     }
 
+    const SendAndroidEndStory = () => {
+        try{
+            console.log("test");
+            return window.Android?.webViewIsVisible();
+        } catch(e) {
+            console.error("Error: window.Android.webViewIsVisible()")
+            console.error(e);
+        }
+    }
+    
     return(
         <ItemGetStyle active={isOpacity}>
-            {item}
+            {item} 얻음
             <Button onClick={onClickButton}>확인</Button>
-            <LinkStyle to="../story">Next To Story</LinkStyle>
         </ItemGetStyle>
     )
 }
