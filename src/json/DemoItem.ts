@@ -1,4 +1,4 @@
-export interface UserItemProps {
+export interface ItemProps {
     [key: string]: {
         name: string;
         id: number;
@@ -7,7 +7,7 @@ export interface UserItemProps {
     };
 }
 
-const Item: UserItemProps = {
+const Item: ItemProps = {
     "도끼": {
         name: "도끼",
         id: 1,
