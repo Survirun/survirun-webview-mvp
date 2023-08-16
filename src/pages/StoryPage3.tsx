@@ -17,62 +17,6 @@ interface Window {
     }
 }
 
-const User = styled.div`
-    position: relative;
-    margin: 5px 30px;
-`
-const Item = styled.div`
-    position: block;
-`
-const Frame = styled.div`
-    position: absolute;
-    width: 100vw;
-    height: 100vh;
-    max-width: 412px;
-    max-height: 915px;
-`
-const StoryTextBox = styled.div`
-    color: #000;
-    margin: 5px 10px;
-    height: 500px;
-    overflow-y: scroll;
-    overflow-x: hidden;
-`
-const Title = styled.h2`
-    font-size: 28px;
-`
-const StoryText = styled.p`
-    font-size: 16px;
-`
-const SelectBox = styled.div`
-    position: absolute;
-    width: 100%;
-    height: 100px;
-`
-const SelectButton = styled.button`
-    position: block;
-    width: 90%;
-    height: 50px;
-    background-color: #fff;
-    border: none;
-    border-bottom: 1px solid #000;
-    margin: 0 20px;
-    font-weight: 700;
-`
-const GetItemBox = styled.div`
-    position: block;
-    width: 90%;
-    height: 50px;
-    background-color: #fff;
-    border: none;
-    border: 1px solid #000;
-    margin: 0 10px;
-    font-weight: 700;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-`
-
 export const StoryPage3 = () => {
     const [storyNumber, setStoryNumber] = useState<null | number>(null);
     const [progressNumber, setProgressNumber] = useState<null | number>(null);
@@ -555,6 +499,9 @@ export const StoryPage3 = () => {
 
     return (
         <Frame>
+            <ResetButton onClick={SetUserData}>
+                아이템 리셋
+            </ResetButton>
             <User>
                 <Item>체력: {userHp}</Item>
                 <Item>돈: {userMoney}</Item>
@@ -568,9 +515,6 @@ export const StoryPage3 = () => {
                     ))}
             </StoryTextBox>
             <SelectBox>
-                <SelectButton onClick={SetUserData}>
-                    아이템 초기화 버튼
-                </SelectButton>
                 {Array.from({ length: storyOptionCount }).map((_, index) => (
                     <SelectButton key={index} onClick={() => ClickEvent(index)}disabled={ButtonDisable(index)}>
                         {ButtonOptionName(index)}
@@ -580,3 +524,68 @@ export const StoryPage3 = () => {
         </Frame>
     )
 }
+
+const User = styled.div`
+    position: relative;
+    margin: 5px 30px;
+`
+const Item = styled.div`
+    position: block;
+`
+const Frame = styled.div`
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    max-width: 412px;
+    max-height: 915px;
+`
+const StoryTextBox = styled.div`
+    color: #000;
+    margin: 5px 10px;
+    height: 500px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+`
+const Title = styled.h2`
+    font-size: 28px;
+`
+const StoryText = styled.p`
+    font-size: 16px;
+`
+const SelectBox = styled.div`
+    position: absolute;
+    width: 100%;
+    height: 100px;
+`
+const SelectButton = styled.button`
+    position: block;
+    width: 90%;
+    height: 50px;
+    background-color: #fff;
+    border: none;
+    border-bottom: 1px solid #000;
+    margin: 0 20px;
+    font-weight: 700;
+`
+const GetItemBox = styled.div`
+    position: block;
+    width: 90%;
+    height: 50px;
+    background-color: #fff;
+    border: none;
+    border: 1px solid #000;
+    margin: 0 10px;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`
+const ResetButton = styled.button`
+    position: absolute;
+    right: 0;
+    width: 80px;
+    height: 40px;
+    border-radius: 4px;
+    background-color: #eee;
+    font-size: 12px;
+`
