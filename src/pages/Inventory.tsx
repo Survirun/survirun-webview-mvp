@@ -27,6 +27,7 @@ const ActionButtons = ({ onEquip, onDiscard }: ActionButtonsProps) => {
 
 export const Inventory = () => {
     const [userItem, setUserItem] = useState<ItemProps[]>([]);
+    const [addItem, setAddItem] = useState<ItemProps[string] | null>(null);
     const [selectedSlot, setSelectedSlot] = useState<number | null>(null);
     const inventoryRef = useRef<HTMLDivElement | null>(null);
 
@@ -43,27 +44,30 @@ export const Inventory = () => {
         localStorage.setItem('storyParts', "1");
         localStorage.setItem('userData', JSON.stringify({userItem: []}));
     }
-    const AddItemToInventory = (itemName: string) => {
-        const item = Item[itemName];
-        if(item) {
-            const userData = JSON.parse(localStorage.getItem('userData') || '[]');
-            userData.userItem.push(item);
-            localStorage.setItem("userData", JSON.stringify(userData));
-            setUserItem(userData.userItem);
-            console.log(`"${item.name} 아이템을 인벤토리에 추가했습니다."`);
+    const AddItemToInventory = (item: ItemProps[string]) => {
+        if(userItem.length < 8){
+            if(item) {
+                const userData = JSON.parse(localStorage.getItem('userData') || '[]');
+                userData.userItem.push(item);
+                localStorage.setItem("userData", JSON.stringify(userData));
+                setUserItem(userData.userItem);
+                console.log(`"${item.name} 아이템을 인벤토리에 추가했습니다."`);
+            } else {
+                alert("해당 아이템이 존재하지 않습니다.");
+            }
         } else {
-            alert("해당 아이템이 존재하지 않습니다.");
+            console.log("인벤토리 8이상");
+            setAddItem(item);
         }
     }
-    const DeletItemToInventory = (itemName: string) => {
-        const item = Item[itemName];
+    const DeletItemToInventory = (item: ItemProps[string]) => {
         if(item){
             const userDataItem = JSON.parse(localStorage.getItem('userData') || '[]').userItem;
 
             if(selectedSlot) {
                 userDataItem.splice(selectedSlot, 1);
             } else {
-                const indexToRemove = userDataItem.findIndex((item:ItemProps[string]) => item.name === itemName);
+                const indexToRemove = userDataItem.findIndex((item:ItemProps[string]) => item.id === item.id);
                 if (indexToRemove !== -1) {
                     userDataItem.splice(indexToRemove, 1);
                 }
@@ -71,7 +75,16 @@ export const Inventory = () => {
             
             localStorage.setItem("userData" , JSON.stringify({userItem: userDataItem}));
             setUserItem(userDataItem);
-            console.log(`"${item.name} 아이템을 인벤토리에 버렸습니다."`);
+            console.log(`"${item} 아이템을 인벤토리에 버렸습니다."`);
+
+            if(addItem) {
+                const userData = JSON.parse(localStorage.getItem('userData') || '[]');
+                userData.userItem.push(addItem);
+                localStorage.setItem("userData", JSON.stringify(userData));
+                setUserItem(userData.userItem);
+                setAddItem(null)
+                console.log(`"${item.name} 아이템을 인벤토리에 추가했습니다."`);
+            }
         } else {
             alert("해당 아이템이 존재하지 않습니다.");
         }
@@ -95,13 +108,25 @@ export const Inventory = () => {
             setSelectedSlot(index);
         }
     }
+    const HandleInventoryAddItemClick = () => {
+        if(selectedSlot === 9) {
+            setSelectedSlot(null);
+        } else {
+            setSelectedSlot(9);
+        }
+    }
     const HandleInventoryEquip = () => {
         setSelectedSlot(null);
     }
     const HandleInventoryDiscard = () => {
+        if(selectedSlot !== null) {
+            if(selectedSlot === 9) {
+                setAddItem(null);
+            } else {
+                DeletItemToInventory(userItem[selectedSlot].name);
+            }
+        } 
         setSelectedSlot(null);
-        if(selectedSlot !== null)
-            DeletItemToInventory(userItem[selectedSlot].name.toString());
     }
     const RenderActionButtons = () => {
         if(selectedSlot !== null) {
@@ -110,6 +135,19 @@ export const Inventory = () => {
                     onEquip={HandleInventoryEquip}
                     onDiscard={HandleInventoryDiscard}
                 />
+            )
+        }
+        return null;
+    }
+    const RenderAddItem = () => {
+        if(addItem !== null){
+            return(
+                <InventorySlot>
+                    {selectedSlot === 9 && RenderActionButtons()}
+                    <InventoryItem onClick={() => HandleInventoryAddItemClick()}>
+                        {addItem.name}
+                    </InventoryItem>
+                </InventorySlot>
             )
         }
         return null;
@@ -133,11 +171,14 @@ export const Inventory = () => {
     return(
         <Frame>
             <TestButtonStyled>
-                <button onClick={() => AddItemToInventory("도끼")}>도끼 획득</button>
-                <button onClick={() => AddItemToInventory("백신")}>백신 획득</button>
+                <button onClick={() => AddItemToInventory(Item["도끼"])}>도끼 획득</button>
+                <button onClick={() => AddItemToInventory(Item["백신"])}>백신 획득</button>
                 <button onClick={SetUserData}>아아템 초기화</button>
             </TestButtonStyled>
             <InventoryStyle ref={inventoryRef}>
+                <AddItemStyle>
+                    {addItem !== null && RenderAddItem()}
+                </AddItemStyle>
                 {Array.from({ length: 8 }).map((_, index) => (
                     <InventorySlot key={index}>
                         {selectedSlot === index && RenderActionButtons()}
@@ -199,4 +240,14 @@ const ActionButtonsButton = styled.button`
     color: white;
     border: none;
     cursor: pointer;
+`
+const AddItemStyle = styled.div`
+    position: absolute;
+    top: -100px;
+    display: flex;
+    width: 100%;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+    background-color: #ff2b2b;
 `
