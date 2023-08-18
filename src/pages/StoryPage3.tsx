@@ -1,12 +1,13 @@
 import styled from "@emotion/styled";
 import { Fragment, useEffect, useState } from "react";
-
+import { DeletItemToInventory, AddItemToInventory } from "./Inventory";
 //Demo Data
 //import StoryData from '../json/DemoStory4.json';
 import { jsonOption } from "../json/DemoOption";
 import { jsonStory } from '../json/DemoStory';
+import Item, {ItemProps} from "../json/DemoItem";
 
-import ItemData from '../json/DemoItem.json';
+import ItemData from '../json/DemoItem2.json';
 import CharateristicData from '../json/DemoCharateristic.json';
 
 //@ts-ignore
@@ -28,8 +29,9 @@ export const StoryPage3 = () => {
 
     const [userHp, setUserHp] = useState(0);
     const [userMoney, setUserMoney] = useState(0);
-    const [userItem, setUserItem] = useState<string[]>([]);
+    const [userItems, setUserItems] = useState<string[]>([]);
     const [userCharateristic, setUserCharateristic] = useState<string[]>([]);
+    const [userItem, setUserItem] = useState<ItemProps[]>([]);
 
     const [story, setStory] = useState<JSX.Element[]>([]);
 
@@ -104,9 +106,10 @@ export const StoryPage3 = () => {
             const money = Number(localStorage.getItem('money'));
             setUserMoney(money);
             const item = localStorage.getItem('item');
-            setUserItem(item ? JSON.parse(item) : []);
+            setUserItems(item ? JSON.parse(item) : []);
             const charateristic = localStorage.getItem('charateristic');
             setUserCharateristic(charateristic ? JSON.parse(charateristic) : [])
+            setUserItem(JSON.parse(localStorage.getItem('userData') || '[]').userItem)
         } catch(e) {
             console.error("Error: GetUserData()");
             console.error(e)
@@ -171,7 +174,7 @@ export const StoryPage3 = () => {
             }
             const ItemDisable = (num: number) => {
                 const itemName = ItemData.items[num-1].name;
-                return (userItem.indexOf(itemName) > -1) ?
+                return (userItems.indexOf(itemName) > -1) ?
                     result = false :
                     result = true;
             }
@@ -236,7 +239,10 @@ export const StoryPage3 = () => {
                 const itemName = ItemData.items[num-1].name;
                 (getOrLose === "get") ? 
                     localStorage.setItem('item', JSON.stringify([...existingArray, itemName])) :
-                    (userItem.indexOf(itemName) > -1) && localStorage.setItem('item', JSON.stringify(existingArray.filter((item: string) => item !== itemName)));
+                    (userItems.indexOf(itemName) > -1) && localStorage.setItem('item', JSON.stringify(existingArray.filter((item: string) => item !== itemName)));
+                (getOrLose === "get") ? 
+                    AddItemToInventory(Item[itemName]):
+                    DeletItemToInventory(Item[itemName])
             }
             const CharateristicResult = (getOrLose: string, num: number) => {
                 const existingArray = JSON.parse(localStorage.getItem('charateristic') || '[]');
@@ -503,10 +509,10 @@ export const StoryPage3 = () => {
                 아이템 리셋
             </ResetButton>
             <User>
-                <Item>체력: {userHp}</Item>
-                <Item>돈: {userMoney}</Item>
-                <Item>아이템: {userItem.join(", ")}</Item>
-                <Item>특성: {userCharateristic.join(", ")}</Item>
+                <ItemBox>체력: {userHp}</ItemBox>
+                <ItemBox>돈: {userMoney}</ItemBox>
+                <ItemBox>아이템: {userItems.join(", ")}</ItemBox>
+                <ItemBox>특성: {userCharateristic.join(", ")}</ItemBox>
             </User>
             <StoryTextBox>
                 <Title>{storyTitle}</Title>
@@ -529,7 +535,7 @@ const User = styled.div`
     position: relative;
     margin: 5px 30px;
 `
-const Item = styled.div`
+const ItemBox = styled.div`
     position: block;
 `
 const Frame = styled.div`

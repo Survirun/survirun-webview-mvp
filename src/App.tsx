@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { Test, ItemGet, StoryPage3, Battle, Zombie, Inventory } from './pages';
+import { Test, ItemGet, StoryPage3, Battle, Zombie } from './pages';
+import Inventory from './pages/Inventory';
 
 function App() {
   return (

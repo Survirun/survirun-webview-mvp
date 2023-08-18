@@ -25,7 +25,42 @@ const ActionButtons = ({ onEquip, onDiscard }: ActionButtonsProps) => {
     )
 }
 
-export const Inventory = () => {
+export const AddItemToInventory = (item: ItemProps[string]) => {
+    if(item) {
+        const userDataItem = JSON.parse(localStorage.getItem('userData') || '[]').userItem;
+        userDataItem.push(item);
+        localStorage.setItem("userData" , JSON.stringify({userItem: userDataItem}));
+        console.log(`"${item.name} 아이템을 인벤토리에 추가했습니다."`);
+        
+        console.log(userDataItem);
+        return userDataItem
+    } else {
+        alert("해당 아이템이 존재하지 않습니다.");
+    }
+}
+export const DeletItemToInventory = (item: ItemProps[string], index?: number) => {
+    if(item){
+        const userDataItem = JSON.parse(localStorage.getItem('userData') || '[]').userItem;
+
+        if(index) {
+            userDataItem.splice(index, 1);
+        } else {
+            const indexToRemove = userDataItem.findIndex((item:ItemProps[string]) => item.id === item.id);
+            if (indexToRemove !== -1) {
+                userDataItem.splice(indexToRemove, 1);
+            }
+        }
+        
+        localStorage.setItem("userData" , JSON.stringify({userItem: userDataItem}));
+        console.log(`"${item} 아이템을 인벤토리에 버렸습니다."`);
+
+        return userDataItem;
+    } else {
+        alert("해당 아이템이 존재하지 않습니다.");
+    }
+} 
+
+const Inventory = () => {
     const [userItem, setUserItem] = useState<ItemProps[]>([]);
     const [addItem, setAddItem] = useState<ItemProps[string] | null>(null);
     const [selectedSlot, setSelectedSlot] = useState<number | null>(null);
@@ -44,49 +79,28 @@ export const Inventory = () => {
         localStorage.setItem('storyParts', "1");
         localStorage.setItem('userData', JSON.stringify({userItem: []}));
     }
-    const AddItemToInventory = (item: ItemProps[string]) => {
+    const AddItem = (item: ItemProps[string]) => {
         if(userItem.length < 8){
-            if(item) {
-                const userData = JSON.parse(localStorage.getItem('userData') || '[]');
-                userData.userItem.push(item);
-                localStorage.setItem("userData", JSON.stringify(userData));
-                setUserItem(userData.userItem);
-                console.log(`"${item.name} 아이템을 인벤토리에 추가했습니다."`);
-            } else {
-                alert("해당 아이템이 존재하지 않습니다.");
-            }
+            setUserItem(AddItemToInventory(item))
         } else {
             console.log("인벤토리 8이상");
             setAddItem(item);
         }
     }
-    const DeletItemToInventory = (item: ItemProps[string]) => {
-        if(item){
-            const userDataItem = JSON.parse(localStorage.getItem('userData') || '[]').userItem;
-
-            if(selectedSlot) {
-                userDataItem.splice(selectedSlot, 1);
-            } else {
-                const indexToRemove = userDataItem.findIndex((item:ItemProps[string]) => item.id === item.id);
-                if (indexToRemove !== -1) {
-                    userDataItem.splice(indexToRemove, 1);
-                }
-            }
-            
-            localStorage.setItem("userData" , JSON.stringify({userItem: userDataItem}));
-            setUserItem(userDataItem);
-            console.log(`"${item} 아이템을 인벤토리에 버렸습니다."`);
-
-            if(addItem) {
-                const userData = JSON.parse(localStorage.getItem('userData') || '[]');
-                userData.userItem.push(addItem);
-                localStorage.setItem("userData", JSON.stringify(userData));
-                setUserItem(userData.userItem);
-                setAddItem(null)
-                console.log(`"${item.name} 아이템을 인벤토리에 추가했습니다."`);
-            }
+    const DeletItem = (item: ItemProps[string]) => {
+        if(selectedSlot) {
+            setUserItem(DeletItemToInventory(item, selectedSlot));
         } else {
-            alert("해당 아이템이 존재하지 않습니다.");
+            setUserItem(DeletItemToInventory(item));
+        }
+
+        if(addItem) {
+            const userData = JSON.parse(localStorage.getItem('userData') || '[]');
+            userData.userItem.push(addItem);
+            localStorage.setItem("userData", JSON.stringify(userData));
+            setUserItem(userData.userItem);
+            setAddItem(null)
+            console.log(`"${item.name} 아이템을 인벤토리에 추가했습니다."`);
         }
     } 
     const CreateInventoryName = (index: number) => {
@@ -123,7 +137,7 @@ export const Inventory = () => {
             if(selectedSlot === 9) {
                 setAddItem(null);
             } else {
-                DeletItemToInventory(userItem[selectedSlot].name);
+                DeletItem(userItem[selectedSlot].name);
             }
         } 
         setSelectedSlot(null);
@@ -171,8 +185,8 @@ export const Inventory = () => {
     return(
         <Frame>
             <TestButtonStyled>
-                <button onClick={() => AddItemToInventory(Item["도끼"])}>도끼 획득</button>
-                <button onClick={() => AddItemToInventory(Item["백신"])}>백신 획득</button>
+                <button onClick={() => AddItem(Item["도끼"])}>도끼 획득</button>
+                <button onClick={() => AddItem(Item["백신"])}>백신 획득</button>
                 <button onClick={SetUserData}>아아템 초기화</button>
             </TestButtonStyled>
             <InventoryStyle ref={inventoryRef}>
@@ -189,6 +203,7 @@ export const Inventory = () => {
         </Frame>
     )
 }
+export default Inventory;
 
 const Frame = styled.div`
     position: absolute;
