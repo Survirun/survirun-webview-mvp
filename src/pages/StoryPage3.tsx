@@ -299,7 +299,6 @@ export const StoryPage3 = () => {
             if(option.addition.nextProgress === null) {
                 SendAndroidEndStory();
                 NextStoryPart();
-                GetRanDomStoryNumber();
             } else {
                 const optionNextStory = Number(option.addition.nextProgress?.split('-')[1]);
                 setProgressNumber(optionNextStory-1);
