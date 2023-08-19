@@ -52,8 +52,8 @@ export const ItemGet = () => {
     }
     const GetItems = () => {
         try{
-            //const item = SendAndroidItem();
-            const item = "도끼"
+            const item = SendAndroidItem();
+            //const item = "도끼"
             console.log(item+" 아이템을 얻었습니다.");
             if (item !== null && item !== undefined) {
                 //const existingArray = JSON.parse(localStorage.getItem('item') || '[]');
