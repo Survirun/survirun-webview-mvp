@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react';
 import styled from '@emotion/styled'
 import { css } from "@emotion/react"
+import { AddItemToInventory } from '.';
+import Item from '../json/DemoItem';
 
 interface OpacityProps {
     active: boolean;
@@ -50,18 +52,15 @@ export const ItemGet = () => {
     }
     const GetItems = () => {
         try{
-            const item = SendAndroidItem();
-            //const item = window.ReactNativeWebView?.getItem();
-            //const item = "야구공";
+            //const item = SendAndroidItem();
+            const item = "도끼"
             console.log(item+" 아이템을 얻었습니다.");
             if (item !== null && item !== undefined) {
-                const existingArray = JSON.parse(localStorage.getItem('item') || '[]');
-                localStorage.setItem('item', JSON.stringify([...existingArray, item]));
+                //const existingArray = JSON.parse(localStorage.getItem('item') || '[]');
+                //localStorage.setItem('item', JSON.stringify([...existingArray, item]));
+                //setItem(item)                
+                AddItemToInventory(Item[item]);
                 setItem(item)
-                // localStorage.setItem("item", (pre: string[]) => {
-                // const updatedState = pre.concat(item);
-                // return updatedState;
-                // });
             }
         } catch(e){
             console.error("Error: GetItems");
