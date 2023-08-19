@@ -83,7 +83,7 @@ export const ItemGet = () => {
             console.log("test");
             return window.Android?.webViewIsVisible();
         } catch(e) {
-            console.error("Error: window.Android.webViewIsVisible()")
+            console.error("ItemGet - Error: window.Android.webViewIsVisible()")
             console.error(e);
         }
     }

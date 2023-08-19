@@ -32,7 +32,6 @@ export const AddItemToInventory = (item: ItemProps[string]) => {
         localStorage.setItem("userData" , JSON.stringify({userItem: userDataItem}));
         console.log(`"${item.name} 아이템을 인벤토리에 추가했습니다."`);
         
-        console.log(userDataItem);
         return userDataItem
     } else {
         alert("해당 아이템이 존재하지 않습니다.");
@@ -95,10 +94,10 @@ const Inventory = () => {
         }
 
         if(addItem) {
-            const userData = JSON.parse(localStorage.getItem('userData') || '[]');
-            userData.userItem.push(addItem);
-            localStorage.setItem("userData", JSON.stringify(userData));
-            setUserItem(userData.userItem);
+            const userDataItem = JSON.parse(localStorage.getItem('userData') || '[]').userItem;
+            userDataItem.push(addItem);
+            localStorage.setItem("userData", JSON.stringify(userDataItem));
+            setUserItem(userDataItem);
             setAddItem(null)
             console.log(`"${item.name} 아이템을 인벤토리에 추가했습니다."`);
         }
