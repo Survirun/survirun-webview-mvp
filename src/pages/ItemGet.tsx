@@ -21,24 +21,19 @@ interface Window {
 }
 
 export const ItemGet = () => {
-    const [item, setItem] = useState<string | null>(null);
+    const [item, setItem] = useState<string>();
     const [isOpacity, setIsOpacity] = useState(false);
-    const [userItem, setUserItem] = useState<ItemProps[]>(JSON.parse(localStorage.getItem('userData') || '[]').userItem);
+    const [userItem, _] = useState<ItemProps[]>(JSON.parse(localStorage.getItem('userData') || '[]').userItem);
 
     const { alert } = useContext(AlertContext)
     const { invenSelect } = useContext(InventorySelectContext)
 
-    const GetUserItem = () => {
-        const userDataItem = JSON.parse(localStorage.getItem('userData') || '[]').userItem;
-        setUserItem(userDataItem);
-    }
     const SendAndroidItem = () => {
         try{
-            return window.Android?.getItem();
+            return `${window.Android?.getItem()}`;
         } catch(e) {
             console.error("Error: SendAndroidItem");
             console.error(e);
-            return undefined;
         }
     }
     const onAlertDeletItem = async (item: ItemProps[string]) => {
@@ -68,11 +63,11 @@ export const ItemGet = () => {
     
     const GetItems = () => {
         try{
-            //const item = SendAndroidItem();
-            const item = "도끼"
+            const item = SendAndroidItem();
+            //const item = "도끼"
             console.log(item+" 아이템을 얻었습니다.");
-            if(userItem.length >= 8) {
-                onAlertDeletItem(Item[item])
+            if(userItem.length >= 8 && item) {
+                onAlertDeletItem(Item[item.toString()])
             } else if (item !== null && item !== undefined) {              
                 AddItemToInventory(Item[item]);
                 setItem(item)
