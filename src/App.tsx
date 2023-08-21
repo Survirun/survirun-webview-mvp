@@ -1,11 +1,13 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Test, ItemGet, StoryPage3, Battle, Zombie } from './pages';
 import Inventory from './pages/Inventory';
-import AlertDialog from './module/AlertDialog';
+import AlertDialog from './module/Alert/AlertDialog';
+import InventorySelectDialog from './module/InventorySelect/InventoryDialog';
 
 function App() {
   return (
     <AlertDialog>
+    <InventorySelectDialog>
       <BrowserRouter>
         <Routes>
           <Route element={<Test />} path="/test"/>
@@ -16,6 +18,7 @@ function App() {
           <Route element={<Inventory />} path="/inventory"/>
         </Routes>
       </BrowserRouter>
+    </InventorySelectDialog>
     </AlertDialog>
   )
 }

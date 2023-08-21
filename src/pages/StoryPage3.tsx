@@ -1,6 +1,5 @@
-/** @jsxImportSource @emotion/react */
-
 import styled from "@emotion/styled";
+
 import { Fragment, useEffect, useState, useContext } from "react";
 import { DeletItemToInventory, AddItemToInventory } from "./Inventory";
 //Demo Data
@@ -9,11 +8,11 @@ import { jsonOption } from "../json/DemoOption";
 import { jsonStory } from '../json/DemoStory';
 import Item, {ItemProps} from "../json/DemoItem"
 
-import AlertContext from "../module/AlertContext";
+import AlertContext from "../module/Alert/AlertContext";
+import InventorySelectContext from "../module/InventorySelect/InventoryContext";
 
 import ItemData from '../json/DemoItem2.json';
 import CharateristicData from '../json/DemoCharateristic.json';
-import { css } from "@emotion/react";
 
 //@ts-ignore
 interface Window { 
@@ -37,12 +36,11 @@ export const StoryPage3 = () => {
     const [userItems, setUserItems] = useState<string[]>([]);
     const [userCharateristic, setUserCharateristic] = useState<string[]>([]);
     const [userItem, setUserItem] = useState<ItemProps[]>([]);
-    const [addItem, setAddItem] = useState<ItemProps[string] | null>(null);
-    const [selectDeleteItem, setSelectDeleteItem] = useState(false);
 
     const [story, setStory] = useState<JSX.Element[]>([]);
 
     const { alert } = useContext(AlertContext);
+    const { invenSelect } = useContext(InventorySelectContext)
 
     const SetUserData = () => {
         try {
@@ -501,70 +499,27 @@ export const StoryPage3 = () => {
     }
     const onAlertDeletItem = async (item: ItemProps[string]) => {
         const AlertLeftButton = () => {
-            setSelectDeleteItem(true)
+            onInventorySelect(item);
         }
         const AlertRightButton = () => {
-            setAddItem(null);
+            
         }
 
-        setAddItem(item);
-        
         const result = await alert(`가방에 ${item.name}을/를 넣을 자리가 없다.`, "가방 속 물건을 버린다.", `${item.name}을/를 버린다.`);
         result ? AlertRightButton() : AlertLeftButton();
     }
-    const RanderDeleteSelectItemView = () => {
-        const [selectInvenItem, setSelectInvenItem] = useState<number>();
-        const HandleInventoryItemClick = (index: number) => {
-            if(index === selectInvenItem) {
-                setSelectInvenItem(undefined);
-            } else {
-                setSelectInvenItem(index);
-            }
-        }
-        const CreateInventoryName = (index: number) => {
-            try{
-                if(userItem[index] === undefined) {
-                    return ""
-                }
-                return `${userItem[index].name}`
-            } catch(err) {
-                console.error("Error: CreateInventoryName ", err);
-            }
-        }
+    const onInventorySelect = async (item: ItemProps[string]) => {
         const CancleToDeleteItem = () => {
-            setSelectDeleteItem(false)
-            if(addItem){
-                onAlertDeletItem(addItem);
-            }
+            onAlertDeletItem(item);
         }
         const DeleteSelectItem = () => {
-            if(selectInvenItem && addItem) {
-                const delitem: ItemProps[string] = Item[userItem[selectInvenItem].name.toString()]
-                DeletItemToInventory(delitem)
-                console.log(addItem)
-                AddItemToInventory(addItem)
-            }
-            setSelectInvenItem(undefined);
-            setSelectDeleteItem(false)
+            const deleitem: ItemProps[string] = Item[userItem[result].name.toString()]
+            DeletItemToInventory(deleitem)
+            AddItemToInventory(item)
         }
-        return (
-            <>
-                {selectDeleteItem &&
-                    <>
-                        <Background/>
-                        <CancleDeleteButton onClick={CancleToDeleteItem}>취소하기</CancleDeleteButton>
-                        <DeleteButton disabled={!selectInvenItem} onClick={DeleteSelectItem}>버리기</DeleteButton>
-                        <InventoryStyle>
-                        {Array.from({ length: 8 }).map((_, index) => (
-                            <InventorySlot key={index}>
-                                <InventoryItem onClick={() => HandleInventoryItemClick(index)} css={(selectInvenItem === index) && inventorySelect}>{CreateInventoryName(index)}</InventoryItem>
-                            </InventorySlot>
-                        ))}  
-                        </InventoryStyle>
-                    </>
-                }
-            </>  
-        )
+        
+        const result = await invenSelect("취소", "버리기");
+        (result === -1) ? CancleToDeleteItem() : DeleteSelectItem();
     }
     
     useEffect(() => {
@@ -580,7 +535,6 @@ export const StoryPage3 = () => {
 
     return (
         <Frame>
-            {RanderDeleteSelectItemView()}
             <ResetButton onClick={SetUserData}>
                 아이템 리셋
             </ResetButton>
@@ -670,60 +624,4 @@ const ResetButton = styled.button`
     border-radius: 4px;
     background-color: #eee;
     font-size: 12px;
-`
-const Background = styled.div`
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.3);
-    z-index: 10;
-`
-const CancleDeleteButton = styled.button`
-    position: absolute;
-    left: 30%;
-    top: 40%;
-    width: 80px;
-    height: 40px;
-    border-radius: 4px;
-    background-color: #eee;
-    font-size: 12px;
-    z-index: 11;
-`
-const DeleteButton = styled.button`
-    position: absolute;
-    left: 50%;
-    top: 40%;
-    width: 80px;
-    height: 40px;
-    border-radius: 4px;
-    background-color: #eee;
-    font-size: 12px;
-    z-index: 11;
-`
-const InventoryStyle = styled.div`
-    position: absolute;
-    top: 50%;
-    display: flex;
-    width: 100%;
-    margin: 0 auto;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #4f0b0b;
-    flex-wrap: wrap;
-    z-index: 11;
-`
-const InventorySlot = styled.div`
-    position: relative;
-    width: 25%;
-    padding: 10px;
-    box-sizing: border-box;
-`
-const InventoryItem = styled.div`
-    width: 100%;
-    height: 80px;
-    background-color: #ccc;
-    cursor: pointer;
-`
-const inventorySelect = css`
-    border: 3px solid red;
 `
