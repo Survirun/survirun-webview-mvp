@@ -8,8 +8,7 @@ import { jsonOption } from "../json/DemoOption";
 import { jsonStory } from '../json/DemoStory';
 import Item, {ItemProps} from "../json/DemoItem"
 
-import AlertContext from "../module/Alert/AlertContext";
-import InventorySelectContext from "../module/InventorySelect/InventoryContext";
+import { AlertContext, InventorySelectContext } from "../module/index";
 
 import ItemData from '../json/DemoItem2.json';
 import CharateristicData from '../json/DemoCharateristic.json';

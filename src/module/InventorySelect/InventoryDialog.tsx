@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import InventorySelectContext from "./InventoryContext";
+import { InventorySelectContext } from "../index";
 import { InventorySelect } from "./InventorySelect";
 
 export interface InventorySelectProps {

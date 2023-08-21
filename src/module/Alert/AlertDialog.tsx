@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import AlertContext from "./AlertContext";
+import {AlertContext} from "../index";
 import { Alert } from "./Alert";
 
 export interface AlertState {
