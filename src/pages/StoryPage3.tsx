@@ -512,8 +512,8 @@ export const StoryPage3 = () => {
             onAlertDeletItem(item);
         }
         const DeleteSelectItem = () => {
-            const deleitem: ItemProps[string] = Item[userItem[result].name.toString()]
-            DeletItemToInventory(deleitem)
+            const deleItem: ItemProps[string] = Item[userItem[result].name.toString()]
+            DeletItemToInventory(deleItem, result)
             AddItemToInventory(item)
         }
         
