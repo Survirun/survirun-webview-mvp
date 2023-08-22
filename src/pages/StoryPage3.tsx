@@ -513,7 +513,7 @@ export const StoryPage3 = () => {
         }
         const DeleteSelectItem = () => {
             const deleItem: ItemProps[string] = Item[userItem[result].name.toString()]
-            DeletItemToInventory(deleItem, result)
+            setUserItem(DeletItemToInventory(deleItem, result))
             AddItemToInventory(item)
         }
         

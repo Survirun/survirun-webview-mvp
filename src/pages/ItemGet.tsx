@@ -23,7 +23,7 @@ interface Window {
 export const ItemGet = () => {
     const [item, setItem] = useState<string>();
     const [isOpacity, setIsOpacity] = useState(false);
-    const [userItem, _] = useState<ItemProps[]>(JSON.parse(localStorage.getItem('userData') || '[]').userItem);
+    const [userItem, setUserItem] = useState<ItemProps[]>(JSON.parse(localStorage.getItem('userData') || '[]').userItem);
 
     const { alert } = useContext(AlertContext)
     const { invenSelect } = useContext(InventorySelectContext)
@@ -53,7 +53,7 @@ export const ItemGet = () => {
         }
         const DeleteSelectItem = () => {
             const deleItem: ItemProps[string] = Item[userItem[result].name.toString()]
-            DeletItemToInventory(deleItem, result)
+            setUserItem(DeletItemToInventory(deleItem, result))
             AddItemToInventory(item)
         }
         

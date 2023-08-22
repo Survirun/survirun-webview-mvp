@@ -1,5 +1,7 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useContext } from "react";
 import styled from "@emotion/styled";
+
+import { AlertContext } from "../module";
 
 import Item, {ItemProps} from "../json/DemoItem";
 
@@ -51,7 +53,7 @@ export const DeletItemToInventory = (item: ItemProps[string], index?: number) =>
         }
         
         localStorage.setItem("userData" , JSON.stringify({userItem: userDataItem}));
-        console.log(`"${item} 아이템을 인벤토리에 버렸습니다."`);
+        console.log(`"${item.name} 아이템을 인벤토리에 버렸습니다."`);
 
         return userDataItem;
     } else {
@@ -64,6 +66,8 @@ const Inventory = () => {
     const [addItem, setAddItem] = useState<ItemProps[string] | null>(null);
     const [selectedSlot, setSelectedSlot] = useState<number | null>(null);
     const inventoryRef = useRef<HTMLDivElement | null>(null);
+
+    const { alert } = useContext(AlertContext);
 
     const GetInvenItem = () => {
         setUserItem(JSON.parse(localStorage.getItem('userData') || '[]').userItem)
@@ -136,10 +140,21 @@ const Inventory = () => {
             if(selectedSlot === 9) {
                 setAddItem(null);
             } else {
-                DeletItem(userItem[selectedSlot].name);
+                onAlertDeletItem(Item[userItem[selectedSlot].name.toString()]);
             }
         } 
         setSelectedSlot(null);
+    }
+    const onAlertDeletItem = async (item: ItemProps[string]) => {
+        const AlertLeftButton = () => {
+            
+        }
+        const AlertRightButton = () => {
+            DeletItem(item);
+        }
+
+        const result = await alert(`${item.name}을/를 버리시겠습니까?`);
+        result ? AlertRightButton() : AlertLeftButton();
     }
     const RenderActionButtons = () => {
         if(selectedSlot !== null) {
