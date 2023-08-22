@@ -447,21 +447,13 @@ const storys: StoryData[][] = [
 function addID(storys: StoryData[][]) {
   storys.forEach((_, i) => {
     storys[i].forEach((story, j) => {
-      if (story.storyID) {
-        story.storyID = storyID(j+1);
-      }
-      if(!story.addition) {
-        story.addition = {
+        story.storyID ??= storyID(j+1);
+        story.addition ??= {
           open: true,
         };
-      }
-      if(story.addition.open === null) {
-        story.addition.open = true;
-      }
+        story.addition.open ??= true;
       story.progressStory.forEach((progress, k) => {
-        if (!progress.progressID) {
-          progress.progressID = progressID(j+1, k+1);
-        }
+          progress.progressID ??= progressID(j+1, k+1);
       });
     });
   })

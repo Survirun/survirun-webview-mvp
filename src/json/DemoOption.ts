@@ -495,21 +495,12 @@ const options: Option[][][] = [
             if(j !== 0 && !option.optionID) {
               option.optionID = optionID(j ,k+1)
             }
-            if (!option.addition) {
-              option.addition = {};
-            }
-            if (!option.addition.result) {
-              option.addition.result = null;
-            }
-            if (!option.addition.condition) {
-              option.addition.condition = null;
-            }
-            if (!option.addition.nextProgress) {
-              option.addition.nextProgress = null;
-            }
-            if (!option.addition.openStroy) {
-              option.addition.openStroy = null;
-            }
+              option.addition ??= {};
+              option.addition.result ??= null;
+              option.addition.condition ??= null;
+              option.addition.nextProgress ??= null;
+              option.addition.openStroy ??= null;
+
           });
         });
       })
