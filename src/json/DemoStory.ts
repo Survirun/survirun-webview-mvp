@@ -136,7 +136,7 @@ const storys: StoryData[][] = [
       progressStory: [
         {
           storyText: "한 생존자 무리가 약국 앞을 지키고 있습니다.",
-          optionNumber: [optionID(1, 1), optionID(1, 2), optionID(1, 3), optionID(1, 4)]
+          optionNumber: [optionID(5, 1), optionID(5, 2), optionID(5, 3), optionID(5, 4)]
         },
         {
           storyText: "당신은 생존자와 정보를 공유합니다.",
@@ -161,7 +161,7 @@ const storys: StoryData[][] = [
       progressStory: [
         {
           storyText: "당신은 패허를 발견했습니다.",
-          optionNumber: [optionID(2, 1), optionID(2, 2)]
+          optionNumber: [optionID(6, 1), optionID(6, 2)]
         },
         {
           storyText: "노숙자가 튀어나와 당신의 통조림을 훔쳐 달아갑니다.",
@@ -178,7 +178,7 @@ const storys: StoryData[][] = [
       progressStory: [
         {
           storyText: "텅빈 공원을 발견합니다. 근처에 사람이 없는 것 같고 좀비도 사람도 보이지 않습니다.",
-          optionNumber: [optionID(3, 1), optionID(3, 2)]
+          optionNumber: [optionID(7, 1), optionID(7, 2)]
         },
         {
           storyText: "한숨 자고 나니 마음이 편안해 집니다.",
@@ -195,7 +195,7 @@ const storys: StoryData[][] = [
       progressStory: [
         {
           storyText: "빈 빌라를 발견합니다.",
-          optionNumber: [optionID(4, 1), optionID(4, 2)]
+          optionNumber: [optionID(8, 1), optionID(8, 2)]
         },
         {
           storyText: "들어갔는데 녹슨 칼을 발견합니다.",
@@ -212,7 +212,7 @@ const storys: StoryData[][] = [
       progressStory: [
         {
           storyText: "빈 텐트가 가득있는 야영지를 발견합니다.",
-          optionNumber: [optionID(5, 1), optionID(5, 2), optionID(5, 3)]
+          optionNumber: [optionID(9, 1), optionID(9, 2), optionID(9, 3)]
         },
         {
           storyText: "잠시 쉰 당신은 컨디션이 좋아집니다.",
@@ -233,11 +233,11 @@ const storys: StoryData[][] = [
       progressStory: [
         {
           storyText: "고아원을 발견한 당신은 조용히 안을 들여다보자 아이의 형태를 한 좀비들이 보입니다.",
-          optionNumber: [optionID(6, 1), optionID(6, 2)]
+          optionNumber: [optionID(10, 1), optionID(10, 2)]
         },
         {
           storyText: "조용히 움직이며 물건들을 챙기는 와중, 토끼 인형을 손에 든 좀비와 눈을 마추칩니다.",
-          optionNumber: [optionID(6, 3), optionID(6, 4)]
+          optionNumber: [optionID(10, 3), optionID(10, 4)]
         },
         {
           storyText: "다른곳으로 발을 돌립니다.",
@@ -258,7 +258,7 @@ const storys: StoryData[][] = [
       progressStory: [
         {
           storyText: "하수구 안에 무슨 소리가 들릅니다.",
-          optionNumber: [optionID(7, 1), optionID(7, 2)]
+          optionNumber: [optionID(11, 1), optionID(11, 2)]
         },
         {
           storyText: "갱단과의 거래에 대한 내용을 듣습니다.",
@@ -275,7 +275,7 @@ const storys: StoryData[][] = [
       progressStory: [
         {
           storyText: "모닷을 앞에서 쉬고 있는 당신. 많이 외롭습니다.",
-          optionNumber: [optionID(8, 1), optionID(8, 2), optionID(8, 3), optionID(8, 4)]
+          optionNumber: [optionID(12, 1), optionID(12, 2), optionID(12, 3), optionID(12, 4)]
         },
         {
           storyText: "통조림을 먹습니다.",
@@ -300,11 +300,11 @@ const storys: StoryData[][] = [
       progressStory: [
         {
           storyText: "어디선가 도움을 요청하는 목소리가 들립니다.",
-          optionNumber: [optionID(9, 1), optionID(9, 2)]
+          optionNumber: [optionID(13, 1), optionID(13, 2)]
         },
         {
           storyText: "목소리 방향으로 따라간 당신은 2~3명 정도 돼 보이는 좀비 무리에게 둘러싸인 사람을 발견합니다.",
-          optionNumber: [optionID(9, 3), optionID(9, 4), optionID(9, 5),]
+          optionNumber: [optionID(13, 3), optionID(13, 4), optionID(13, 5),]
         },
         {
           storyText: "비명 소리가 들리고 이내 잠잠해 집니다.",
@@ -329,7 +329,7 @@ const storys: StoryData[][] = [
       progressStory: [
         {
           storyText: "피켓을 들고 거리를 횡보하는 사람들이 보인다. 피켓에는 좀비의 좀권을 주장하는 문구가 적혀있다.",
-          optionNumber: [optionID(10, 1), optionID(10, 2)]
+          optionNumber: [optionID(14, 1), optionID(14, 2)]
         },
         {
           storyText: "대화를 나눠보니, 이 시위, 혹은 집회 비슷한 것에 참석한 사람들의 대다수는 좀비가 된 가족을 타인에 의해 잃은 사람들이라고 한다. 그들을 죽은 좀비 가족들이 ‘살해’ 당했다고 주장했다. 내가 이야기를 잘 들어주자, 물과 통조림을 주며 홍보를 부탁했다.",
@@ -342,7 +342,7 @@ const storys: StoryData[][] = [
       progressStory: [
         {
           storyText: "좀비 무리가 떼 지어 걸어가고 있다. 뭔가에 홀린 듯한 느낌인데 몰래 따라가볼까?.",
-          optionNumber: [optionID(11, 1), optionID(11, 2)]
+          optionNumber: [optionID(15, 1), optionID(15, 2)]
         },
         {
           storyText: "좀비 무리를 조심히 따라가자, 장발의 남성이 눈에 들어왔다. 남성은 좀비 무리를 이끌고 다니는 것 같다. 섬뜩한 느낌이 든다. 더 이상 쫓아가진 말자.",
@@ -359,7 +359,7 @@ const storys: StoryData[][] = [
       progressStory: [
         {
           storyText: "'응애~!' 아기가 당신에게 구걸을 합니다.",
-          optionNumber: [optionID(12, 1), optionID(12, 2)]
+          optionNumber: [optionID(16, 1), optionID(16, 2)]
         },
         {
           storyText: "아이의 엄마가 고맘다고 감사의 선물을 줍니다.",
@@ -376,7 +376,7 @@ const storys: StoryData[][] = [
       progressStory: [
         {
           storyText: "'돈내놔!' 갱단이 당신에게 구걸을 합니다.",
-          optionNumber: [optionID(13, 1), optionID(13, 2), optionID(13, 3), optionID(13, 4)]
+          optionNumber: [optionID(17, 1), optionID(17, 2), optionID(17, 3), optionID(17, 4)]
         },
         {
           storyText: "갱단과 깐부가 됩니다.",
@@ -401,7 +401,7 @@ const storys: StoryData[][] = [
       progressStory: [
         {
           storyText: "좀비를 해치우면서 길을 가던 도중 뒤에서 무엇인가 다가오는 소리가 들릅니다. 깜짝 놀란 당신은 뒤로 돌아보자 한 유모차 안에는 좀비가 된 아이가 있고 유모차를 있끄는 한 여성이 보입니다. '저기요! 제발 한번만 도와주세요!' 여성이 무릎을 꿇고 빌고 있습니다.",
-          optionNumber: [optionID(14, 1), optionID(14, 2), optionID(14, 3)]
+          optionNumber: [optionID(18, 1), optionID(18, 2), optionID(18, 3)]
         },
         {
           storyText: "당신은 여성에게 백신을 줍니다. 여성이 가지고 있던 모든 물건을 줍니다.",
@@ -422,7 +422,7 @@ const storys: StoryData[][] = [
       progressStory: [
         {
           storyText: "당근이세요...?",
-          optionNumber: [optionID(15, 1), optionID(15, 2), optionID(15, 3)]
+          optionNumber: [optionID(19, 1), optionID(19, 2), optionID(19, 3)]
         },
         {
           storyText: "당신은 보석을 주고 물건을 얻어옵니다.",
@@ -436,6 +436,107 @@ const storys: StoryData[][] = [
           storyText: "상대는 당신에게 사과하고 떠납니다.",
           optionNumber: ["next"]
         }
+      ]
+    },
+    {
+      storyTitle: "골목",
+      progressStory: [
+        {
+          storyText: "골목에서 이상한 소리가 들린다. 잠깐 가 볼까?",
+          optionNumber: [optionID(20, 1), optionID(20, 2)]
+        },
+        {
+          storyText: "가까이 다가가자 좀비떼가 보인다. 텅... 깡통이 발에 채였다. 좀비들의 시선이 나를 향한다.",
+          optionNumber: [optionID(20, 3)]
+        },
+        {
+          storyText: "당신은 무시한체 다음 길로 걸음을 옮긺니다.",
+          optionNumber: ["next"]
+        },
+      ]
+    },
+    {
+      storyTitle: "건물",
+      progressStory: [
+        {
+          storyText: "눈앞의 건물에서 식용을 돋구는 향이 난다. 들어가볼까?",
+          optionNumber: [optionID(21, 1), optionID(21, 2)]
+        },
+        {
+          storyText: "건물 안으로 들어가니 희미한 기억 속 곰탕의 향기가 진동한다. 건물은 얼마전까지 음식점으로 쓰었던 것 같다. 더 깊이 들어갈까?",
+          optionNumber: [optionID(21, 3), optionID(21, 4)]
+        },
+        {
+          storyText: "당신은 무시한체 다음 길로 걸음을 옮긺니다.",
+          optionNumber: ["next"]
+        },
+        {
+          storyText: "슬금슬금 깊숙히 들어가니, 무언가 부글부글 끓는 소리가 난다. 근데 다은 이상한 소리도 나는 것 같은데... 자세히 보니... 좀비다!! ",
+          optionNumber: ["next"]
+        },
+        {
+          storyText: "우당탕탕!! 급하게 빠져나오다 의자니 테이블이니 전부 넘어뜨리고 말았다! 안쪽에서 좀비들이 쫒아온다!",
+          optionNumber: [optionID(21, 5)]
+        },
+      ]
+    },
+    {
+      storyTitle: "골목",
+      progressStory: [
+        {
+          storyText: "골목에서 나오는 좀비와 눈을 마주쳤다.",
+          optionNumber: [optionID(22, 1), optionID(22, 2)]
+        },
+        {
+          storyText: "좀비로부터 무사히 도망쳤다.",
+          optionNumber: ["next"]
+        },
+        {
+          storyText: "빠른 움직임과 소란스러운 소리가 좀비를 자극했다. 좀비가 쫓아온다!",
+          optionNumber: [optionID(22, 3)]
+        },
+      ]
+    },
+    {
+      storyTitle: "폐허",
+      progressStory: [
+        {
+          storyText: "폐허가 된 학교가 있다. 들어가볼까?",
+          optionNumber: [optionID(23, 1), optionID(23, 2)]
+        },
+        {
+          storyText: "학교에 들어가니 이상한 악취가 코를 찌른다.",
+          optionNumber: [optionID(23, 3), optionID(23, 4)]
+        },
+        {
+          storyText: "학교는 좀비가 있다면 도망치기도 어렵고 너무 위험하다. 무시하는게 맞다.",
+          optionNumber: ["next"]
+        },
+        {
+          storyText: "깊숙히 들어가자, 좀비들이 몇마리 보이기 시작했다. 천천히 뒤를 돌아 빠져 나가려는 순간, 좀비들이 괴성을 지르며 내게 돌진한다!",
+          optionNumber: [optionID(23, 5)]
+        },
+        {
+          storyText: "다행이 아무일도 일어나지 않았다.",
+          optionNumber: ["next"]
+        },
+      ]
+    },
+    {
+      storyTitle: "안개",
+      progressStory: [
+        {
+          storyText: "안개가 지옥하게 껴 있는 장소가 있다. 뭔가 인공적으로 만들어진 안개 같은데... 가까이 다가가볼까?",
+          optionNumber: [optionID(24, 1), optionID(24, 2)]
+        },
+        {
+          storyText: "안개에 가까이 다가가자 사람들이 서있는 형상이 어렴풋이 보인다. 안개 속에서 뭘 하고 있는거지? 조금 더 다가가자 갑자기 사람들이 나를 향해 달려온다! 좀비다!",
+          optionNumber: [optionID(24, 3)]
+        },
+        {
+          storyText: "안개든 뭐든 수상한 것은 무시하는데 생책이다.",
+          optionNumber: ["next"]
+        },
       ]
     },
   ],

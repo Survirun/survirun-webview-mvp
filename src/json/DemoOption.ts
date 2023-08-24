@@ -58,7 +58,6 @@ const options: Option[][][] = [
             ],
             nextProgress: nextProgress(1, 5),
             openStroy: storyID(2),
-            zombie: 3
             },
           },
     ],
@@ -481,6 +480,96 @@ const options: Option[][][] = [
             { 
               nextProgress: nextProgress(19, 4)
             }}
+    ],
+    [
+      {text: "궁금한건 못 참지", addition:
+        { 
+          nextProgress: nextProgress(20, 2)
+        }},
+      {text: "딱 봐도 수상해 보인다. 무시하자", addition:
+        { 
+          nextProgress: nextProgress(20, 3)
+        }},
+      {text: "좀비로 부터 도방치자!", addition:
+        { 
+          zombie: 4,
+        }}
+    ],
+    [
+      {text: "식략이 있을지도 모른다. 들어가보자.", addition:
+        { 
+          nextProgress: nextProgress(21, 2)
+        }},
+      {text: "들짐승이나 좀비가 있을지도 모른다. 그냥 지나가자.", addition:
+        { 
+          nextProgress: nextProgress(21, 3)
+        }},
+      {text: "이건 정말 참을 수 없다!", addition:
+        { 
+          nextProgress: nextProgress(21, 4)
+        }},
+      {text: "너무 위험하다. 빨리 빠져 나오자!", addition:
+        { 
+          nextProgress: nextProgress(21, 5)
+        }},
+      {text: "빨리 도방치자!", addition:
+        { 
+          zombie: 3,
+        }}
+    ],
+    [
+      {text: "좀비를 자극하지 않고 천천히 뒷걸음 치며 자리를 뜬다.", addition:
+        { 
+          nextProgress: nextProgress(22, 2)
+        }},
+      {text: "으악! 좀비다! 도망치자!!", addition:
+        { 
+          nextProgress: nextProgress(22, 3)
+        }},
+      {text: "이건 정말 참을 수 없다!", addition:
+        { 
+          nextProgress: nextProgress(22, 2)
+        }},
+      {text: "빨리 도망쳐서 좀비를 따돌리자!", addition:
+        { 
+          zombie: 1,
+        }},
+    ],
+    [
+      {text: "쓸만한 도구나 음식이 있을지도 모른다. 들어가보자.", addition:
+        { 
+          nextProgress: nextProgress(23, 2)
+        }},
+      {text: "좀비가 있기에 최적의 환경이다. 들어가지 말자.", addition:
+        { 
+          nextProgress: nextProgress(23, 3)
+        }},
+      {text: "조금만 더 들어가보자...", addition:
+        { 
+          nextProgress: nextProgress(23, 4)
+        }},
+      {text: "뭔가 느낌이 안 좋다. 빨리 나가자", addition:
+        { 
+          nextProgress: nextProgress(23, 4)
+        }},
+      {text: "죽을 힘을 다해 도망치자!!", addition:
+        { 
+          zombie: 5,
+        }},
+    ],
+    [
+      {text: "천천히 가까이 가보자", addition:
+        { 
+          nextProgress: nextProgress(24, 2)
+        }},
+      {text: "괜히 끌데없는 짓 하지 말자", addition:
+        { 
+          nextProgress: nextProgress(24, 3)
+        }},
+      {text: "빨리 도망치자!", addition:
+        { 
+          zombie: 4,
+        }},
     ],
   ],
   [
