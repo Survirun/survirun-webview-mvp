@@ -25,8 +25,6 @@ interface SubCharaterStoryProps{
     condition?: Condition,
     storyText: string,
     option: Option[],
-    alternativeStoryText: string,
-    alternativeOption: Option[],
 }
 
 interface SubCharaterProps{
@@ -78,23 +76,6 @@ const subCharater: SubCharaterProps = {
                         }
                     }
                 ],
-                alternativeStoryText: "대체 스토리1 테스트 테스트",
-                alternativeOption: [
-                    {
-                        optionID: "opt_1-3",
-                        text: "대체 옵션1 테스트 테스트",
-                        addition: {
-
-                        }
-                    },
-                    {
-                        optionID: "opt_1-4",
-                        text: "대체 옵션1 테스트 테스트",
-                        addition: {
-
-                        }
-                    }
-                ],
             },
             {
                 condition: {
@@ -106,16 +87,6 @@ const subCharater: SubCharaterProps = {
                     {
                         optionID: "opt_2-1",
                         text: "옵션2 테스트 테스트",
-                        addition: {
-
-                        }
-                    }
-                ],
-                alternativeStoryText: "대체 스토리1 테스트 테스트",
-                alternativeOption: [
-                    {
-                        optionID: "opt_2-1",
-                        text: "대체 옵션2 테스트 테스트",
                         addition: {
 
                         }
