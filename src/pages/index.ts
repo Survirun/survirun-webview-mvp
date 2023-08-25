@@ -5,3 +5,4 @@ export * from './StoryPage3';
 export * from './Battle';
 export * from './ZombieTest';
 export * from './Inventory';
+export * from './SubCharater';
