@@ -4,7 +4,6 @@ import { Fragment, useEffect, useState, useContext } from "react";
 import { DeletItemToInventory, AddItemToInventory } from "./Inventory";
 //Demo Data
 //import StoryData from '../json/DemoStory4.json';
-import { jsonOption } from "../json/DemoOption";
 import { jsonStory } from '../json/DemoStory';
 import { jsonSubCharacter } from "../json/DemoSubCharacter";
 import Item, {ItemProps} from "../json/DemoItem"
@@ -28,9 +27,6 @@ export const SubCharacter = () => {
     const [storyNumber, setStoryNumber] = useState<number>();
     const [storyTitle, setStoryTitle] = useState("");
     const [storyOptionCount, setStoryOptionCount] = useState(0);
-    const [storyParts, setStoryParts] = useState(1);
-    const [storyOptionStory,setStoryOptionStory] = useState<string[]>([]);
-    const [storyOptionNum, setStoryOptionNum] = useState<number[]>([]);
     const [storyOption, setStoryOption] = useState<Option[]>();
     const [storyProgress, setStoryProgress] = useState<number>(0);
 
@@ -94,8 +90,6 @@ export const SubCharacter = () => {
             }
             
             setStoryTitle(jsonSubCharacter[subCharacterStory].story[storyNumber].storyTitle);
-            setStoryOptionNum(jsonSubCharacter[subCharacterStory].story[storyNumber].storys[storyProgress].option.map(option => Number(option.optionID.split('-')[1])-1));
-            setStoryOptionStory(jsonSubCharacter[subCharacterStory].story[storyNumber].storys[storyProgress].option.map(option => option.text))
             setStoryOptionCount(jsonSubCharacter[subCharacterStory].story[storyNumber].storys[storyProgress].option.length);
             setStoryOption(jsonSubCharacter[subCharacterStory].story[storyNumber].storys[storyProgress].option)
             const storyList = [...story];
@@ -431,10 +425,8 @@ export const SubCharacter = () => {
                 const storyPart = Number(localStorage.getItem('storyParts'));
                 if(jsonStory.length > storyPart+1){
                     localStorage.setItem('storyParts', (storyPart+1).toString(10));
-                    setStoryParts(storyPart+1);
                 } else {
                     localStorage.setItem('storyParts', (1).toString(10));
-                    setStoryParts(1);
                 }
                 localStorage.setItem('readStory', JSON.stringify([]));
 
