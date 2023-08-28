@@ -6,7 +6,9 @@ import { DeletItemToInventory, AddItemToInventory } from "./Inventory";
 //import StoryData from '../json/DemoStory4.json';
 import { jsonOption } from "../json/DemoOption";
 import { jsonStory } from '../json/DemoStory';
+import { jsonSubCharacter } from "../json/DemoSubCharacter";
 import Item, {ItemProps} from "../json/DemoItem"
+import { Option } from "../json/DemoSubCharacter";
 
 import { AlertContext, InventorySelectContext } from "../module/index";
 
@@ -21,14 +23,16 @@ interface Window {
     }
 }
 
-export const StoryPage3 = () => {
-    const [storyNumber, setStoryNumber] = useState<null | number>(null);
-    const [progressNumber, setProgressNumber] = useState<null | number>(null);
+export const SubCharacter = () => {
+    const [subCharacterStory, setSubCharaterStory] = useState<string>()
+    const [storyNumber, setStoryNumber] = useState<number>();
     const [storyTitle, setStoryTitle] = useState("");
     const [storyOptionCount, setStoryOptionCount] = useState(0);
     const [storyParts, setStoryParts] = useState(1);
     const [storyOptionStory,setStoryOptionStory] = useState<string[]>([]);
     const [storyOptionNum, setStoryOptionNum] = useState<number[]>([]);
+    const [storyOption, setStoryOption] = useState<Option[]>();
+    const [storyProgress, setStoryProgress] = useState<number>(0);
 
     const [userHp, setUserHp] = useState(0);
     const [userMoney, setUserMoney] = useState(0);
@@ -61,6 +65,7 @@ export const StoryPage3 = () => {
                 }
             }
             localStorage.setItem('userData', JSON.stringify({userItem: [], subCharater: subCharater}));
+            GetUserData();
         } catch(e) {
             console.error("Error: SetUserData()")
             console.error(e);
@@ -68,21 +73,15 @@ export const StoryPage3 = () => {
     }
     const GetRanDomStoryNumber = () => {
         try {
-           setStory([]);
-            let number = Math.floor(Math.random() * jsonStory[storyParts].length);
-            let storyOpenCheck = jsonStory[storyParts][number].addition?.open;
-            let storyOnce = jsonStory[storyParts][number].addition?.once;
-            const readAbleStory = JSON.parse(localStorage.getItem('readAbleStory') || '[]');
-            const readStory = JSON.parse(localStorage.getItem('readStory') || '[]');
+            setStory([]);
+            const keys = Object.keys(jsonSubCharacter);
+            const randomIndex = Math.floor(Math.random() * keys.length);
+            const randomKey = keys[randomIndex];
+            const userDataSub = JSON.parse(localStorage.getItem('userData') || '{}').subCharater;
             
-            while(!storyOpenCheck && !(readAbleStory.includes(number + 1)) || (storyOnce === true && readStory.includes(number + 1))) {
-                number = Math.floor(Math.random() * jsonStory[storyParts].length);
-                storyOpenCheck = jsonStory[storyParts][number].addition?.open;
-                storyOnce = jsonStory[storyParts][number].addition?.once;
-            };
-
-            setStoryNumber(number)
-            setProgressNumber(0);
+            setSubCharaterStory(randomKey)
+            setStoryNumber(userDataSub[randomKey].progress);
+            
         } catch(e) {
             console.error("Error: GetRanDomStoryNumber()")
             console.error(e);
@@ -90,24 +89,18 @@ export const StoryPage3 = () => {
     }
     const GetStoryData = () => {
         try {
-            if(storyNumber === null || progressNumber === null) {
+            if(subCharacterStory === undefined || storyNumber === undefined) {
                 return;
             }
-            const existingArray: number[] = JSON.parse(localStorage.getItem('readStory') || '[]');
-            const isStoryNumberExists = existingArray.some((item) => item === storyNumber);
-
-            if (!isStoryNumberExists) {
-                existingArray.push(storyNumber);
-                localStorage.setItem('readStory', JSON.stringify(existingArray));
-            }
             
-            setStoryTitle(jsonStory[storyParts][storyNumber].storyTitle);
-            setStoryOptionNum(jsonStory[storyParts][storyNumber].progressStory[progressNumber].optionNumber.map(option => Number(option.split('-')[1])-1));
-            setStoryOptionStory(jsonStory[storyParts][storyNumber].progressStory[progressNumber].optionNumber.map(option => option.split('-')[0]))
-            setStoryOptionCount(jsonStory[storyParts][storyNumber].progressStory[progressNumber].optionNumber.length);
+            setStoryTitle(jsonSubCharacter[subCharacterStory].story[storyNumber].storyTitle);
+            setStoryOptionNum(jsonSubCharacter[subCharacterStory].story[storyNumber].storys[storyProgress].option.map(option => Number(option.optionID.split('-')[1])-1));
+            setStoryOptionStory(jsonSubCharacter[subCharacterStory].story[storyNumber].storys[storyProgress].option.map(option => option.text))
+            setStoryOptionCount(jsonSubCharacter[subCharacterStory].story[storyNumber].storys[storyProgress].option.length);
+            setStoryOption(jsonSubCharacter[subCharacterStory].story[storyNumber].storys[storyProgress].option)
             const storyList = [...story];
-            const keyValue = storyNumber*100+progressNumber
-            storyList.push(<StoryText key={keyValue}>{jsonStory[storyParts][storyNumber].progressStory[progressNumber].storyText}</StoryText>);
+            const keyValue = storyNumber
+            storyList.push(<StoryText key={keyValue}>{jsonSubCharacter[subCharacterStory].story[storyNumber].storys[storyProgress].storyText}</StoryText>);
             setStory(storyList)
         } catch(e) {
             console.error("Error: GetStoryData()")
@@ -132,17 +125,11 @@ export const StoryPage3 = () => {
     }
     const ButtonOptionName = (optionNumber: number) => {
         try {
-            if(storyNumber === null || progressNumber === null) {
+            if(subCharacterStory === undefined || storyNumber === undefined || storyOption === undefined) {
                 return;
             }
 
-            let option
-            if(storyOptionStory[optionNumber] === 'next'){
-                option = jsonOption[0][0][0]; 
-            }  else {
-                option = jsonOption[storyParts][storyNumber][storyOptionNum[optionNumber]];
-            }
-
+            const option = storyOption[optionNumber]
             const optionName = option.text;
             const optionCondition = option.addition.condition;
 
@@ -165,16 +152,11 @@ export const StoryPage3 = () => {
     }
     const ButtonDisable = (optionNumber: number) => {
         try {
-            if(storyNumber === null || progressNumber === null) {
+            if(subCharacterStory === undefined || storyNumber === undefined || storyOption === undefined) {
                 return;
             }
 
-            let option
-            if(storyOptionStory[optionNumber] === 'next'){
-                option = jsonOption[0][0][0]; 
-            }  else {
-                option = jsonOption[storyParts][storyNumber][storyOptionNum[optionNumber]];
-            }
+            const option = storyOption[optionNumber]
             const optionCondition = option.addition.condition;
 
             if(optionCondition === undefined || optionCondition === null)
@@ -210,7 +192,7 @@ export const StoryPage3 = () => {
                     case "charateristic":
                         result = result || CharateristicDisable(condition.number)
                         break;
-                    default: console.log("Error: ButtonDisable condition.kind undifinded");
+                    default: console.error("Error: ButtonDisable condition.kind undifinded");
                 }
             })
             return result;
@@ -221,17 +203,11 @@ export const StoryPage3 = () => {
     }
     const ResultCheck = (optionNumber: number) => {
         try {
-            if(storyNumber === null || progressNumber === null) {
-                return
+            if(subCharacterStory === undefined || storyNumber === undefined || storyOption === undefined) {
+                return;
             }
 
-            let option
-            if(storyOptionStory[optionNumber] === 'next'){
-                option = jsonOption[0][0][0]; 
-            }  else {
-                option = jsonOption[storyParts][storyNumber][storyOptionNum[optionNumber]];
-            }
-
+            const option = storyOption[optionNumber]
             const optionResult = option.addition.result;
     
             if(optionResult === null || optionResult === undefined) {
@@ -251,7 +227,6 @@ export const StoryPage3 = () => {
             }
             const ItemResult = (getOrLose: string, num: number) => {
                 const existingArray = JSON.parse(localStorage.getItem('item') || '[]');
-                //const userDataItem = JSON.parse(localStorage.getItem('userData') || '[]').userItem;
                 const itemName = ItemData.items[num-1].name;
                 (getOrLose === "get") ? 
                     localStorage.setItem('item', JSON.stringify([...existingArray, itemName])) :
@@ -281,7 +256,7 @@ export const StoryPage3 = () => {
                     case "charateristic":
                         CharateristicResult(result.getOrLose, result.number)
                         break;
-                    default: console.log("Error: ResultCheck result.kind undifinded");
+                    default: console.error("Error: ResultCheck result.kind undifinded");
                 }
             })
         } catch(e) {
@@ -291,23 +266,18 @@ export const StoryPage3 = () => {
     }
     const NextStory = (optionNumber: number) => {
         try{
-            if(storyNumber === null || progressNumber === null) {
+            if(subCharacterStory === undefined || storyNumber === undefined || storyOption === undefined) {
                 return;
             }
 
-            let option;
-            if(storyOptionStory[optionNumber] === 'next'){
-                option = jsonOption[0][0][0]; 
-            }  else {
-                option = jsonOption[storyParts][storyNumber][storyOptionNum[optionNumber]];
-            }
+            const option = storyOption[optionNumber]
 
             if(option.addition.nextProgress === null) {
                 SendAndroidEndStory();
                 NextStoryPart();
             } else {
                 const optionNextStory = Number(option.addition.nextProgress?.split('-')[1]);
-                setProgressNumber(optionNextStory-1);
+                setStoryProgress(optionNextStory-1);
             }
 
             const optionZombie = option.addition.zombie;
@@ -339,16 +309,11 @@ export const StoryPage3 = () => {
     }
     const AddItemStory = (optionNumber: number) => {
         try{
-            if(storyNumber === null || progressNumber === null) {
+            if(subCharacterStory === undefined || storyNumber === undefined || storyOption === undefined) {
                 return;
             }
 
-            let option
-            if(storyOptionStory[optionNumber] === 'next'){
-                option = jsonOption[0][0][0]; 
-            }  else {
-                option = jsonOption[storyParts][storyNumber][storyOptionNum[optionNumber]];
-            }
+            const option = storyOption[optionNumber]
 
             const optionResult = option.addition.result;
             if(optionResult === null || optionResult === undefined) {
@@ -424,18 +389,13 @@ export const StoryPage3 = () => {
     }
     const AddStoryUser = (optionNumber: number) => {
         try{
-            if(storyNumber === null || progressNumber === null) {
+            if(subCharacterStory === undefined || storyNumber === undefined || storyOption === undefined) {
                 return;
             }
 
-            let option
-            if(storyOptionStory[optionNumber] === 'next'){
-                option = jsonOption[0][0][0]; 
-            }  else {
-                option = jsonOption[storyParts][storyNumber][storyOptionNum[optionNumber]];
-            }
-            
+            const option = storyOption[optionNumber]
             const optionName = option.text;
+
             return <StoryText key={optionNumber}>나: {optionName}</StoryText>;
         } catch(e) {
             console.error("Error: AddStoryUser()")
@@ -444,16 +404,11 @@ export const StoryPage3 = () => {
     }
     const OpenStroy = (optionNumber: number) => {
         try {
-            if(storyNumber === null || progressNumber === null) {
+            if(subCharacterStory === undefined || storyNumber === undefined || storyOption === undefined) {
                 return;
             }
 
-            let option
-            if(storyOptionStory[optionNumber] === 'next'){
-                option = jsonOption[0][0][0]; 
-            }  else {
-                option = jsonOption[storyParts][storyNumber][storyOptionNum[optionNumber]];
-            }
+            const option = storyOption[optionNumber]
 
             const optionOpenStory = option.addition.openStroy;
             if(optionOpenStory === null || optionOpenStory === undefined) {
@@ -489,6 +444,33 @@ export const StoryPage3 = () => {
             console.error(e);
         }
     }
+    const UpSubProgress = async (optionNumber: number) => {
+        if(subCharacterStory === undefined || storyNumber === undefined || storyOption === undefined) {
+            return;
+        }
+
+        const userData = JSON.parse(localStorage.getItem('userData') || '[]');
+        const userDataSubCharacter = userData.subCharater;
+
+        const option = storyOption[optionNumber];
+
+        if(option.addition.toUpSubProgess === true) {
+            userDataSubCharacter[subCharacterStory].progress += 1;
+        }
+        if(option.addition.togetherSubCharacter === true) {
+            const result = await onAlertGetSubCharater();
+            if(result) {
+                userDataSubCharacter[subCharacterStory].progress += 1;
+                userDataSubCharacter[subCharacterStory].open = true;
+
+                const existingArray = JSON.parse(localStorage.getItem('charateristic') || '[]');
+                const charaterName = jsonSubCharacter[subCharacterStory].property;
+                localStorage.setItem('charateristic', JSON.stringify([...existingArray, charaterName]))
+                GetUserData();
+            }
+        }
+        localStorage.setItem("userData" , JSON.stringify(userData));
+    }
     const ClickEvent = (optionNumber: number) => {
         try{
             const userStoryList = AddStoryUser(optionNumber) || <></>;
@@ -499,6 +481,8 @@ export const StoryPage3 = () => {
             GetUserData();
             OpenStroy(optionNumber);
             NextStory(optionNumber);
+            UpSubProgress(optionNumber);
+            setStoryProgress(pre => pre++);
         } catch(e) {
             console.error("Error: ClickEvent()");
             console.error(e);
@@ -528,10 +512,22 @@ export const StoryPage3 = () => {
         const result = await invenSelect("취소", "버리기");
         (result === -1) ? CancleToDeleteItem() : DeleteSelectItem();
     }
+    const onAlertGetSubCharater = async () => {
+        const AlertLeftButton = () => {
+            
+        }
+        const AlertRightButton = () => {
+            
+        }
+
+        const result = await alert(`${subCharacterStory}와 함께 모험하시겠습니까?`, "거절한다", `수락한다`);
+        result ? AlertRightButton() : AlertLeftButton();
+        return result;
+    }
     
     useEffect(() => {
         GetStoryData();
-    }, [storyNumber, progressNumber])
+    }, [subCharacterStory, storyNumber, storyProgress])
 
     useEffect(() => {
         //SetUserData();
