@@ -29,9 +29,10 @@ const ActionButtons = ({ onEquip, onDiscard }: ActionButtonsProps) => {
 
 export const AddItemToInventory = (item: ItemProps[string]) => {
     if(item) {
-        const userDataItem = JSON.parse(localStorage.getItem('userData') || '[]').userItem;
+        const userData = JSON.parse(localStorage.getItem('userData') || '[]');
+        const userDataItem = userData.userItem
         userDataItem.push(item);
-        localStorage.setItem("userData" , JSON.stringify({userItem: userDataItem}));
+        localStorage.setItem("userData" , JSON.stringify(userData));
         console.log(`"${item.name} 아이템을 인벤토리에 추가했습니다."`);
         
         return userDataItem
@@ -41,8 +42,9 @@ export const AddItemToInventory = (item: ItemProps[string]) => {
 }
 export const DeletItemToInventory = (item: ItemProps[string], index?: number) => {
     if(item){
-        const userDataItem = JSON.parse(localStorage.getItem('userData') || '[]').userItem;
-
+        const userData = JSON.parse(localStorage.getItem('userData') || '[]');
+        const userDataItem = userData.userItem;
+        
         if(index) {
             userDataItem.splice(index, 1);
         } else {
@@ -52,7 +54,7 @@ export const DeletItemToInventory = (item: ItemProps[string], index?: number) =>
             }
         }
         
-        localStorage.setItem("userData" , JSON.stringify({userItem: userDataItem}));
+        localStorage.setItem("userData" , JSON.stringify(userData));
         console.log(`"${item.name} 아이템을 인벤토리에 버렸습니다."`);
 
         return userDataItem;
@@ -80,7 +82,7 @@ const Inventory = () => {
         localStorage.setItem('readAbleStory', JSON.stringify([]));
         localStorage.setItem('readStory', JSON.stringify([]));
         localStorage.setItem('storyParts', "1");
-        localStorage.setItem('userData', JSON.stringify({userItem: []}));
+        localStorage.setItem('userData', JSON.stringify({userItem: [], subCharater: {}}));
     }
     const AddItem = (item: ItemProps[string]) => {
         if(userItem.length < 8){
