@@ -37,7 +37,7 @@ export const InventorySelect = ({leftText, rightText, onClickLeft, onClickRight}
         <>
             <Background/>
             <CancleDeleteButton onClick={onClickLeft}>{leftText}</CancleDeleteButton>
-            <DeleteButton disabled={!selectInvenItem} onClick={() => {if(selectInvenItem) return onClickRight(selectInvenItem)}}>{rightText}</DeleteButton>
+            <DeleteButton disabled={(selectInvenItem === undefined)} onClick={() => {if(selectInvenItem !== undefined) return onClickRight(selectInvenItem)}}>{rightText}</DeleteButton>
             <InventoryStyle>
             {Array.from({ length: 8 }).map((_, index) => (
                 <InventorySlot key={index}>
