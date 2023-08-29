@@ -42,7 +42,13 @@ const options: Option[][][] = [
           {text: "어디에서 잃어버리셨는데요?", addition: 
             {nextProgress: nextProgress(1, 3)}},
           {text: "바쁜일이 있어서요", addition: 
-            {nextProgress: nextProgress(1, 2)}},
+            {
+              nextProgress: nextProgress(1, 2),
+              result: [
+                {kind:"item", getOrLose: "get", number: 2},
+                {kind:"item", getOrLose: "get", number: 3},
+              ]
+            }},
           {text: "네...? 네...", addition: 
             {nextProgress: nextProgress(1, 4)}},
           {text: "아... 네...", addition: 
