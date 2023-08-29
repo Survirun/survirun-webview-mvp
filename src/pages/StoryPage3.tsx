@@ -221,7 +221,7 @@ export const StoryPage3 = () => {
             console.error(e);
         }
     }
-    const ResultCheck = (optionNumber: number) => {
+    const ResultCheck = async (optionNumber: number) => {
         try {
             if(storyNumber === null || progressNumber === null) {
                 return
@@ -251,7 +251,7 @@ export const StoryPage3 = () => {
                     localStorage.setItem("money", (money+num).toString()) :
                     localStorage.setItem("money", (money-num).toString());
             }
-            const ItemResult = (getOrLose: string, num: number) => {
+            const ItemResult = async (getOrLose: string, num: number) => {
                 const existingArray = JSON.parse(localStorage.getItem('item') || '[]');
                 //const userDataItem = JSON.parse(localStorage.getItem('userData') || '[]').userItem;
                 const itemName = ItemData.items[num-1].name;
@@ -259,8 +259,8 @@ export const StoryPage3 = () => {
                     localStorage.setItem('item', JSON.stringify([...existingArray, itemName])) :
                     (userItems.indexOf(itemName) > -1) && localStorage.setItem('item', JSON.stringify(existingArray.filter((item: string) => item !== itemName)));
                 (getOrLose === "get") ? 
-                    ((userItem.length >= 8) ? onAlertDeletItem(Item[itemName]) : AddItemToInventory(Item[itemName])) :
-                    DeletItemToInventory(Item[itemName])
+                    ((userItem.length >= 8) ? await onAlertDeletItem(Item[itemName]) : await AddItemToInventory(Item[itemName])) :
+                    await DeletItemToInventory(Item[itemName])
             }
             const CharateristicResult = (getOrLose: string, num: number) => {
                 const existingArray = JSON.parse(localStorage.getItem('charateristic') || '[]');
@@ -269,23 +269,25 @@ export const StoryPage3 = () => {
                     localStorage.setItem('charateristic', JSON.stringify([...existingArray, charaterName])) :
                     (userCharateristic.indexOf(charaterName) > -1) && localStorage.setItem('charateristic', JSON.stringify(existingArray.filter((item: string) => item !== charaterName)));
             }
-            for (const result of optionResult) {
-                switch(result.kind) {
-                    case "hp":
-                        HPResult(result.getOrLose, result.number);
-                        break;
-                    case "money":
-                        MoneyResult(result.getOrLose, result.number)
-                        break;
-                    case "item":
-                        ItemResult(result.getOrLose, result.number)
-                        break;
-                    case "charateristic":
-                        CharateristicResult(result.getOrLose, result.number)
-                        break;
-                    default: console.log("Error: ResultCheck result.kind undifinded");
+            (async () => {
+                for (const result of optionResult) {
+                    switch(result.kind) {
+                        case "hp":
+                            HPResult(result.getOrLose, result.number);
+                            break;
+                        case "money":
+                            MoneyResult(result.getOrLose, result.number)
+                            break;
+                        case "item":
+                            await ItemResult(result.getOrLose, result.number)
+                            break;
+                        case "charateristic":
+                            CharateristicResult(result.getOrLose, result.number)
+                            break;
+                        default: console.log("Error: ResultCheck result.kind undifinded");
+                    }
                 }
-            }
+            })();
         } catch(e) {
             console.error("Error: ResultCheck()")
             console.error(e);
