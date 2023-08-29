@@ -69,7 +69,9 @@ export const StoryPage3 = () => {
     const GetRanDomStoryNumber = () => {
         try {
            setStory([]);
-            let number = Math.floor(Math.random() * jsonStory[storyParts].length);
+            //test
+            let number = Math.floor(Math.random() * 1);
+            //let number = Math.floor(Math.random() * jsonStory[storyParts].length);
             let storyOpenCheck = jsonStory[storyParts][number].addition?.open;
             let storyOnce = jsonStory[storyParts][number].addition?.once;
             const readAbleStory = JSON.parse(localStorage.getItem('readAbleStory') || '[]');
@@ -267,7 +269,7 @@ export const StoryPage3 = () => {
                     localStorage.setItem('charateristic', JSON.stringify([...existingArray, charaterName])) :
                     (userCharateristic.indexOf(charaterName) > -1) && localStorage.setItem('charateristic', JSON.stringify(existingArray.filter((item: string) => item !== charaterName)));
             }
-            optionResult.map((result) => {
+            for (const result of optionResult) {
                 switch(result.kind) {
                     case "hp":
                         HPResult(result.getOrLose, result.number);
@@ -283,7 +285,7 @@ export const StoryPage3 = () => {
                         break;
                     default: console.log("Error: ResultCheck result.kind undifinded");
                 }
-            })
+            }
         } catch(e) {
             console.error("Error: ResultCheck()")
             console.error(e);
