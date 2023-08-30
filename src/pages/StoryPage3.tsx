@@ -259,17 +259,20 @@ export const StoryPage3 = () => {
                 const existingArray = JSON.parse(localStorage.getItem('item') || '[]');
                 //const userDataItem = JSON.parse(localStorage.getItem('userData') || '[]').userItem;
                 const itemName = ItemData.items[num-1].name;
-                const test = async() => {
-                    userDataItem = AddItemToInventory(Item[itemName]);
+                const addInven = async() => {
+                    userDataItem = await AddItemToInventory(Item[itemName]);
+                    setUserItem(userDataItem);
+                }
+                const deleteInven = async() => {
+                    userDataItem = await DeletItemToInventory(Item[itemName]);
                     setUserItem(userDataItem);
                 }
                 (getOrLose === "get") ? 
                     localStorage.setItem('item', JSON.stringify([...existingArray, itemName])) :
                     (userItems.indexOf(itemName) > -1) && localStorage.setItem('item', JSON.stringify(existingArray.filter((item: string) => item !== itemName)));
                 (getOrLose === "get") ? 
-                    ((userDataItem.length >= 8) ? await onAlertDeletItem(Item[itemName]) : (test())) :
-                    await DeletItemToInventory(Item[itemName])
-                console.log(userItem)
+                    ((userDataItem.length >= 8) ? await onAlertDeletItem(Item[itemName]) : (addInven())) :
+                    deleteInven();
             }
             const CharateristicResult = (getOrLose: string, num: number) => {
                 const existingArray = JSON.parse(localStorage.getItem('charateristic') || '[]');
