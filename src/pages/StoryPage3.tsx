@@ -239,6 +239,10 @@ export const StoryPage3 = () => {
             if(optionResult === null || optionResult === undefined) {
                 return
             }
+
+            const userData = JSON.parse(localStorage.getItem('userData') || '[]');
+            let userDataItem = userData.userItem
+
             const HPResult = (getOrLose: string, num: number) => {
                 const hp = Number(localStorage.getItem('hp'));
                 (getOrLose === "get") ? 
@@ -255,12 +259,17 @@ export const StoryPage3 = () => {
                 const existingArray = JSON.parse(localStorage.getItem('item') || '[]');
                 //const userDataItem = JSON.parse(localStorage.getItem('userData') || '[]').userItem;
                 const itemName = ItemData.items[num-1].name;
+                const test = async() => {
+                    userDataItem = AddItemToInventory(Item[itemName]);
+                    setUserItem(userDataItem);
+                }
                 (getOrLose === "get") ? 
                     localStorage.setItem('item', JSON.stringify([...existingArray, itemName])) :
                     (userItems.indexOf(itemName) > -1) && localStorage.setItem('item', JSON.stringify(existingArray.filter((item: string) => item !== itemName)));
                 (getOrLose === "get") ? 
-                    ((userItem.length >= 8) ? await onAlertDeletItem(Item[itemName]) : await AddItemToInventory(Item[itemName])) :
+                    ((userDataItem.length >= 8) ? await onAlertDeletItem(Item[itemName]) : (test())) :
                     await DeletItemToInventory(Item[itemName])
+                console.log(userItem)
             }
             const CharateristicResult = (getOrLose: string, num: number) => {
                 const existingArray = JSON.parse(localStorage.getItem('charateristic') || '[]');
@@ -524,7 +533,10 @@ export const StoryPage3 = () => {
             onAlertDeletItem(item);
         }
         const DeleteSelectItem = () => {
-            const deleItem: ItemProps[string] = Item[userItem[result].name.toString()]
+            const userData = JSON.parse(localStorage.getItem('userData') || '[]');
+            let userDataItem = userData.userItem
+
+            const deleItem: ItemProps[string] = Item[userDataItem[result].name.toString()]
             setUserItem(DeletItemToInventory(deleItem, result))
             AddItemToInventory(item)
         }
