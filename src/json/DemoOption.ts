@@ -45,8 +45,8 @@ const options: Option[][][] = [
             {
               nextProgress: nextProgress(1, 2),
               result: [
-                {kind:"item", getOrLose: "lose", number: 3},
-                {kind:"item", getOrLose: "get", number: 2},
+                {kind:"item", getOrLose: "lose", number: 2},
+                {kind:"item", getOrLose: "get", number: 3},
               ]
             }},
           {text: "네...? 네...", addition: 
