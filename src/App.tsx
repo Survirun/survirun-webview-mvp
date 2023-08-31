@@ -3,6 +3,7 @@ import { Test, ItemGet, StoryPage3, Battle, Zombie, SubCharacter, SubCharacterCh
 import Inventory from './pages/Inventory';
 import AlertDialog from './module/Alert/AlertDialog';
 import InventorySelectDialog from './module/InventorySelect/InventoryDialog';
+import './App.css'
 
 function App() {
   return (

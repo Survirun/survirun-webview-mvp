@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
-import './App.css'
+import './index.css'
 
 declare global {
   interface Window {
@@ -10,6 +10,8 @@ declare global {
       getItem: () => string | void;
       webViewIsVisible: () => void | undefined;
       zombie: (zombieNumber: number) => void | undefined;
+      userHPUp: (num: number) => void | undefined;
+      userHPDown: (num: number) => void | undefined;
     },
     ReactNativeWebView?: {
       postMessage: (message: string) => void;
