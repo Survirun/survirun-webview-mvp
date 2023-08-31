@@ -259,19 +259,19 @@ export const StoryPage3 = () => {
                 const existingArray = JSON.parse(localStorage.getItem('item') || '[]');
                 //const userDataItem = JSON.parse(localStorage.getItem('userData') || '[]').userItem;
                 const itemName = ItemData.items[num-1].name;
-                const addInven = async() => {
-                    userDataItem = await AddItemToInventory(Item[itemName]);
+                const addInven = () => {
+                    userDataItem = AddItemToInventory(Item[itemName]);
                     setUserItem(userDataItem);
                 }
-                const deleteInven = async() => {
-                    userDataItem = await DeletItemToInventory(Item[itemName]);
+                const deleteInven = () => {
+                    userDataItem = DeletItemToInventory(Item[itemName]);
                     setUserItem(userDataItem);
                 }
                 (getOrLose === "get") ? 
                     localStorage.setItem('item', JSON.stringify([...existingArray, itemName])) :
                     (userItems.indexOf(itemName) > -1) && localStorage.setItem('item', JSON.stringify(existingArray.filter((item: string) => item !== itemName)));
                 (getOrLose === "get") ? 
-                    ((userDataItem.length >= 8) ? await onAlertDeletItem(Item[itemName]) : (addInven())) :
+                    ((userDataItem.length >= 8) ? await onAlertDeletItem(Item[itemName]) : addInven()) :
                     deleteInven();
             }
             const CharateristicResult = (getOrLose: string, num: number) => {
@@ -288,13 +288,13 @@ export const StoryPage3 = () => {
                             HPResult(result.getOrLose, result.number);
                             break;
                         case "money":
-                            MoneyResult(result.getOrLose, result.number)
+                            MoneyResult(result.getOrLose, result.number);
                             break;
                         case "item":
-                            await ItemResult(result.getOrLose, result.number)
+                            await ItemResult(result.getOrLose, result.number);
                             break;
                         case "charateristic":
-                            CharateristicResult(result.getOrLose, result.number)
+                            CharateristicResult(result.getOrLose, result.number);
                             break;
                         default: console.log("Error: ResultCheck result.kind undifinded");
                     }
@@ -521,19 +521,19 @@ export const StoryPage3 = () => {
         }
     }
     const onAlertDeletItem = async (item: ItemProps[string]) => {
-        const AlertLeftButton = () => {
-            onInventorySelect(item);
+        const AlertLeftButton = async () => {
+            await onInventorySelect(item);
         }
         const AlertRightButton = () => {
             
-        }
+        } 
 
         const result = await alert(`가방에 ${item.name}을/를 넣을 자리가 없다.`, "가방 속 물건을 버린다.", `${item.name}을/를 버린다.`);
-        result ? AlertRightButton() : AlertLeftButton();
+        result ? AlertRightButton() : await AlertLeftButton();
     }
     const onInventorySelect = async (item: ItemProps[string]) => {
-        const CancleToDeleteItem = () => {
-            onAlertDeletItem(item);
+        const CancleToDeleteItem = async () => {
+            await onAlertDeletItem(item);
         }
         const DeleteSelectItem = () => {
             const userData = JSON.parse(localStorage.getItem('userData') || '[]');
@@ -545,7 +545,7 @@ export const StoryPage3 = () => {
         }
         
         const result = await invenSelect("취소", "버리기");
-        (result === -1) ? CancleToDeleteItem() : DeleteSelectItem();
+        (result === -1) ? await CancleToDeleteItem() : DeleteSelectItem();
     }
     
     useEffect(() => {
