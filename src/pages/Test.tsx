@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import styled from "@emotion/styled"
 
 //@ts-ignore
@@ -6,6 +5,8 @@ interface Window {
   Android?: {
     showToast: (message: string) => void | undefined;
     getItem: () => void | undefined;
+    userHPUp: (num: number) => void | undefined;
+    userHPDown: (num: number) => void | undefined;
   }
 }
   
@@ -32,49 +33,47 @@ const Button = styled.button`
 `
 
 export const Test = () => {
-  const [messageFromRN, setMessageFromRN] = useState('Test');
-  
-  // const sendMessageToRN = () => {
-  //   const message = 'Hello from React!';
-  //   window.ReactNativeWebView?.postMessage(message);
-  // };
+    // const sendMessageToRN = () => {
+    //   const message = 'Hello from React!';
+    //   window.Android?.showToast(message);
+    // };
 
-  // const sendMessageToRN = () => {
-  //   const message = 'Hello from React!';
-  //   window.webkit.messageHandlers
-  // };
-
-    const sendMessageToRN = () => {
-      const message = 'Hello from React!';
-      window.Android?.showToast(message);
-    };
-
-    //@ts-ignore
-    const asd = (event: any) => {
-      alert(event);
+    const sendHPUpToAndroid = () => {
+      try {
+        window.Android?.userHPUp(10);   
+      } catch (error) {
+        console.error("Error: sendHPUpToAndroid"+error)
+      }
+    }
+    const sendHPDownToAndroid = () => {
+      try {
+        window.Android?.userHPDown(10);   
+      } catch (error) {
+        console.error("Error: sendHPDownToAndroid"+error)
+      }
     }
     
-    // 웹뷰에서 메시지 수신 시 처리
-    useEffect(() => {
-      const handleRNMessage = (event: MessageEvent) => {
-        const message = event.data;
-        console.log("RN에서 받은 메세지: "+ message);
-        setMessageFromRN(message);
-      };
+    // // 웹뷰에서 메시지 수신 시 처리
+    // useEffect(() => {
+    //   const handleRNMessage = (event: MessageEvent) => {
+    //     const message = event.data;
+    //     console.log("RN에서 받은 메세지: "+ message);
+    //     setMessageFromRN(message);
+    //   };
   
-      // 이벤트 리스너 등록
-      window.addEventListener('message', handleRNMessage);
+    //   // 이벤트 리스너 등록
+    //   window.addEventListener('message', handleRNMessage);
       
-      // 언마운트 시 이벤트 리스너 제거
-      return () => {
-        window.removeEventListener('message', handleRNMessage);
-      };
-    }, [])
+    //   // 언마운트 시 이벤트 리스너 제거
+    //   return () => {
+    //     window.removeEventListener('message', handleRNMessage);
+    //   };
+    // }, [])
 
     return(
         <Frame>
-            <Button onClick={sendMessageToRN}>Test</Button>
-            <div>{messageFromRN}</div>
+            <Button onClick={sendHPUpToAndroid}>HP 10 올리기</Button>
+            <Button onClick={sendHPDownToAndroid}>HP 10 내리기</Button>
         </Frame>
     )
 }
