@@ -13,6 +13,8 @@ import { AlertContext, InventorySelectContext } from "../module/index";
 import ItemData from "../json/DemoItem2.json";
 import CharateristicData from "../json/DemoCharateristic.json";
 
+import { chooseParticle } from "../hooks";
+
 //@ts-ignore
 interface Window {
   Android?: {
@@ -630,10 +632,10 @@ export const StoryPage3 = () => {
     const AlertRightButton = () => {};
 
     const result = await alert(
-      `가방에 ${item.name}을/를 넣을 자리가 없다`,
+      `가방에 ${item.name}${chooseParticle(item.name)} 넣을 자리가 없다`,
       "가방이 가득 찼어요\n아이템을 버려야 해요",
-      `${item.name}을/를 교체한다`,
-      `${item.name}을/를 포기한다`
+      `가방에서 교체한다`,
+      `${item.name}${chooseParticle(item.name)} 포기한다`
     );
     result ? AlertRightButton() : await AlertLeftButton();
   };
