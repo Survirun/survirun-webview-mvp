@@ -32,11 +32,11 @@ export const StoryPage3 = () => {
   const [storyOptionStory, setStoryOptionStory] = useState<string[]>([]);
   const [storyOptionNum, setStoryOptionNum] = useState<number[]>([]);
 
-  const [userHP, setUserHP] = useState(0);
+  const [_, setUserHP] = useState(0);
   const [userMoney, setUserMoney] = useState(0);
   const [userItems, setUserItems] = useState<string[]>([]);
   const [userCharateristic, setUserCharateristic] = useState<string[]>([]);
-  const [userItem, setUserItem] = useState<ItemProps[]>([]);
+  const [__, setUserItem] = useState<ItemProps[]>([]);
 
   const [story, setStory] = useState<JSX.Element[]>([]);
 
