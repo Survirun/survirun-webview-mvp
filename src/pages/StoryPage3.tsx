@@ -30,11 +30,11 @@ export const StoryPage3 = () => {
   const [storyOptionStory, setStoryOptionStory] = useState<string[]>([]);
   const [storyOptionNum, setStoryOptionNum] = useState<number[]>([]);
 
-  const [userHp, setUserHp] = useState(0);
+  const [_, setUserHp] = useState(0);
   const [userMoney, setUserMoney] = useState(0);
   const [userItems, setUserItems] = useState<string[]>([]);
   const [userCharateristic, setUserCharateristic] = useState<string[]>([]);
-  const [userItem, setUserItem] = useState<ItemProps[]>([]);
+  const [__, setUserItem] = useState<ItemProps[]>([]);
 
   const [story, setStory] = useState<JSX.Element[]>([]);
 
@@ -666,30 +666,6 @@ export const StoryPage3 = () => {
   }, []);
 
   return (
-    // <Frame>
-    //     <ResetButton onClick={SetUserData}>
-    //         아이템 리셋
-    //     </ResetButton>
-    //     <User>
-    //         <ItemBox>체력: {userHp}</ItemBox>
-    //         <ItemBox>돈: {userMoney}</ItemBox>
-    //         <ItemBox>아이템: {userItems.join(", ")}</ItemBox>
-    //         <ItemBox>특성: {userCharateristic.join(", ")}</ItemBox>
-    //     </User>
-    //     <StoryTextBox>
-    //         <Title>{storyTitle}</Title>
-    //             {story.map((story, index) => (
-    //                 <Fragment key={index}>{story}</Fragment>
-    //             ))}
-    //     </StoryTextBox>
-    //     <SelectBox>
-    //         {Array.from({ length: storyOptionCount }).map((_, index) => (
-    //             <SelectButton key={index} onClick={() => ClickEvent(index)}disabled={ButtonDisable(index)}>
-    //                 {ButtonOptionName(index)}
-    //             </SelectButton>
-    //         ))}
-    //     </SelectBox>
-    // </Frame>
     <div className="w-screen h-screen relative bg-white">
         <div className="w-full px-5 py-4 flex gap-2">
             <div className="grow shrink basis-0 h-8 bg-stone-300 rounded-[100px] justify-start items-center flex">

@@ -1,68 +1,29 @@
-import styled from "@emotion/styled";
 import { AlertState } from "./AlertDialog";
 
 export const Alert = ({message, leftText, rightText, onClickLeft, onClickRight}: AlertState) => {
     return(
-        <Frame>
-            <Background/>
-            <AlertStyle>
-                <AlertMessage>{message}</AlertMessage>
-                <AlertButtons>
-                    <Button onClick={onClickLeft}>{leftText}</Button>
-                    <Button onClick={onClickRight}>{rightText}</Button>
-                </AlertButtons>
-            </AlertStyle>
-        </Frame>
+        // <Frame>
+        //     <Background/>
+        //     <AlertStyle>
+        //         <AlertMessage>{message}</AlertMessage>
+        //         <AlertButtons>
+        //             <Button onClick={onClickLeft}>{leftText}</Button>
+        //             <Button onClick={onClickRight}>{rightText}</Button>
+        //         </AlertButtons>
+        //     </AlertStyle>
+        // </Frame>
+        <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center z-10">
+            <div className="fixed w-full h-full bg-black bg-opacity-30"></div>
+            <div className="w-80 h-44 p-4 bg-white rounded-lg flex-col justify-start items-start gap-5 inline-flex z-[11]">
+                <div className="flex-col justify-start items-start gap-3 flex">
+                    <div className="text-zinc-900 text-[17px] font-bold">{message}</div>
+                    <div className="text-gray-500 text-[14px] font-semibold">가방이 가득 찼어요.<br/>아이템을 버려야 해요.</div>
+                </div>
+                <div className="w-72 justify-start items-start gap-2 inline-flex">
+                    <button onClick={onClickLeft} className="h-10 p-2 bg-gray-100 rounded-xl justify-center items-center flex text-zinc-900 text-[13px] font-semibold hover:opacity-80">{leftText}</button>
+                    <button onClick={onClickRight} className="h-10 p-2 bg-red-600 rounded-xl justify-center items-center flex text-white text-[13px] font-semibold hover:opacity-80">{rightText}</button>
+                </div>
+            </div>
+        </div>
     );
 }
-
-const Frame = styled.div`
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 10;
-`
-const Background = styled.div`
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.3);
-`
-const AlertStyle = styled.div`
-    background-color: white;
-    border-radius: 8px;
-    width: 250px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    z-index: 11;
-`
-const AlertMessage = styled.h2`
-    margin-bottom: 20px;
-    font-size: 16px;
-`
-const AlertButtons = styled.div`
-    
-`
-const Button = styled.button`
-    width: 50%;
-    padding: 8px 16px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-
-    &:first-of-type{
-        background-color: #ccc;
-    }
-    &:last-child{
-        background-color: #007bff;
-        color: white;
-    }
-    &:hover{
-        opacity: 0.8;
-    }
-`
