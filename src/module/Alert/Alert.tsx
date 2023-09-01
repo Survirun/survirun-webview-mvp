@@ -2,16 +2,6 @@ import { AlertState } from "./AlertDialog";
 
 export const Alert = ({message, leftText, rightText, onClickLeft, onClickRight}: AlertState) => {
     return(
-        // <Frame>
-        //     <Background/>
-        //     <AlertStyle>
-        //         <AlertMessage>{message}</AlertMessage>
-        //         <AlertButtons>
-        //             <Button onClick={onClickLeft}>{leftText}</Button>
-        //             <Button onClick={onClickRight}>{rightText}</Button>
-        //         </AlertButtons>
-        //     </AlertStyle>
-        // </Frame>
         <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center z-10">
             <div className="fixed w-full h-full bg-black bg-opacity-30"></div>
             <div className="w-80 h-44 p-4 bg-white rounded-lg flex-col justify-start items-start gap-5 inline-flex z-[11]">
