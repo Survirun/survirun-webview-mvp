@@ -4,6 +4,7 @@ import { Alert } from "./Alert";
 
 export interface AlertState {
     message: string;
+    subMessage?: string;
     leftText: string;
     rightText: string;
     onClickLeft: () => void;
@@ -13,12 +14,13 @@ export interface AlertState {
 const AlertDialog = ({ children }: {children: React.ReactNode}) => {
     const [state, setState] = useState<AlertState>();
 
-    const alert = (message?: string, leftText?: string, rightText?: string): Promise<boolean> => {
+    const alert = (message?: string, subMessage?: string, leftText?: string, rightText?: string): Promise<boolean> => {
         return new Promise((resolve) => {
             setState({
                 message: message ?? '',
                 leftText: leftText ?? '취소',
                 rightText: rightText ?? '확인',
+                subMessage: subMessage,
                 onClickLeft: () => {
                     setState(undefined);
                     resolve(false);
@@ -37,6 +39,7 @@ const AlertDialog = ({ children }: {children: React.ReactNode}) => {
             {state && (
                 <Alert
                     message={state.message}
+                    subMessage={state.subMessage}
                     leftText={state.leftText}
                     rightText={state.rightText}
                     onClickLeft={state.onClickLeft}

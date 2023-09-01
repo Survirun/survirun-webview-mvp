@@ -1,7 +1,7 @@
 import { createContext } from "react"
 
 interface AlertProps {
-    alert: (message?: string, leftText?: string, rightText?: string) => Promise<boolean>
+    alert: (message?: string, subMessage?: string, leftText?: string, rightText?: string) => Promise<boolean>
 }
 
 export const AlertContext = createContext<AlertProps>({

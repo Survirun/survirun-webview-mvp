@@ -30,11 +30,11 @@ export const StoryPage3 = () => {
   const [storyOptionStory, setStoryOptionStory] = useState<string[]>([]);
   const [storyOptionNum, setStoryOptionNum] = useState<number[]>([]);
 
-  const [_, setUserHp] = useState(0);
+  const [userHP, setUserHP] = useState(0);
   const [userMoney, setUserMoney] = useState(0);
   const [userItems, setUserItems] = useState<string[]>([]);
   const [userCharateristic, setUserCharateristic] = useState<string[]>([]);
-  const [__, setUserItem] = useState<ItemProps[]>([]);
+  const [userItem, setUserItem] = useState<ItemProps[]>([]);
 
   const [story, setStory] = useState<JSX.Element[]>([]);
 
@@ -147,7 +147,7 @@ export const StoryPage3 = () => {
   const GetUserData = () => {
     try {
       const hp = Number(localStorage.getItem("hp"));
-      setUserHp(hp);
+      setUserHP(hp);
       const money = Number(localStorage.getItem("money"));
       setUserMoney(money);
       const item = localStorage.getItem("item");
@@ -630,9 +630,10 @@ export const StoryPage3 = () => {
     const AlertRightButton = () => {};
 
     const result = await alert(
-      `가방에 ${item.name}을/를 넣을 자리가 없다.`,
-      "가방 속 물건을 버린다.",
-      `${item.name}을/를 버린다.`
+      `가방에 ${item.name}을/를 넣을 자리가 없다`,
+      "가방이 가득 찼어요\n아이템을 버려야 해요",
+      `${item.name}을/를 교체한다`,
+      `${item.name}을/를 포기한다`
     );
     result ? AlertRightButton() : await AlertLeftButton();
   };
