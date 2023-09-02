@@ -1,5 +1,6 @@
 export interface ProgressStory {
   progressID?: string;
+  img?: string;
   storyText: string;
   optionNumber: string[];
 }
@@ -38,6 +39,7 @@ const storys: StoryData[][] = [
       storyTitle: "도끼를 찾아달라는 노인",
       progressStory: [
         {
+          img: "/img/도끼와 노인.jpg",
           storyText: "길을 가다가 누군가 당신에게 말을 겁니다. '거기 젊은이 잠시만기다려보게나!'. 깜짝 놀라 뒤를 돌아보니 한 노인이 있습니다. 그 노인은 당신에게 간절한 눈빛으로 바로보고 있습니다. '거기 젊은이 혹시 부탁하나만 들어줄 수 있겠나? 내가 이 근처에 아주 소중한 도끼를 잃어버렸다네. 그 도끼좀 찾아주면 안되겠나?'",
           optionNumber: [optionID(1, 1), optionID(1, 2)]
         },
@@ -72,6 +74,7 @@ const storys: StoryData[][] = [
       },
       progressStory: [
         {
+          img: "/img/들개.jpg",
           storyText: "마트로 가는 길 굶주린 들개들과 눈을 마주쳤습니다.",
           optionNumber: [optionID(2, 1), optionID(2, 2), optionID(2, 3), optionID(2, 4)]
         },
@@ -97,6 +100,7 @@ const storys: StoryData[][] = [
       storyTitle: "바리게이트 쳐진 편의점",
       progressStory: [
         {
+          img: "/img/바리게이트 편의점.jpg",
           storyText: "어느 저녁 바리게이트 쳐진 편의점을 발견했습니다.",
           optionNumber: [optionID(3, 1), optionID(3, 2), optionID(3, 3)]
         },
@@ -232,6 +236,7 @@ const storys: StoryData[][] = [
       storyTitle: "고가원 발견",
       progressStory: [
         {
+          img: "/img/고아원.jpg",
           storyText: "고아원을 발견한 당신은 조용히 안을 들여다보자 아이의 형태를 한 좀비들이 보입니다.",
           optionNumber: [optionID(10, 1), optionID(10, 2)]
         },

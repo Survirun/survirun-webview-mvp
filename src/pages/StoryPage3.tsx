@@ -24,8 +24,8 @@ interface Window {
 }
 
 export const StoryPage3 = () => {
-  const [storyNumber, setStoryNumber] = useState<null | number>(null);
-  const [progressNumber, setProgressNumber] = useState<null | number>(null);
+  const [storyNumber, setStoryNumber] = useState<number>();
+  const [progressNumber, setProgressNumber] = useState<number>();
   const [storyTitle, setStoryTitle] = useState("");
   const [storyOptionCount, setStoryOptionCount] = useState(0);
   const [storyParts, setStoryParts] = useState(1);
@@ -74,7 +74,7 @@ export const StoryPage3 = () => {
   const GetRanDomStoryNumber = () => {
     try {
       setStory([]);
-      let number = Math.floor(Math.random() * jsonStory[storyParts].length);
+      let number = Math.floor(Math.random() * jsonStory.length);
       let storyOpenCheck = jsonStory[storyParts][number].addition?.open;
       let storyOnce = jsonStory[storyParts][number].addition?.once;
       const readAbleStory = JSON.parse(
@@ -100,7 +100,7 @@ export const StoryPage3 = () => {
   };
   const GetStoryData = () => {
     try {
-      if (storyNumber === null || progressNumber === null) {
+      if (storyNumber === undefined || progressNumber === undefined) {
         return;
       }
       const existingArray: number[] = JSON.parse(
@@ -166,7 +166,7 @@ export const StoryPage3 = () => {
   };
   const ButtonOptionName = (optionNumber: number) => {
     try {
-      if (storyNumber === null || progressNumber === null) {
+      if (storyNumber === undefined || progressNumber === undefined) {
         return;
       }
 
@@ -189,7 +189,7 @@ export const StoryPage3 = () => {
     }
   };
   const ButtonOptionConditionName = (optionNumber: number) => {
-    if (storyNumber === null || progressNumber === null) {
+    if (storyNumber === undefined || progressNumber === undefined) {
         return;
       }
 
@@ -226,7 +226,7 @@ export const StoryPage3 = () => {
   }
   const ButtonDisable = (optionNumber: number) => {
     try {
-      if (storyNumber === null || progressNumber === null) {
+      if (storyNumber === undefined || progressNumber === undefined) {
         return;
       }
 
@@ -282,7 +282,7 @@ export const StoryPage3 = () => {
   };
   const ResultCheck = async (optionNumber: number) => {
     try {
-      if (storyNumber === null || progressNumber === null) {
+      if (storyNumber === undefined || progressNumber === undefined) {
         return;
       }
 
@@ -390,7 +390,7 @@ export const StoryPage3 = () => {
   };
   const NextStory = (optionNumber: number) => {
     try {
-      if (storyNumber === null || progressNumber === null) {
+      if (storyNumber === undefined || progressNumber === undefined) {
         return;
       }
 
@@ -441,7 +441,7 @@ export const StoryPage3 = () => {
   };
   const AddItemStory = (optionNumber: number) => {
     try {
-      if (storyNumber === null || progressNumber === null) {
+      if (storyNumber === undefined || progressNumber === undefined) {
         return;
       }
 
@@ -539,7 +539,7 @@ export const StoryPage3 = () => {
   };
   const AddStoryUser = (optionNumber: number) => {
     try {
-      if (storyNumber === null || progressNumber === null) {
+      if (storyNumber === undefined || progressNumber === undefined) {
         return;
       }
 
@@ -560,7 +560,7 @@ export const StoryPage3 = () => {
   };
   const OpenStroy = (optionNumber: number) => {
     try {
-      if (storyNumber === null || progressNumber === null) {
+      if (storyNumber === undefined || progressNumber === undefined) {
         return;
       }
 
@@ -690,7 +690,10 @@ export const StoryPage3 = () => {
         </div>
 
         <div className="flex flex-col justify-center items-center">
-            <img className="w-[360px] h-[300px] min-w-[360px] bg-black text-white" src="https://i.pinimg.com/564x/7e/90/73/7e907320c11886615f0756dd11bc0354.jpg"/>
+            {(storyNumber !== undefined && progressNumber !== undefined && jsonStory[storyParts][storyNumber].progressStory[progressNumber].img) ?
+            <img className="w-[360px] h-[300px] min-w-[360px] bg-black text-white" 
+              src={jsonStory[storyParts][storyNumber].progressStory[progressNumber].img}/>
+            : null}
             <div className="h-[260px] w-full flex-col justify-start items-start flex">
                 <h3 className="px-5 pt-6 pb-3 inline-flex text-zinc-900 text-[17px] font-semibold">
                     {storyTitle}
