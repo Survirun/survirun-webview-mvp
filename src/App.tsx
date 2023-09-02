@@ -6,7 +6,11 @@ import InventorySelectDialog from './module/InventorySelect/InventoryDialog';
 import './App.css'
 
 function App() {
+  const handleDragStart = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault(); // 드래그 이벤트를 막습니다.
+  };
   return (
+    <div onDragStart={handleDragStart} draggable={true}>
     <AlertDialog>
     <InventorySelectDialog>
       <BrowserRouter>
@@ -23,6 +27,7 @@ function App() {
       </BrowserRouter>
     </InventorySelectDialog>
     </AlertDialog>
+    </div>
   )
 }
 
