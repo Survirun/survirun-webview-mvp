@@ -3,10 +3,9 @@
 import { useEffect, useState, useContext } from 'react';
 import styled from '@emotion/styled'
 import { css } from "@emotion/react"
-import { AddItemToInventory } from '.';
 import Item, { ItemProps }  from '../json/DemoItem';
 import { InventorySelectContext, AlertContext } from '../module/index';
-import { DeletItemToInventory } from './Inventory';
+import { DeletItemToInventory, AddItemToInventory } from "../hooks";
 
 interface OpacityProps {
     active: boolean;

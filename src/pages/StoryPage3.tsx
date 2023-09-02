@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 
 import { Fragment, useEffect, useState, useContext } from "react";
-import { DeletItemToInventory, AddItemToInventory } from "./Inventory";
+import { DeletItemToInventory, AddItemToInventory } from "../hooks";
 //Demo Data
 //import StoryData from '../json/DemoStory4.json';
 import { jsonOption } from "../json/DemoOption";
