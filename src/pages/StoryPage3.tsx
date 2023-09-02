@@ -752,9 +752,8 @@ const GetItemBox = styled.div`
   position: block;
   width: 90%;
   height: 50px;
-  background-color: #fff;
-  border: none;
-  border: 1px solid #000;
+  border-radius: 6px;
+  background-color: #c9c9c9;
   margin: 0 10px;
   font-weight: 700;
   display: flex;
