@@ -46,8 +46,8 @@ export const StoryPage3 = () => {
   const GetRanDomStoryNumber = () => {
     try {
       setStory([]);
-      //let number = Math.floor(Math.random() * jsonStory[storyParts].length);
-      let number = Math.floor(Math.random() * 1);
+      let number = Math.floor(Math.random() * jsonStory[storyParts].length);
+      //let number = Math.floor(Math.random() * 1);
       // let storyOpenCheck = jsonStory[storyParts][number].addition?.open;
       // let storyOnce = jsonStory[storyParts][number].addition?.once;
       // const readAbleStory = JSON.parse(
@@ -741,7 +741,7 @@ export const StoryPage3 = () => {
                             </span>
                         </p>
                     </button> :
-                    <button key={index} onClick={() => ClickEvent(index)} disabled={ButtonDisable(index)} className="self-stretch p-3.5 bg-gray-100 rounded-xl justify-between items-center inline-flex active:bg-gray-200 active:scale-95 duration-200 ease-in-out">
+                    <button key={index} onClick={() => ClickEvent(index)} disabled={ButtonDisable(index)} className="self-stretch p-3.5 bg-gray-100 rounded-xl justify-between items-center inline-flex active:bg-gray-200 active:scale-95 duration-150 ease-out">
                         <p className="justify-start items-center text-zinc-700 text-[15px] font-semibold">
                             {ButtonOptionName(index)}
                             <span className="m-1 text-gray-500 text-[15px] font-semibold">
