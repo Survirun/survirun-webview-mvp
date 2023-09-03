@@ -1,4 +1,4 @@
-export function chooseParticle(word: string): string {
+export function ChooseParticle(word: string): string {
     const lastChar = word.charAt(word.length - 1);
     const unicode = lastChar.charCodeAt(0) - 44032;
 

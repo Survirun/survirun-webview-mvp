@@ -4,6 +4,7 @@ import styled from "@emotion/styled";
 import { AlertContext } from "../module";
 import { DeletItemToInventory, AddItemToInventory } from "../hooks";
 import Item, {ItemProps} from "../json/DemoItem";
+import { SetUserData } from "../hooks";
 
 //@ts-ignore
 interface Window { 
@@ -37,16 +38,6 @@ const Inventory = () => {
 
     const GetInvenItem = () => {
         setUserItem(JSON.parse(localStorage.getItem('userData') || '[]').userItem)
-    }
-    const SetUserData = () => {
-        localStorage.setItem('hp', "3");
-        localStorage.setItem('money', "3");
-        localStorage.setItem('item', JSON.stringify([]));
-        localStorage.setItem('charateristic', JSON.stringify(["위협"]));
-        localStorage.setItem('readAbleStory', JSON.stringify([]));
-        localStorage.setItem('readStory', JSON.stringify([]));
-        localStorage.setItem('storyParts', "1");
-        localStorage.setItem('userData', JSON.stringify({userItem: [], subCharater: {}}));
     }
     const AddItem = (item: ItemProps[string]) => {
         if(userItem.length < 8){

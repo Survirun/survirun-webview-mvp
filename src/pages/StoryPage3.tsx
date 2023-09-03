@@ -13,7 +13,7 @@ import { AlertContext, InventorySelectContext } from "../module/index";
 import ItemData from "../json/DemoItem2.json";
 import CharateristicData from "../json/DemoCharateristic.json";
 
-import { chooseParticle } from "../hooks";
+import { ChooseParticle, SetUserData } from "../hooks";
 
 //@ts-ignore
 interface Window {
@@ -43,34 +43,6 @@ export const StoryPage3 = () => {
   const { alert } = useContext(AlertContext);
   const { invenSelect } = useContext(InventorySelectContext);
 
-  const SetUserData = () => {
-    try {
-      localStorage.setItem("hp", "3");
-      localStorage.setItem("money", "3");
-      localStorage.setItem("item", JSON.stringify([]));
-      localStorage.setItem("charateristic", JSON.stringify(["위협"]));
-      localStorage.setItem("readAbleStory", JSON.stringify([]));
-      localStorage.setItem("readStory", JSON.stringify([]));
-      localStorage.setItem("storyParts", "1");
-      const subCharater = {
-        "테스트 캐릭터1": {
-          open: false,
-          progress: 0,
-        },
-        "테스트 캐릭터2": {
-          open: false,
-          progress: 0,
-        },
-      };
-      localStorage.setItem(
-        "userData",
-        JSON.stringify({ userItem: [], subCharater: subCharater })
-      );
-    } catch (e) {
-      console.error("Error: SetUserData()");
-      console.error(e);
-    }
-  };
   const GetRanDomStoryNumber = () => {
     try {
       setStory([]);
@@ -632,10 +604,10 @@ export const StoryPage3 = () => {
     const AlertRightButton = () => {};
 
     const result = await alert(
-      `가방에 ${item.name}${chooseParticle(item.name)} 넣을 자리가 없다`,
+      `가방에 ${item.name}${ChooseParticle(item.name)} 넣을 자리가 없다`,
       "가방이 가득 찼어요\n아이템을 버려야 해요",
       `가방에서 교체한다`,
-      `${item.name}${chooseParticle(item.name)} 포기한다`
+      `${item.name}${ChooseParticle(item.name)} 포기한다`
     );
     result ? AlertRightButton() : await AlertLeftButton();
   };
