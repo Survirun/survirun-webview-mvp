@@ -74,22 +74,22 @@ export const StoryPage3 = () => {
   const GetRanDomStoryNumber = () => {
     try {
       setStory([]);
-      let number = Math.floor(Math.random() * jsonStory.length);
-      let storyOpenCheck = jsonStory[storyParts][number].addition?.open;
-      let storyOnce = jsonStory[storyParts][number].addition?.once;
-      const readAbleStory = JSON.parse(
-        localStorage.getItem("readAbleStory") || "[]"
-      );
-      const readStory = JSON.parse(localStorage.getItem("readStory") || "[]");
+      let number = Math.floor(Math.random() * jsonStory[storyParts].length);
+      // let storyOpenCheck = jsonStory[storyParts][number].addition?.open;
+      // let storyOnce = jsonStory[storyParts][number].addition?.once;
+      // const readAbleStory = JSON.parse(
+      //   localStorage.getItem("readAbleStory") || "[]"
+      // );
+      // const readStory = JSON.parse(localStorage.getItem("readStory") || "[]");
 
-      while (
-        (!storyOpenCheck && !readAbleStory.includes(number + 1)) ||
-        (storyOnce === true && readStory.includes(number + 1))
-      ) {
-        number = Math.floor(Math.random() * jsonStory[storyParts].length);
-        storyOpenCheck = jsonStory[storyParts][number].addition?.open;
-        storyOnce = jsonStory[storyParts][number].addition?.once;
-      }
+      // while (
+      //   (!storyOpenCheck && !readAbleStory.includes(number + 1)) ||
+      //   (storyOnce === true && readStory.includes(number + 1))
+      // ) {
+      //   number = Math.floor(Math.random() * jsonStory[storyParts].length);
+      //   storyOpenCheck = jsonStory[storyParts][number].addition?.open;
+      //   storyOnce = jsonStory[storyParts][number].addition?.once;
+      // }
 
       setStoryNumber(number);
       setProgressNumber(0);
@@ -690,7 +690,7 @@ export const StoryPage3 = () => {
         </div>
 
         <div className="flex flex-col justify-center items-center">
-            {(storyNumber !== undefined && progressNumber !== undefined && jsonStory[storyParts][storyNumber].progressStory[progressNumber].img) ?
+            {(storyNumber !== undefined && progressNumber !== undefined && jsonStory[storyParts][storyNumber]?.progressStory[progressNumber].img) ?
             <img className="w-[360px] h-[300px] min-w-[360px] bg-black text-white" 
               src={jsonStory[storyParts][storyNumber].progressStory[progressNumber].img}/>
             : null}
