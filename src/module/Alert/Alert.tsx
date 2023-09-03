@@ -10,8 +10,8 @@ export const Alert = ({message, subMessage, leftText, rightText, onClickLeft, on
                     <div className="text-gray-500 text-[14px] font-semibold whitespace-pre-line">{subMessage}</div>
                 </div>
                 <div className="w-72 justify-start items-start gap-2 inline-flex">
-                    <button onClick={onClickLeft} className="w-36 h-10 p-2 bg-gray-100 rounded-xl justify-center items-center flex text-zinc-900 text-[13px] font-semibold hover:bg-gray-200 hover:scale-90 duration-200 ease-in-out">{leftText}</button>
-                    <button onClick={onClickRight} className="w-36 h-10 p-2 bg-red-600 rounded-xl justify-center items-center flex text-white text-[13px] font-semibold hover:bg-red-500 hover:scale-90 duration-200 ease-in-out">{rightText}</button>
+                    <button onClick={onClickLeft} className="w-36 h-10 p-2 bg-gray-100 rounded-xl justify-center items-center flex text-zinc-900 text-[13px] font-semibold active:bg-gray-200 active:scale-90 duration-200 ease-in-out">{leftText}</button>
+                    <button onClick={onClickRight} className="w-36 h-10 p-2 bg-red-600 rounded-xl justify-center items-center flex text-white text-[13px] font-semibold active:bg-red-500 active:scale-90 duration-200 ease-in-out">{rightText}</button>
                 </div>
             </div>
         </div>

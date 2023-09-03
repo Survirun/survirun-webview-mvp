@@ -4,7 +4,7 @@ import { Fragment, useEffect, useState, useContext } from "react";
 import { DeletItemToInventory, AddItemToInventory } from "../hooks";
 //Demo Data
 //import StoryData from '../json/DemoStory4.json';
-import { jsonOption } from "../json/DemoOption";
+import { jsonOption, OptionResult } from "../json/DemoOption";
 import { jsonStory } from "../json/DemoStory";
 import Item, { ItemProps } from "../json/DemoItem";
 
@@ -46,7 +46,8 @@ export const StoryPage3 = () => {
   const GetRanDomStoryNumber = () => {
     try {
       setStory([]);
-      let number = Math.floor(Math.random() * jsonStory[storyParts].length);
+      //let number = Math.floor(Math.random() * jsonStory[storyParts].length);
+      let number = Math.floor(Math.random() * 1);
       // let storyOpenCheck = jsonStory[storyParts][number].addition?.open;
       // let storyOnce = jsonStory[storyParts][number].addition?.once;
       // const readAbleStory = JSON.parse(
@@ -173,7 +174,7 @@ export const StoryPage3 = () => {
           jsonOption[storyParts][storyNumber][storyOptionNum[optionNumber]];
       }
 
-      const optionCondition = option.addition.condition;
+      const optionCondition = option.condition;
 
       let text = "";
 
@@ -209,7 +210,7 @@ export const StoryPage3 = () => {
         option =
           jsonOption[storyParts][storyNumber][storyOptionNum[optionNumber]];
       }
-      const optionCondition = option.addition.condition;
+      const optionCondition = option.condition;
 
       if (optionCondition === undefined || optionCondition === null)
         return false;
@@ -252,7 +253,7 @@ export const StoryPage3 = () => {
       console.error(e);
     }
   };
-  const ResultCheck = async (optionNumber: number) => {
+  const ResultCheck = async (optionNumber: number, resultOption: number) => {
     try {
       if (storyNumber === undefined || progressNumber === undefined) {
         return;
@@ -266,7 +267,7 @@ export const StoryPage3 = () => {
           jsonOption[storyParts][storyNumber][storyOptionNum[optionNumber]];
       }
 
-      const optionResult = option.addition.result;
+      const optionResult = option.result[resultOption].resultItem;
 
       if (optionResult === null || optionResult === undefined) {
         return;
@@ -360,7 +361,33 @@ export const StoryPage3 = () => {
       console.error(e);
     }
   };
-  const NextStory = (optionNumber: number) => {
+  function roulette(arr: OptionResult[]): number {
+    const totalWeight = arr.reduce((acc, val) => acc + (typeof val.random === 'number' ? val.random : 0), 0);
+    const randomNum = Math.random() * 100; 
+
+    let cumulativeWeight = 0;
+    let defaultOption: OptionResult | null = null;
+  
+    for (let i = 0; i < arr.length; i++) {
+      const option = arr[i];
+      if (typeof option.random === 'number') {
+        cumulativeWeight += option.random;
+        if (randomNum < cumulativeWeight) {
+          return i;
+        }
+      } else if (option.random === 'default') {
+        defaultOption = option; 
+      }
+    }
+  
+    if (randomNum >= totalWeight && defaultOption !== null) {
+      return arr.indexOf(defaultOption);
+    }
+  
+    return -1;
+  }
+
+  const NextStory = (optionNumber: number, resultOption: number) => {
     try {
       if (storyNumber === undefined || progressNumber === undefined) {
         return;
@@ -374,17 +401,17 @@ export const StoryPage3 = () => {
           jsonOption[storyParts][storyNumber][storyOptionNum[optionNumber]];
       }
 
-      if (option.addition.nextProgress === null) {
+      if (option.result[resultOption].nextProgress === null) {
         SendAndroidEndStory();
         NextStoryPart();
       } else {
         const optionNextStory = Number(
-          option.addition.nextProgress?.split("-")[1]
+          option.result[resultOption].nextProgress?.split("-")[1]
         );
         setProgressNumber(optionNextStory - 1);
       }
 
-      const optionZombie = option.addition.zombie;
+      const optionZombie = option.result[resultOption].zombie;
       if (optionZombie === null || optionZombie === undefined) {
         return;
       } else {
@@ -411,7 +438,7 @@ export const StoryPage3 = () => {
       console.error(e);
     }
   };
-  const AddItemStory = (optionNumber: number) => {
+  const AddItemStory = (optionNumber: number, resultOption: number) => {
     try {
       if (storyNumber === undefined || progressNumber === undefined) {
         return;
@@ -425,7 +452,7 @@ export const StoryPage3 = () => {
           jsonOption[storyParts][storyNumber][storyOptionNum[optionNumber]];
       }
 
-      const optionResult = option.addition.result;
+      const optionResult = option.result[resultOption].resultItem;
       if (optionResult === null || optionResult === undefined) {
         return;
       }
@@ -530,7 +557,7 @@ export const StoryPage3 = () => {
       console.error(e);
     }
   };
-  const OpenStroy = (optionNumber: number) => {
+  const OpenStroy = (optionNumber: number, resultOption: number) => {
     try {
       if (storyNumber === undefined || progressNumber === undefined) {
         return;
@@ -544,7 +571,7 @@ export const StoryPage3 = () => {
           jsonOption[storyParts][storyNumber][storyOptionNum[optionNumber]];
       }
 
-      const optionOpenStory = option.addition.openStroy;
+      const optionOpenStory = option.result[resultOption].openStroy;
       if (optionOpenStory === null || optionOpenStory === undefined) {
         return;
       }
@@ -582,16 +609,36 @@ export const StoryPage3 = () => {
       console.error(e);
     }
   };
-  const ClickEvent = (optionNumber: number) => {
+  const RandomResult = (optionNumber: number) => {
+    if (storyNumber === undefined || progressNumber === undefined) {
+      return 0;
+    }
+
+    let option;
+    if (storyOptionStory[optionNumber] === "next") {
+      option = jsonOption[0][0][0];
+    } else {
+      option =
+        jsonOption[storyParts][storyNumber][storyOptionNum[optionNumber]];
+    }
+
+    const optionResult = option.result;
+    const result = roulette(optionResult);
+    if(result === undefined || result === -1)
+      return 0;
+    return result;
+  }
+  const ClickEvent = async(optionNumber: number) => {
     try {
+      const result = await RandomResult(optionNumber);
       const userStoryList = AddStoryUser(optionNumber) || <></>;
-      const itemStoryList = AddItemStory(optionNumber) || <></>;
+      const itemStoryList = AddItemStory(optionNumber, result) || <></>;
 
       setStory([...story, userStoryList, itemStoryList]);
-      ResultCheck(optionNumber);
+      ResultCheck(optionNumber, result);
+      OpenStroy(optionNumber, result);
+      NextStory(optionNumber, result);
       GetUserData();
-      OpenStroy(optionNumber);
-      NextStory(optionNumber);
     } catch (e) {
       console.error("Error: ClickEvent()");
       console.error(e);
@@ -662,9 +709,9 @@ export const StoryPage3 = () => {
         </div>
 
         <div className="flex flex-col justify-center items-center">
-            {(storyNumber !== undefined && progressNumber !== undefined && jsonStory[storyParts][storyNumber]?.progressStory[progressNumber].img) ?
+            {(storyNumber !== undefined && progressNumber !== undefined && jsonStory[storyParts][storyNumber]?.progressStory[progressNumber].img !== undefined && jsonStory[storyParts][storyNumber] !== undefined) ?
             <img className="w-[360px] h-[300px] min-w-[360px] bg-black text-white" 
-              src={jsonStory[storyParts][storyNumber].progressStory[progressNumber].img}/>
+            src={jsonStory[storyParts][storyNumber].progressStory[progressNumber].img}/>  
             : null}
             <div className="h-[260px] w-full flex-col justify-start items-start flex">
                 <h3 className="px-5 pt-6 pb-3 inline-flex text-zinc-900 text-[17px] font-semibold">
@@ -694,7 +741,7 @@ export const StoryPage3 = () => {
                             </span>
                         </p>
                     </button> :
-                    <button key={index} onClick={() => ClickEvent(index)} disabled={ButtonDisable(index)} className="self-stretch p-3.5 bg-gray-100 rounded-xl justify-between items-center inline-flex">
+                    <button key={index} onClick={() => ClickEvent(index)} disabled={ButtonDisable(index)} className="self-stretch p-3.5 bg-gray-100 rounded-xl justify-between items-center inline-flex active:bg-gray-200 active:scale-95 duration-200 ease-in-out">
                         <p className="justify-start items-center text-zinc-700 text-[15px] font-semibold">
                             {ButtonOptionName(index)}
                             <span className="m-1 text-gray-500 text-[15px] font-semibold">
