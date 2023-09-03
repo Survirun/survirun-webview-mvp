@@ -401,7 +401,7 @@ export const StoryPage3 = () => {
           jsonOption[storyParts][storyNumber][storyOptionNum[optionNumber]];
       }
 
-      if (option.result[resultOption].nextProgress === null) {
+      if (option.result[resultOption].nextProgress === undefined) {
         SendAndroidEndStory();
         NextStoryPart();
       } else {
@@ -412,7 +412,7 @@ export const StoryPage3 = () => {
       }
 
       const optionZombie = option.result[resultOption].zombie;
-      if (optionZombie === null || optionZombie === undefined) {
+      if (optionZombie === undefined) {
         return;
       } else {
         SendAndroidZombie(optionZombie);
@@ -636,9 +636,9 @@ export const StoryPage3 = () => {
 
       setStory([...story, userStoryList, itemStoryList]);
       ResultCheck(optionNumber, result);
+      GetUserData();
       OpenStroy(optionNumber, result);
       NextStory(optionNumber, result);
-      GetUserData();
     } catch (e) {
       console.error("Error: ClickEvent()");
       console.error(e);
@@ -709,9 +709,9 @@ export const StoryPage3 = () => {
         </div>
 
         <div className="flex flex-col justify-center items-center">
-            {(storyNumber !== undefined && progressNumber !== undefined && jsonStory[storyParts][storyNumber]?.progressStory[progressNumber].img !== undefined && jsonStory[storyParts][storyNumber] !== undefined) ?
-            <img className="w-[360px] h-[300px] min-w-[360px] bg-black text-white" 
-            src={jsonStory[storyParts][storyNumber].progressStory[progressNumber].img}/>  
+            {(storyNumber !== undefined && progressNumber !== undefined && jsonStory[storyParts][storyNumber]?.progressStory[progressNumber].img !== undefined) ?
+              <img className="w-[360px] h-[300px] min-w-[360px] bg-black text-white" 
+              src={jsonStory[storyParts][storyNumber].progressStory[progressNumber].img}/>
             : null}
             <div className="h-[260px] w-full flex-col justify-start items-start flex">
                 <h3 className="px-5 pt-6 pb-3 inline-flex text-zinc-900 text-[17px] font-semibold">
