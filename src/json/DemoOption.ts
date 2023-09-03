@@ -528,10 +528,6 @@ const options: Option[][][] = [
         { 
           nextProgress: nextProgress(22, 3)
         }},
-      {text: "이건 정말 참을 수 없다!", addition:
-        { 
-          nextProgress: nextProgress(22, 2)
-        }},
       {text: "빨리 도망쳐서 좀비를 따돌리자!", addition:
         { 
           zombie: 1,
