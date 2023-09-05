@@ -1,3 +1,5 @@
+import { useTypingEffect } from "../hooks"
+
 //@ts-ignore
 interface Window {
     Android?: {
@@ -25,7 +27,7 @@ export const DeathPage = () => {
                     </h3>
                     <div className="overflow-y-scroll px-5 pb-3">
                         <div className="pb-1 text-zinc-900 text-base font-medium">
-                            유감입니다.
+                            {useTypingEffect("유감입니다.", 50)}
                         </div>
                     </div>
                 </div>
