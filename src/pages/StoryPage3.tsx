@@ -640,15 +640,18 @@ export const StoryPage3 = () => {
   }
   const ClickEvent = async(optionNumber: number) => {
     try {
-      const result = await RandomResult(optionNumber);
-      const userStoryList = AddStoryUser(optionNumber) || <></>;
-      const itemStoryList = AddItemStory(optionNumber, result) || <></>;
+      setTimeout(async() => {
+        const result = await RandomResult(optionNumber);
+        const userStoryList = AddStoryUser(optionNumber) || <></>;
+        const itemStoryList = AddItemStory(optionNumber, result) || <></>;
 
-      setStory([...story, userStoryList, itemStoryList]);
-      ResultCheck(optionNumber, result);
-      GetUserData();
-      OpenStroy(optionNumber, result);
-      NextStory(optionNumber, result);
+        setStory([...story, userStoryList, itemStoryList]);
+        ResultCheck(optionNumber, result);
+        GetUserData();
+        OpenStroy(optionNumber, result);
+        NextStory(optionNumber, result);
+      }, 150);
+      
     } catch (e) {
       console.error("Error: ClickEvent()");
       console.error(e);
