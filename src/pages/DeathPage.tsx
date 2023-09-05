@@ -1,4 +1,19 @@
+//@ts-ignore
+interface Window {
+    Android?: {
+      selectDeathToRevival: () => void | undefined;
+    }
+  }
+
 export const DeathPage = () => {
+    const sendRevivalToAndroid = () => {
+        try {
+          window.Android?.selectDeathToRevival();   
+        } catch (error) {
+          console.error("Error: sendRevivalToAndroid"+error)
+        }
+    }
+      
     return (
         <div className="w-screen h-screen relative bg-white">
             <div className="flex flex-col justify-center items-center">
@@ -36,7 +51,7 @@ export const DeathPage = () => {
                             </svg>
                         </div>
                     </button> 
-                    <button className="self-stretch p-3.5 bg-gray-100 rounded-xl justify-between items-center inline-flex active:bg-gray-200 active:scale-95 duration-150 ease-out">
+                    <button onClick={sendRevivalToAndroid} className="self-stretch p-3.5 bg-gray-100 rounded-xl justify-between items-center inline-flex active:bg-gray-200 active:scale-95 duration-150 ease-out">
                         <p className="justify-start items-center text-zinc-700 text-[15px] font-semibold">
                             부활하기
                             <span className="m-1 text-gray-500 text-[15px] font-semibold">
