@@ -286,7 +286,7 @@ export const StoryPage3 = () => {
         }
         const loseHP = (hp: number, num:  number) => {
           localStorage.setItem("hp", (hp - num).toString());
-          sendHPUpToAndroid(num)
+          sendHPDownToAndroid(num)
         }
         getOrLose === "get"
           ? getHP(hp, num)
