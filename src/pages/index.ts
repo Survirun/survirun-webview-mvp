@@ -7,3 +7,4 @@ export * from './ZombieTest';
 export * from './Inventory';
 export * from './SubCharacter';
 export * from './SubCharacterCheck';
+export * from './DeathPage';

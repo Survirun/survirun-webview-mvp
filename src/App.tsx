@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { Test, ItemGet, StoryPage3, Battle, Zombie, SubCharacter, SubCharacterCheck } from './pages';
+import { Test, ItemGet, StoryPage3, Battle, Zombie, SubCharacter, SubCharacterCheck, DeathPage } from './pages';
 import Inventory from './pages/Inventory';
 import AlertDialog from './module/Alert/AlertDialog';
 import InventorySelectDialog from './module/InventorySelect/InventoryDialog';
@@ -23,6 +23,7 @@ function App() {
           <Route element={<Inventory />} path="/inventory"/>
           <Route element={<SubCharacter />} path="/subcharacter"/>
           <Route element={<SubCharacterCheck />} path="/subcharacterCheck"/>
+          <Route element={<DeathPage/>} path="deathPage"/>
         </Routes>
       </BrowserRouter>
     </InventorySelectDialog>
