@@ -49,7 +49,7 @@ const options: Option[][][] = [
                 resultItem: [{
                   kind: "hp",
                   getOrLose: "lose",
-                  number: 1
+                  number: 10
                 }],
                 nextProgress: nextProgress(1, 3),
               },
@@ -58,7 +58,7 @@ const options: Option[][][] = [
                 resultItem: [{
                   kind: "hp",
                   getOrLose: "get",
-                  number: 1
+                  number: 10
                 }],
                 nextProgress: nextProgress(1, 4)
               },
@@ -101,7 +101,7 @@ const options: Option[][][] = [
               {text: "맞서 싸운다", result:
                 [{ 
                   resultItem: [
-                    {kind: "hp", getOrLose: "lose", number: 1},
+                    {kind: "hp", getOrLose: "lose", number: 10},
                     {kind: "item", getOrLose: "get", number: 6}
                   ],
                   nextProgress: nextProgress(2, 3)
@@ -109,7 +109,7 @@ const options: Option[][][] = [
               {text: "무시하고 지나간다", result:
                 [{ 
                   resultItem: [
-                    {kind: "hp", getOrLose: "lose", number: 1}
+                    {kind: "hp", getOrLose: "lose", number: 10}
                   ],
                   nextProgress: nextProgress(2, 4)
                 }]},
@@ -120,7 +120,7 @@ const options: Option[][][] = [
                 result:
                   [{ 
                     resultItem: [
-                    {kind: "hp", getOrLose: "lose", number: 1},
+                    {kind: "hp", getOrLose: "lose", number: 10},
                     {kind: "item", getOrLose: "lose", number: 3}
                   ],
                   nextProgress: nextProgress(2, 5)
@@ -142,7 +142,7 @@ const options: Option[][][] = [
             {text: "주먹으로 부순다", result:
               [{ 
                 resultItem: [
-                  {kind: "hp", getOrLose: "lose", number: 1},
+                  {kind: "hp", getOrLose: "lose", number: 10},
                   {kind: "item", getOrLose: "get", number: 1}
                 ],
                 nextProgress: nextProgress(3, 3)
@@ -188,7 +188,7 @@ const options: Option[][][] = [
       result:
         [{ 
           resultItem: [
-            {kind: "hp", getOrLose: "lose", number: 2},
+            {kind: "hp", getOrLose: "lose", number: 20},
             {kind: "item", getOrLose: "get", number: 4},
           ],
           nextProgress: nextProgress(5, 3)
@@ -213,7 +213,7 @@ const options: Option[][][] = [
           {text: "(들어가본다)", result:
             [{ 
               resultItem: [
-                {kind: "hp", getOrLose: "lose", number: 1},
+                {kind: "hp", getOrLose: "lose", number: 10},
                 {kind: "item", getOrLose: "get", number: 1},
               ],
               nextProgress: nextProgress(6, 2)
@@ -227,7 +227,7 @@ const options: Option[][][] = [
           {text: "(쉬었다 가자)", result:
             [{ 
               resultItem: [
-                {kind: "hp", getOrLose: "get", number: 1},
+                {kind: "hp", getOrLose: "get", number: 10},
                 {kind: "charateristic", getOrLose: "get", number: 4},
               ],
               nextProgress: nextProgress(7, 2)
@@ -254,7 +254,7 @@ const options: Option[][][] = [
           {text: "(잠시 쉬었다 가자)", result:
             [{ 
               resultItem: [
-                {kind: "hp", getOrLose: "get", number: 1},
+                {kind: "hp", getOrLose: "get", number: 10},
               ],
               nextProgress: nextProgress(9, 2)
             }]},
@@ -290,7 +290,7 @@ const options: Option[][][] = [
           result:
             [{ 
               resultItem: [
-                {kind: "hp", getOrLose: "lose", number: 1}
+                {kind: "hp", getOrLose: "lose", number: 10}
               ],
               nextProgress: nextProgress(10, 4)
             }]},
@@ -334,7 +334,7 @@ const options: Option[][][] = [
           { text: "그냥 자자", result:
             [{ 
               resultItem: [
-                {kind: "hp", getOrLose: "lose", number: 1}
+                {kind: "hp", getOrLose: "lose", number: 10}
               ],
               nextProgress: nextProgress(12, 4)
             }]},
@@ -365,7 +365,7 @@ const options: Option[][][] = [
           { text: "(도와준다)", result:
             [{ 
               resultItem: [
-                {kind: "hp", getOrLose: "lose", number: 1},
+                {kind: "hp", getOrLose: "lose", number: 10},
                 {kind: "item", getOrLose: "get", number: 6},
                 {kind: "item", getOrLose: "get", number: 7},
                 {kind: "item", getOrLose: "get", number: 1}
@@ -439,7 +439,7 @@ const options: Option[][][] = [
           {text: "맞서 싸운다", result:
             [{ 
               resultItem: [
-                {kind: "hp", getOrLose: "lose", number: 2},
+                {kind: "hp", getOrLose: "lose", number: 20},
                 {kind: "charateristic", getOrLose: "get", number: 1}
               ],
               nextProgress: nextProgress(17, 4)
@@ -447,7 +447,7 @@ const options: Option[][][] = [
           {text: "도망친다", result:
             [{ 
               resultItem: [
-                {kind: "hp", getOrLose: "lose", number: 1},
+                {kind: "hp", getOrLose: "lose", number: 10},
               ],
               nextProgress: nextProgress(17, 5)
             }]}
@@ -472,7 +472,7 @@ const options: Option[][][] = [
           ], result:
             [{ 
               resultItem: [
-                {kind: "hp", getOrLose: "lose", number: 2},
+                {kind: "hp", getOrLose: "lose", number: 20},
                 {kind: "item", getOrLose: "get", number: 5},
               ],
               nextProgress: nextProgress(18, 3)
