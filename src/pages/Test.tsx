@@ -1,5 +1,5 @@
 import styled from "@emotion/styled"
-
+import Item, { ItemProps } from "../json/DemoItem";
 //@ts-ignore
 interface Window {
   Android?: {
@@ -7,6 +7,8 @@ interface Window {
     getItem: () => void | undefined;
     userHPUp: (num: number) => void | undefined;
     userHPDown: (num: number) => void | undefined;
+    userGetItem: (item: ItemProps[string]) => void | undefined;
+    userLoseItem: (item: ItemProps[string]) => void | undefined;
   }
 }
   
@@ -52,6 +54,21 @@ export const Test = () => {
         console.error("Error: sendHPDownToAndroid"+error)
       }
     }
+    const sendGetItemToAndroid = () => {
+      try {
+        window.Android?.userGetItem(Item["도끼"]);   
+      } catch (error) {
+        console.error("Error: sendHPDownToAndroid"+error)
+      }
+    }
+    const sendLoseItemToAndroid = () => {
+      try {
+        window.Android?.userLoseItem(Item["도끼"]);   
+      } catch (error) {
+        console.error("Error: sendHPDownToAndroid"+error)
+      }
+    }
+
     
     // // 웹뷰에서 메시지 수신 시 처리
     // useEffect(() => {
@@ -74,6 +91,8 @@ export const Test = () => {
         <Frame>
             <Button onClick={sendHPUpToAndroid}>HP 10 올리기</Button>
             <Button onClick={sendHPDownToAndroid}>HP 10 내리기</Button>
+            <Button onClick={sendGetItemToAndroid}>도끼 획득</Button>
+            <Button onClick={sendLoseItemToAndroid}>도끼 삭제</Button>
         </Frame>
     )
 }

@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
+import { ItemProps } from './json/DemoItem.ts'
 import './index.css'
 
 declare global {
@@ -12,6 +13,8 @@ declare global {
       zombie: (zombieNumber: number) => void | undefined;
       userHPUp: (num: number) => void | undefined;
       userHPDown: (num: number) => void | undefined;
+      userGetItem: (item: ItemProps[string]) => void | undefined;
+      userLoseItem: (item: ItemProps[string]) => void | undefined;
     },
     ReactNativeWebView?: {
       postMessage: (message: string) => void;
