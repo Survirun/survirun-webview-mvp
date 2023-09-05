@@ -20,6 +20,8 @@ interface Window {
   Android?: {
     webViewIsVisible: () => void | undefined;
     zombie: (zombieNumber: number) => void | undefined;
+    userHPUp: (num: number) => void | undefined;
+    userHPDown: (num: number) => void | undefined;
   };
 }
 
@@ -278,9 +280,17 @@ export const StoryPage3 = () => {
 
       const HPResult = (getOrLose: string, num: number) => {
         const hp = Number(localStorage.getItem("hp"));
+        const getHP = (hp: number, num:  number) => {
+          localStorage.setItem("hp", (hp + num).toString())
+          sendHPUpToAndroid(num)
+        }
+        const loseHP = (hp: number, num:  number) => {
+          localStorage.setItem("hp", (hp - num).toString());
+          sendHPUpToAndroid(num)
+        }
         getOrLose === "get"
-          ? localStorage.setItem("hp", (hp + num).toString())
-          : localStorage.setItem("hp", (hp - num).toString());
+          ? getHP(hp, num)
+          : loseHP(hp, num)
       };
       const MoneyResult = (getOrLose: string, num: number) => {
         const money = Number(localStorage.getItem("money"));
@@ -675,6 +685,20 @@ export const StoryPage3 = () => {
     const result = await invenSelect("취소", "버리기");
     result === -1 ? await CancleToDeleteItem() : DeleteSelectItem();
   };
+  const sendHPUpToAndroid = (num: number) => {
+    try {
+      window.Android?.userHPUp(num);   
+    } catch (error) {
+      console.error("Error: sendHPUpToAndroid"+error)
+    }
+  }
+  const sendHPDownToAndroid = (num: number) => {
+    try {
+      window.Android?.userHPDown(num);   
+    } catch (error) {
+      console.error("Error: sendHPDownToAndroid"+error)
+    }
+  }
 
   useEffect(() => {
     GetStoryData();
