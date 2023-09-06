@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useTypingEffect } from "../hooks"
 import { useNavigate } from "react-router-dom";
 
@@ -10,6 +11,9 @@ interface Window {
 
 export const DeathPage = () => {
     const navigate = useNavigate();
+    const deathMessage = "유감입니다.";
+    const { typedText, startTyping } = useTypingEffect([deathMessage], 50);
+
     const sendRevivalToAndroid = () => {
         try {
           window.Android?.selectDeathToRevival();   
@@ -20,6 +24,10 @@ export const DeathPage = () => {
     const LinkToLobby = () => {
         navigate('../lobby')
     }
+
+    useEffect(() => {
+        startTyping()
+    }, [])
       
     return (
         <div className="relative w-screen h-screen bg-white">
@@ -32,7 +40,7 @@ export const DeathPage = () => {
                     </h3>
                     <div className="px-5 pb-3 overflow-y-scroll">
                         <div className="pb-1 text-base font-medium text-zinc-900">
-                            {useTypingEffect("유감입니다.", 50)}
+                            {typedText}
                         </div>
                     </div>
                 </div>
