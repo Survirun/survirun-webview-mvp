@@ -13,7 +13,7 @@ import { AlertContext, InventorySelectContext } from "../module/index";
 import ItemData from "../json/DemoItem2.json";
 import CharateristicData from "../json/DemoCharateristic.json";
 
-import { ChooseParticle, SetUserData } from "../hooks";
+import { ChooseParticle, SetUserData, useTypingEffect } from "../hooks";
 
 //@ts-ignore
 interface Window {
