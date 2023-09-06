@@ -1,4 +1,5 @@
 import { useTypingEffect } from "../hooks"
+import { useNavigate } from "react-router-dom";
 
 //@ts-ignore
 interface Window {
@@ -8,6 +9,7 @@ interface Window {
   }
 
 export const DeathPage = () => {
+    const navigate = useNavigate();
     const sendRevivalToAndroid = () => {
         try {
           window.Android?.selectDeathToRevival();   
@@ -15,18 +17,21 @@ export const DeathPage = () => {
           console.error("Error: sendRevivalToAndroid"+error)
         }
     }
+    const LinkToLobby = () => {
+        navigate('../lobby')
+    }
       
     return (
-        <div className="w-screen h-screen relative bg-white">
-            <div className="flex flex-col justify-center items-center">
+        <div className="relative w-screen h-screen bg-white">
+            <div className="flex flex-col items-center justify-center">
                 <img className="w-[360px] h-[300px] min-w-[360px] bg-black text-white" 
                     src="https://i.pinimg.com/564x/90/19/d0/9019d063a1437f4b48d840fba739f1b7.jpg"/>
                 <div className="h-[260px] w-full flex-col justify-start items-start flex">
                     <h3 className="px-5 pt-6 pb-3 inline-flex text-zinc-900 text-[17px] font-semibold">
                         사망하셨습니다.
                     </h3>
-                    <div className="overflow-y-scroll px-5 pb-3">
-                        <div className="pb-1 text-zinc-900 text-base font-medium">
+                    <div className="px-5 pb-3 overflow-y-scroll">
+                        <div className="pb-1 text-base font-medium text-zinc-900">
                             {useTypingEffect("유감입니다.", 50)}
                         </div>
                     </div>
@@ -35,15 +40,15 @@ export const DeathPage = () => {
             
             
             <div className="absolute bottom-0">
-                <div className="h-3 w-screen bg-gray-100 border-b"/>
-                <div className="w-screen px-5 py-4 flex-col justify-start items-start gap-3 flex">
-                    <button className="self-stretch p-3.5 bg-gray-100 rounded-xl justify-between items-center inline-flex active:bg-gray-200 active:scale-95 duration-150 ease-out">
+                <div className="w-screen h-3 bg-gray-100 border-b"/>
+                <div className="flex flex-col items-start justify-start w-screen gap-3 px-5 py-4">
+                    <button onClick={LinkToLobby} className="self-stretch p-3.5 bg-gray-100 rounded-xl justify-between items-center inline-flex active:bg-gray-200 active:scale-95 duration-150 ease-out">
                         <p className="justify-start items-center text-zinc-700 text-[15px] font-semibold">
                             다시하기
                         </p>
                         
-                        <div className="origin-top-left rotate-180 w-5 h-5 relative">
-                            <svg className="w-5 h-5 left-0 top-0 absolute origin-top-left rotate-180" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <div className="relative w-5 h-5 origin-top-left rotate-180">
+                            <svg className="absolute top-0 left-0 w-5 h-5 origin-top-left rotate-180" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                                 <mask id="mask0_1118_8405" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
                                     <rect width="20" height="20" transform="matrix(-1 0 0 1 20 0)" fill="#D9D9D9"/>
                                 </mask>
@@ -61,8 +66,8 @@ export const DeathPage = () => {
                             </span>
                         </p>
                         
-                        <div className="origin-top-left rotate-180 w-5 h-5 relative">
-                            <svg className="w-5 h-5 left-0 top-0 absolute origin-top-left rotate-180" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <div className="relative w-5 h-5 origin-top-left rotate-180">
+                            <svg className="absolute top-0 left-0 w-5 h-5 origin-top-left rotate-180" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                                 <mask id="mask0_1118_8405" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
                                     <rect width="20" height="20" transform="matrix(-1 0 0 1 20 0)" fill="#D9D9D9"/>
                                 </mask>
