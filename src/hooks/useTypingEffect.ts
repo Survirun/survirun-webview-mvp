@@ -1,24 +1,48 @@
 import { useState, useEffect } from "react";
 
-export const useTypingEffect = (text: string, delay: number) => {
+export const useTypingEffect = (messages: string[], delay: number) => {
   const [typedText, setTypedText] = useState("");
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [activeMessageIndex, setActiveMessageIndex] = useState(0);
+  const [isActive, setIsActive] = useState(false);
 
   useEffect(() => {
-    let currentIndex = 0;
-    const intervalId = setInterval(() => {
-      const currentLetter = text[currentIndex];
-      setTypedText((prevTypedText) => prevTypedText + currentLetter);
-      currentIndex++;
-      if (currentIndex === text.length) {
-        clearInterval(intervalId);
-      }
-    }, delay);
+    let intervalId: NodeJS.Timeout | null = null;
+
+    if (isActive && currentIndex < messages[activeMessageIndex].length) {
+      intervalId = setInterval(() => {
+        const currentLetter = messages[activeMessageIndex][currentIndex];
+        setTypedText((prevTypedText) => prevTypedText + currentLetter);
+        setCurrentIndex((prevIndex) => prevIndex + 1);
+      }, delay);
+    }
 
     return () => {
-      clearInterval(intervalId);
-      setTypedText("");
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
     };
-  }, [text, delay]);
+  }, [messages, delay, currentIndex, isActive, activeMessageIndex]);
 
-  return typedText;
-}
+  const startTyping = () => {
+    setIsActive(true);
+    setActiveMessageIndex(0);
+    setTypedText("");
+    setCurrentIndex(0);
+  };
+
+  const nextMessage = () => {
+    if (activeMessageIndex < messages.length - 1) {
+      setActiveMessageIndex((prevIndex) => prevIndex + 1);
+      setTypedText("");
+      setCurrentIndex(0);
+      return true; 
+    } else {
+      setIsActive(false);
+      return false; 
+    }
+  };
+  
+
+  return { typedText, startTyping, nextMessage };
+};
