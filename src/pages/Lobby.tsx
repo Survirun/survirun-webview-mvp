@@ -1,6 +1,15 @@
 import { useEffect, useState } from "react";
 import { useTypingEffect } from "../hooks"
+import { SetUserData } from "../hooks";
 
+//@ts-ignore
+interface Window {
+    Android?: {
+      selectDeathToRevival: () => void | undefined;
+    }
+}
+
+  
 export const Lobby = () => {
     const [clickCharacter, setClickCharacter] = useState(false);
     
@@ -17,6 +26,15 @@ export const Lobby = () => {
             setClickCharacter(false);
         }
     }
+    const sendRevivalToAndroid = () => {
+        SetUserData();
+        try {
+          window.Android?.selectDeathToRevival();   
+        } catch (error) {
+          console.error("Error: sendRevivalToAndroid"+error)
+        }
+    }
+    
 
     useEffect(() => {
         const message = [
@@ -34,7 +52,7 @@ export const Lobby = () => {
                 <img onClick={handleClickCharacter} className="absolute right-0 w-[300px] bottom-10" 
                     src="/img/여성.png"/>
                 {clickCharacter ? null :
-                <button className="w-36 h-10 ml-8 p-2 bg-red-600 rounded-xl justify-center items-center flex text-white text-[13px] font-semibold active:bg-red-500 active:scale-90 duration-150 ease-out">
+                <button onClick={sendRevivalToAndroid}className="w-36 h-10 ml-8 p-2 bg-red-600 rounded-xl justify-center items-center flex text-white text-[13px] font-semibold active:bg-red-500 active:scale-90 duration-150 ease-out">
                     모험 떠나기
                 </button>
                 }
