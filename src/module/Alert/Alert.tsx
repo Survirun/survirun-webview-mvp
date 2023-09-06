@@ -1,4 +1,5 @@
 import { AlertState } from "./AlertDialog";
+import { useButtonDelay } from "../../hooks";
 
 export const Alert = ({message, subMessage, leftText, rightText, onClickLeft, onClickRight}: AlertState) => {
     return(
@@ -10,8 +11,8 @@ export const Alert = ({message, subMessage, leftText, rightText, onClickLeft, on
                     <div className="text-gray-500 text-[14px] font-semibold whitespace-pre-line">{subMessage}</div>
                 </div>
                 <div className="inline-flex items-start justify-start gap-2 w-72">
-                    <button onClick={onClickLeft} className="w-36 h-10 p-2 bg-gray-100 rounded-xl justify-center items-center flex text-zinc-900 text-[13px] font-semibold active:bg-gray-200 active:scale-90 duration-150 ease-out">{leftText}</button>
-                    <button onClick={onClickRight} className="w-36 h-10 p-2 bg-red-600 rounded-xl justify-center items-center flex text-white text-[13px] font-semibold active:bg-red-500 active:scale-90 duration-150 ease-out">{rightText}</button>
+                    <button onClick={() => useButtonDelay(onClickLeft)} className="w-36 h-10 p-2 bg-gray-100 rounded-xl justify-center items-center flex text-zinc-900 text-[13px] font-semibold active:bg-gray-200 active:scale-90 duration-150 ease-out">{leftText}</button>
+                    <button onClick={() => useButtonDelay(onClickRight)} className="w-36 h-10 p-2 bg-red-600 rounded-xl justify-center items-center flex text-white text-[13px] font-semibold active:bg-red-500 active:scale-90 duration-150 ease-out">{rightText}</button>
                 </div>
             </div>
         </div>

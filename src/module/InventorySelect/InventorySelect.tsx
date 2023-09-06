@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import { InventorySelectProps } from "./InventoryDialog";
 import { ItemProps } from "../../json/DemoItem";
 
+import { useButtonDelay } from "../../hooks";
+
 export const InventorySelect = ({leftText, rightText, onClickLeft, onClickRight}: InventorySelectProps) => {
     const [selectInvenItem, setSelectInvenItem] = useState<number>();
     const [userItem, _] = useState<ItemProps>(JSON.parse(localStorage.getItem('userData') || '[]').userItem);
@@ -36,16 +38,21 @@ export const InventorySelect = ({leftText, rightText, onClickLeft, onClickRight}
             }
     }
     return(
-        <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center z-10">
+        <div className="fixed top-0 left-0 z-10 flex items-center justify-center w-full h-full">
             <div className="fixed w-full h-full bg-black bg-opacity-30"></div>
-            <div className="flex items-center justify-center flex-col gap-3">
-                <div className="w-72 justify-center items-start gap-2 inline-flex">
-                    <button onClick={onClickLeft} className="w-36 h-10 p-2 bg-gray-100 rounded-xl justify-center items-center flex text-zinc-900 text-[13px] font-semibold z-[11] active:bg-gray-200 active:scale-90 duration-150 ease-out">{leftText}</button>
-                    <button onClick={() => {if(selectInvenItem !== undefined) return onClickRight(selectInvenItem)}} disabled={(selectInvenItem === undefined)} className="w-36 h-10 p-2 bg-red-600 rounded-xl justify-center items-center flex text-white text-[13px] font-semibold z-[11] active:bg-red-500 active:scale-90 duration-150 ease-out disabled:bg-gray-400 disabled:pointer-events-none">{rightText}</button>
+            <div className="flex flex-col items-center justify-center gap-3">
+                <div className="inline-flex items-start justify-center gap-2 w-72">
+                    <button onClick={() => useButtonDelay(onClickLeft)} 
+                        className="w-36 h-10 p-2 bg-gray-100 rounded-xl justify-center items-center flex text-zinc-900 text-[13px] font-semibold z-[11] active:bg-gray-200 active:scale-90 duration-150 ease-out">{leftText}</button>
+                    <button onClick={() => {
+                        if (selectInvenItem !== undefined) 
+                            {useButtonDelay(() => {onClickRight(selectInvenItem);});}}} 
+                        disabled={(selectInvenItem === undefined)} 
+                        className="w-36 h-10 p-2 bg-red-600 rounded-xl justify-center items-center flex text-white text-[13px] font-semibold z-[11] active:bg-red-500 active:scale-90 duration-150 ease-out disabled:bg-gray-400 disabled:pointer-events-none">{rightText}</button>
                 </div>
                 <div className="w-[25rem] h-52 p-4 bg-white rounded-lg flex-wrap justify-center items-center gap-3 inline-flex z-[11]">
                     {Array.from({ length: 8 }).map((_, index) => (
-                        <div onClick={() => HandleInventoryItemClick(index)} css={(selectInvenItem === index) && inventorySelect} key={index} className="w-20 h-20 bg-red-500 rounded-md border-2 border-solid border-neutral-500">
+                        <div onClick={() => HandleInventoryItemClick(index)} css={(selectInvenItem === index) && inventorySelect} key={index} className="w-20 h-20 bg-red-500 border-2 border-solid rounded-md border-neutral-500">
                             <img src={CreateInventoryName(index)} className="w-full h-full rounded-md"></img>
                         </div>
                     ))} 

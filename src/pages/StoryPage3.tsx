@@ -13,7 +13,7 @@ import { AlertContext, InventorySelectContext } from "../module/index";
 import ItemData from "../json/DemoItem2.json";
 import CharateristicData from "../json/DemoCharateristic.json";
 
-import { ChooseParticle, SetUserData, useTypingEffect } from "../hooks";
+import { ChooseParticle, SetUserData, useTypingEffect, useButtonDelay } from "../hooks";
 
 //@ts-ignore
 interface Window {
@@ -44,6 +44,8 @@ export const StoryPage3 = () => {
 
   const { alert } = useContext(AlertContext);
   const { invenSelect } = useContext(InventorySelectContext);
+
+  const { typedText } = useTypingEffect(["테스트"], 50);
 
   const GetRanDomStoryNumber = () => {
     try {
@@ -108,7 +110,7 @@ export const StoryPage3 = () => {
       const storyList = [...story];
       const keyValue = storyNumber * 100 + progressNumber;
       storyList.push(
-        <p className="pb-1 text-zinc-900 text-base font-medium" key={keyValue}>
+        <p className="pb-1 text-base font-medium text-zinc-900" key={keyValue}>
             {
                 jsonStory[storyParts][storyNumber].progressStory[progressNumber]
                 .storyText
@@ -561,7 +563,7 @@ export const StoryPage3 = () => {
       }
 
       const optionName = option.text;
-      return <p className="pb-1 text-zinc-900 text-base font-medium" key={optionNumber}>나: {optionName}</p>;
+      return <p className="pb-1 text-base font-medium text-zinc-900" key={optionNumber}>나: {optionName}</p>;
     } catch (e) {
       console.error("Error: AddStoryUser()");
       console.error(e);
@@ -640,18 +642,17 @@ export const StoryPage3 = () => {
   }
   const ClickEvent = async(optionNumber: number) => {
     try {
-      setTimeout(async() => {
+      useButtonDelay(async () => {
         const result = await RandomResult(optionNumber);
         const userStoryList = AddStoryUser(optionNumber) || <></>;
         const itemStoryList = AddItemStory(optionNumber, result) || <></>;
-
+  
         setStory([...story, userStoryList, itemStoryList]);
         ResultCheck(optionNumber, result);
         GetUserData();
         OpenStroy(optionNumber, result);
         NextStory(optionNumber, result);
-      }, 150);
-      
+      });
     } catch (e) {
       console.error("Error: ClickEvent()");
       console.error(e);
@@ -715,12 +716,12 @@ export const StoryPage3 = () => {
   }, []);
 
   return (
-    <div className="w-screen h-screen relative bg-white">
-        {/* <div className="w-full px-5 py-4 flex gap-2">
+    <div className="relative w-screen h-screen bg-white">
+        {/* <div className="flex w-full gap-2 px-5 py-4">
             <div className="grow shrink basis-0 h-8 bg-stone-300 rounded-[100px] justify-start items-center flex">
                 <div className="w-1/2 bg-red-600 rounded-full flex-col justify-start items-start gap-1.5 inline-flex">
                     <img
-                        className="w-8 h-8 rounded-full border border-white"
+                        className="w-8 h-8 border border-white rounded-full"
                         src="https://i.pinimg.com/564x/1c/cf/f0/1ccff0a256a5dfd24bf32782326582f7.jpg"
                     />
                 </div>
@@ -732,12 +733,12 @@ export const StoryPage3 = () => {
         </div> */}
 
       <button onClick={SetUserData} className="absolute right-0 p-1.5 bg-black rounded-[100px] shadow justify-start items-start gap-[5.71px] flex">
-          <svg className="w-5 h-5 relative" xmlns="http://www.w3.org/2000/svg" width="14" height="16" viewBox="0 0 14 16" fill="none">
+          <svg className="relative w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="14" height="16" viewBox="0 0 14 16" fill="none">
               <path d="M2.25642 15.9165C1.84215 15.9165 1.48752 15.7707 1.19252 15.479C0.897507 15.1874 0.75 14.8391 0.75 14.4342V4.83486C0.75 4.0934 0.986111 3.44463 1.45833 2.88854C1.93056 2.33245 2.52778 1.98122 3.25 1.83486V0.836461C3.25 0.623059 3.32219 0.444176 3.46656 0.299815C3.61092 0.15544 3.78981 0.083252 4.00321 0.083252H4.5801C4.79352 0.083252 4.97241 0.15544 5.11677 0.299815C5.26113 0.444176 5.33331 0.623059 5.33331 0.836461V1.74992H8.66665V0.836461C8.66665 0.623059 8.73883 0.444176 8.88319 0.299815C9.02755 0.15544 9.20644 0.083252 9.41985 0.083252H9.99675C10.2102 0.083252 10.389 0.15544 10.5334 0.299815C10.6778 0.444176 10.75 0.623059 10.75 0.836461V1.83486C11.4722 1.98122 12.0694 2.33245 12.5416 2.88854C13.0138 3.44463 13.25 4.0934 13.25 4.83486V14.4342C13.25 14.8391 13.1025 15.1874 12.8074 15.479C12.5124 15.7707 12.1578 15.9165 11.7435 15.9165H2.25642ZM2.25642 14.6666H11.7435C11.8183 14.6666 11.8798 14.6439 11.9279 14.5985C11.9759 14.553 12 14.4983 12 14.4342V4.83486C12 4.33025 11.8164 3.89827 11.4492 3.53892C11.082 3.17957 10.6406 2.9999 10.125 2.9999H3.875C3.35936 2.9999 2.91795 3.17957 2.55077 3.53892C2.18358 3.89827 1.99998 4.33025 1.99998 4.83486V14.4342C1.99998 14.4983 2.02402 14.553 2.0721 14.5985C2.12019 14.6439 2.18163 14.6666 2.25642 14.6666ZM9.33975 9.52232V10.532C9.33975 10.709 9.39967 10.8575 9.5195 10.9773C9.63935 11.097 9.78785 11.1569 9.965 11.1569C10.1422 11.1569 10.2906 11.097 10.4102 10.9773C10.5299 10.8575 10.5897 10.709 10.5897 10.532V9.02554C10.5897 8.81214 10.5175 8.63326 10.3732 8.4889C10.2288 8.34454 10.0499 8.27236 9.83652 8.27236H4.03523C3.85815 8.27236 3.70972 8.33228 3.58994 8.45213C3.47015 8.57196 3.41025 8.72046 3.41025 8.89763C3.41025 9.07478 3.47015 9.22318 3.58994 9.34284C3.70972 9.46249 3.85815 9.52232 4.03523 9.52232H9.33975Z" fill="white"/>
           </svg>
       </button>
 
-        <div className="flex flex-col justify-center items-center">
+        <div className="flex flex-col items-center justify-center">
             {(storyNumber !== undefined && progressNumber !== undefined && jsonStory[storyParts][storyNumber]?.progressStory[progressNumber].img !== undefined) ?
               <img className="w-[360px] h-[300px] min-w-[360px] bg-black text-white" 
               src={jsonStory[storyParts][storyNumber].progressStory[progressNumber].img}/>
@@ -746,8 +747,8 @@ export const StoryPage3 = () => {
                 <h3 className="px-5 pt-6 pb-3 inline-flex text-zinc-900 text-[17px] font-semibold">
                     {storyTitle}
                 </h3>
-                <div className="overflow-y-scroll px-5 pb-3">
-                    <div className="pb-1 text-zinc-900 text-base font-medium">
+                <div className="px-5 pb-3 overflow-y-scroll">
+                    <div className="pb-1 text-base font-medium text-zinc-900">
                         {story.map((story, index) => (
                             <Fragment key={index}>{story}</Fragment>
                         ))}
@@ -758,8 +759,8 @@ export const StoryPage3 = () => {
 
         
         <div className="absolute bottom-0">
-            <div className="h-3 w-screen bg-gray-100 border-b"/>
-            <div className="w-screen px-5 py-4 flex-col justify-start items-start gap-3 flex">
+            <div className="w-screen h-3 bg-gray-100 border-b"/>
+            <div className="flex flex-col items-start justify-start w-screen gap-3 px-5 py-4">
                 {Array.from({ length: storyOptionCount }).map((_, index) => (
                     (ButtonDisable(index)) ?
                     <button key={index} onClick={() => ClickEvent(index)} disabled={ButtonDisable(index)} className="self-stretch p-3.5 bg-stone-300  rounded-xl justify-between items-center inline-flex">
@@ -778,8 +779,8 @@ export const StoryPage3 = () => {
                             </span>
                         </p>
                         
-                        <div className="origin-top-left rotate-180 w-5 h-5 relative">
-                            <svg className="w-5 h-5 left-0 top-0 absolute origin-top-left rotate-180" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <div className="relative w-5 h-5 origin-top-left rotate-180">
+                            <svg className="absolute top-0 left-0 w-5 h-5 origin-top-left rotate-180" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                                 <mask id="mask0_1118_8405" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
                                     <rect width="20" height="20" transform="matrix(-1 0 0 1 20 0)" fill="#D9D9D9"/>
                                 </mask>
