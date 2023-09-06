@@ -14,7 +14,7 @@ export const Lobby = () => {
     const [clickCharacter, setClickCharacter] = useState(false);
     
     const [messages, setMessage] = useState(["안녕하세요?", "다음에 봐요.", "훗"]);
-    const { typedText, startTyping, nextMessage } = useTypingEffect(messages, 50);
+    const { typedText, startTyping, nextMessage } = useTypingEffect(messages);
 
     const handleClickCharacter = () => {
         setClickCharacter(true);
