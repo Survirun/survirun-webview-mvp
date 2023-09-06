@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 
-export const useTypingEffect = (messages: string[], delay: number) => {
+export const useTypingEffect = (messages: string[], delay = 50) => {
   const [typedText, setTypedText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [activeMessageIndex, setActiveMessageIndex] = useState(0);
-  const [isActive, setIsActive] = useState(false);
+  const [isActive, setIsActive] = useState(true);
 
   useEffect(() => {
     let intervalId: NodeJS.Timeout | null = null;
