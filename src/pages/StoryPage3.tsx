@@ -477,16 +477,6 @@ export const StoryPage3 = () => {
         if (i > 0) {
           list += ", ";
         }
-        switch (optionGetOrLose) {
-          case "get":
-            list += "+ ";
-            break;
-          case "lose":
-            list += "- ";
-            break;
-          default:
-            console.error("Error: AddItemStory() unfinded optionGetOrLose");
-        }
         switch (optionKind) {
           case "hp":
             list += "체력: ";
@@ -502,6 +492,16 @@ export const StoryPage3 = () => {
             break;
           default:
             console.error("Error: AddItemStory() unfinded optionKind");
+        }
+        switch (optionGetOrLose) {
+          case "get":
+            list += "+ ";
+            break;
+          case "lose":
+            list += "- ";
+            break;
+          default:
+            console.error("Error: AddItemStory() unfinded optionGetOrLose");
         }
         switch (optionKind) {
           case "hp":
@@ -747,7 +747,7 @@ export const StoryPage3 = () => {
                 <h3 className="px-5 pt-6 pb-3 inline-flex text-zinc-900 text-[17px] font-semibold">
                     {storyTitle}
                 </h3>
-                <div className="px-5 pb-3 overflow-y-scroll">
+                <div className="w-full px-5 pb-3 overflow-y-scroll">
                     <div className="pb-1 text-base font-medium text-zinc-900">
                         {story.map((story, index) => (
                             <Fragment key={index}>{story}</Fragment>
