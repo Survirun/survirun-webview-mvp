@@ -477,21 +477,23 @@ export const StoryPage3 = () => {
         if (i > 0) {
           list += ", ";
         }
-        switch (optionKind) {
-          case "hp":
-            list += "체력: ";
-            break;
-          case "money":
-            list += "돈: ";
-            break;
-          case "item":
-            list += "아아템: ";
-            break;
-          case "charateristic":
-            list += "특성: ";
-            break;
-          default:
-            console.error("Error: AddItemStory() unfinded optionKind");
+        if(optionResult[i-1]?.kind !== optionKind) {
+          switch (optionKind) {
+            case "hp":
+              list += "체력: ";
+              break;
+            case "money":
+              list += "돈: ";
+              break;
+            case "item":
+              list += "아아템: ";
+              break;
+            case "charateristic":
+              list += "특성: ";
+              break;
+            default:
+              console.error("Error: AddItemStory() unfinded optionKind");
+          }
         }
         switch (optionGetOrLose) {
           case "get":
