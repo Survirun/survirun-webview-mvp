@@ -43,6 +43,5 @@ export const useTypingEffect = (messages: string[], delay = 50) => {
     }
   };
   
-
   return { typedText, startTyping, nextMessage };
 };
