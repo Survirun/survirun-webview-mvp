@@ -18,7 +18,6 @@ import CharateristicData from '../json/DemoCharateristic.json';
 interface Window { 
     Android?: {
         webViewIsVisible: () => void | undefined;
-        zombie: (zombieNumber: number) => void | undefined;
     }
 }
 
@@ -278,7 +277,7 @@ export const SubCharacter = () => {
             if(optionZombie === null || optionZombie === undefined){
                 return
             } else {
-                SendAndroidZombie(optionZombie);
+                //SendAndroidZombie(optionZombie);
             }
         } catch(e) {
             console.error("Error: NextStory()");
@@ -293,14 +292,14 @@ export const SubCharacter = () => {
             console.error(e);
         }
     }
-    const SendAndroidZombie = (optionZombie: number) => {
-        try{
-            window.Android?.zombie(optionZombie);
-        } catch(e) {
-            console.error("Error: window.Android.zombie()")
-            console.error(e);
-        }
-    }
+    // const SendAndroidZombie = (optionZombie: number) => {
+    //     try{
+    //         window.Android?.zombie(optionZombie);
+    //     } catch(e) {
+    //         console.error("Error: window.Android.zombie()")
+    //         console.error(e);
+    //     }
+    // }
     const AddItemStory = (optionNumber: number) => {
         try{
             if(subCharacterStory === undefined || storyNumber === undefined || storyOption === undefined) {
