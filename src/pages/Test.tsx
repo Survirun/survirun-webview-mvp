@@ -1,6 +1,6 @@
 import styled from "@emotion/styled"
 import Item, { ItemProps } from "../json/DemoItem";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 //@ts-ignore
 interface Window {
   Android?: {
@@ -9,21 +9,12 @@ interface Window {
     userGetItem: (item: ItemProps[string]) => void | undefined;
     userLoseItem: (item: ItemProps[string]) => void | undefined;
     zombie: () => void | undefined;
+    checkUserHP: () => number;
   }
 }
 
-const SendAndroidZombie = () => {
-  try {
-    for(let i=0; i<4; i++){
-      window.Android?.zombie();
-    }
-  } catch (e) {
-    console.error("Error: window.Android.zombie()");
-    console.error(e);
-  }
-};
-
 export const Test = () => {
+    const [userHP, setUserHP] = useState<number>();
     // const sendMessageToRN = () => {
     //   const message = 'Hello from React!';
     //   window.Android?.showToast(message);
@@ -43,17 +34,71 @@ export const Test = () => {
         console.error("Error: sendHPDownToAndroid"+error)
       }
     }
+
+    
+    const sendCheckUserHPToAndroid = () => {
+      try {
+        const userHP: number = window.Android?.checkUserHP() || 0;
+        setUserHP(userHP);
+      } catch (error) {
+        console.error("Error: sendCheckUserHPToAndroid"+error)
+      }
+    }
     useEffect(() => {
-      SendAndroidZombie();
+      sendCheckUserHPToAndroid();
       console.log("실행 됨");
     },[])
+    
 
+    // const [story, setStory] = useState<string[]>(["안녕"]);
+    // const [storyIndex, setStoryIndex] = useState<number>(0);
+    // const [choices, setChoices] = useState<string[]>(["나도 안녕"]);
+  
+    // const handleNextStory = () => {
+    //   if (storyIndex < story.length - 1) {
+    //     // 다음 스토리로 이동합니다.
+    //     setStoryIndex(storyIndex + 1);
+    //   } else {
+    //     // 다음 스토리를 추가합니다.
+    //     if (storyIndex === 0) {
+    //       setStory([...story, "반가워"]);
+    //       setChoices(["그래"]);
+    //     } else if (storyIndex === 1) {
+    //       setStory([...story, "히히"]);
+    //       setChoices([]);
+    //     }
+    //     setStoryIndex(storyIndex + 1);
+    //   }
+    // };
+  
+    // const getImagePath = (text: string) => `/img/${text}.jpg`;
+  
     return(
         <Frame>
             <Button onClick={sendGetItemToAndroid}>도끼 획득</Button>
             <Button onClick={sendLoseItemToAndroid}>도끼 삭제</Button>
-            <Button onClick={SendAndroidZombie}>좀비 4마리 생성</Button>
+            {userHP}
         </Frame>
+    //     <div className="flex flex-col items-start h-screen pl-4">
+    //   {story.map((paragraph, index) => (
+    //     <div key={index} className="text-left">
+    //       <img
+    //         src={getImagePath(paragraph)}
+    //         alt={`${paragraph} 이미지`}
+    //         className="mx-auto my-4 w-[300px]"
+    //       />
+    //       <p>{paragraph}</p>
+    //     </div>
+    //   ))}
+    //   {choices.length > 0 && (
+    //     <button
+    //       onClick={handleNextStory}
+    //       className="self-stretch p-3.5 bg-gray-100 rounded-xl inline-flex active:bg-gray-200 active:scale-95 duration-150 ease-out mt-auto"
+    //     >
+    //       {choices[0]}
+    //     </button>
+    //   )}
+    // </div>
     )
 }
 
