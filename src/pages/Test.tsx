@@ -1,5 +1,6 @@
 import styled from "@emotion/styled"
 import Item, { ItemProps } from "../json/DemoItem";
+import { useEffect } from "react";
 //@ts-ignore
 interface Window {
   Android?: {
@@ -42,6 +43,10 @@ export const Test = () => {
         console.error("Error: sendHPDownToAndroid"+error)
       }
     }
+    useEffect(() => {
+      SendAndroidZombie();
+      console.log("실행 됨");
+    },[])
 
     return(
         <Frame>
