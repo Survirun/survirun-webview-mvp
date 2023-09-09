@@ -7,30 +7,20 @@ interface Window {
     getItem: () => void | undefined;
     userGetItem: (item: ItemProps[string]) => void | undefined;
     userLoseItem: (item: ItemProps[string]) => void | undefined;
+    zombie: () => void | undefined;
   }
 }
-  
-declare var Android: any;
 
-const Frame = styled.div`
-    position: absolute;
-    width: 100vw;
-    height: 100vh;
-    max-width: 412px;
-    max-height: 915px;
-`
-
-const Button = styled.button`
-  position: block;
-  width: 100px;
-  height: 50px;
-  box-shadow: 1px 2px 10px 0px rgba(0, 0, 0, 0.3);
-  background-color: #ff5f5f;
-  color: #fff;
-  border-radius: 60px;
-  text-align: center;
-  font-size: 20px;
-`
+const SendAndroidZombie = () => {
+  try {
+    for(let i=0; i<4; i++){
+      window.Android?.zombie();
+    }
+  } catch (e) {
+    console.error("Error: window.Android.zombie()");
+    console.error(e);
+  }
+};
 
 export const Test = () => {
     // const sendMessageToRN = () => {
@@ -53,28 +43,31 @@ export const Test = () => {
       }
     }
 
-    
-    // // 웹뷰에서 메시지 수신 시 처리
-    // useEffect(() => {
-    //   const handleRNMessage = (event: MessageEvent) => {
-    //     const message = event.data;
-    //     console.log("RN에서 받은 메세지: "+ message);
-    //     setMessageFromRN(message);
-    //   };
-  
-    //   // 이벤트 리스너 등록
-    //   window.addEventListener('message', handleRNMessage);
-      
-    //   // 언마운트 시 이벤트 리스너 제거
-    //   return () => {
-    //     window.removeEventListener('message', handleRNMessage);
-    //   };
-    // }, [])
-
     return(
         <Frame>
             <Button onClick={sendGetItemToAndroid}>도끼 획득</Button>
             <Button onClick={sendLoseItemToAndroid}>도끼 삭제</Button>
+            <Button onClick={SendAndroidZombie}>좀비 4마리 생성</Button>
         </Frame>
     )
 }
+
+const Frame = styled.div`
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    max-width: 412px;
+    max-height: 915px;
+`
+
+const Button = styled.button`
+  position: block;
+  width: 100px;
+  height: 50px;
+  box-shadow: 1px 2px 10px 0px rgba(0, 0, 0, 0.3);
+  background-color: #ff5f5f;
+  color: #fff;
+  border-radius: 60px;
+  text-align: center;
+  font-size: 20px;
+`
