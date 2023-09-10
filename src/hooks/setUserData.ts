@@ -1,5 +1,5 @@
 export const SetUserData = () => {
-  localStorage.setItem("hp", "3");
+  localStorage.setItem("hp", "100");
   localStorage.setItem("money", "3");
   localStorage.setItem("item", JSON.stringify([]));
   localStorage.setItem("charateristic", JSON.stringify([]));
