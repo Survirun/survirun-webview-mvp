@@ -40,6 +40,8 @@ export const Test = () => {
       try {
         const userHP: number = window.Android?.checkUserHP() || 0;
         setUserHP(userHP);
+        const hp = Number(localStorage.getItem("hp"));
+        localStorage.setItem("hp", (hp-10).toString());
       } catch (error) {
         console.error("Error: sendCheckUserHPToAndroid"+error)
       }
