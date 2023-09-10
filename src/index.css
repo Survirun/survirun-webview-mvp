@@ -16,3 +16,20 @@
     -webkit-user-select:none;
     -webkit-tap-highlight-color:rgba(0, 0, 0, 0);
 }
+
+.typing-effect {
+  display: inline-block;
+  overflow: hidden;
+  animation: typing 1s steps(40, end);
+  white-space: nowrap;
+  margin-left: 10px;
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
