@@ -1,5 +1,3 @@
-import styled from "@emotion/styled";
-
 import { Fragment, useEffect, useState, useContext } from "react";
 import { DeletItemToInventory, AddItemToInventory } from "../hooks";
 //Demo Data
@@ -13,7 +11,7 @@ import { AlertContext, InventorySelectContext } from "../module/index";
 import ItemData from "../json/DemoItem2.json";
 import CharateristicData from "../json/DemoCharateristic.json";
 
-import { ChooseParticle, SetUserData, useTypingEffect, useButtonDelay, useTypingEffect2 } from "../hooks";
+import { ChooseParticle, SetUserData, useButtonDelay } from "../hooks";
 
 //@ts-ignore
 interface Window {
@@ -45,18 +43,28 @@ export const StoryPage3 = () => {
   const { alert } = useContext(AlertContext);
   const { invenSelect } = useContext(InventorySelectContext);
 
-  const [messages, setMessage] = useState<string>("");
-  const [allMessage, setAllMessage] = useState<string[]>([])
-  const [testMessage, setTestMessage] = useState(0)
-  const { typedText, startTyping } = useTypingEffect2(messages, 10);
+  // const [messages, setMessage] = useState<string>("");
+  //const [allMessage, setAllMessage] = useState<string[]>([])
+  //const [testMessage, setTestMessage] = useState(0)
+  //const { typedText, startTyping } = useTypingEffect2(messages, 10);
 
-  const testOnclick = () => {
-    if(testMessage < messages.length-1) {
-      startTyping()
-      setTestMessage(pre => pre+1);
-      setAllMessage(pre => [...pre, typedText])
-    }
-  }
+  // interface Test {
+  //   img: string | null,
+  //   story: string,
+  // }
+
+  //const [testStorys, setTestStorys] = useState<Test[]>([])
+  // const [testStroy, setTestStory] = useState<Test>({img: null, story: "기본 스토리"});
+
+  // const testOnclick = () => {
+  //   if(testMessage < messages.length-1) {
+  //     startTyping()
+  //     setTestMessage(pre => pre+1);
+     
+  //     setTestStorys(pre => [...pre, testStroy])
+  //     //setAllMessage(pre => [...pre, typedText])
+  //   }
+  // }
 
   const GetRanDomStoryNumber = () => {
     try {
@@ -97,7 +105,7 @@ export const StoryPage3 = () => {
       const isStoryNumberExists = existingArray.some(
         (item) => item === storyNumber
       );
-
+ 
       if (!isStoryNumberExists) {
         existingArray.push(storyNumber);
         localStorage.setItem("readStory", JSON.stringify(existingArray));
@@ -120,7 +128,11 @@ export const StoryPage3 = () => {
       );
       const storyList = [...story];
       const keyValue = storyNumber * 100 + progressNumber;
-      setMessage(jsonStory[storyParts][storyNumber].progressStory[progressNumber].storyText)
+      // setMessage(jsonStory[storyParts][storyNumber].progressStory[progressNumber].storyText)
+      // setTestStory(
+      //   {img: jsonStory[storyParts][storyNumber].progressStory[progressNumber].img,
+      //     story: jsonStory[storyParts][storyNumber].progressStory[progressNumber].storyText
+      //   } as Test)
       storyList.push(
         <p className="pb-1 text-base font-medium text-zinc-900" key={keyValue}>
             {
@@ -455,7 +467,9 @@ export const StoryPage3 = () => {
   };
   const SendAndroidZombie = (optionZombie: number) => {
     try {
-      window.Android?.zombie(optionZombie);
+      for(let i=0; i<optionZombie; i++){
+        window.Android?.zombie();
+      }
     } catch (e) {
       console.error("Error: window.Android.zombie()");
       console.error(e);
@@ -657,7 +671,7 @@ export const StoryPage3 = () => {
   const ClickEvent = async(optionNumber: number) => {
     try {
       useButtonDelay(async () => {
-        testOnclick();
+        // testOnclick();
         const result = await RandomResult(optionNumber);
         const userStoryList = AddStoryUser(optionNumber) || <></>;
         const itemStoryList = AddItemStory(optionNumber, result) || <></>;
@@ -732,29 +746,24 @@ export const StoryPage3 = () => {
 
   return (
     <div className="relative w-screen h-screen bg-white">
-        {/* <div className="flex w-full gap-2 px-5 py-4">
-            <div className="grow shrink basis-0 h-8 bg-stone-300 rounded-[100px] justify-start items-center flex">
-                <div className="w-1/2 bg-red-600 rounded-full flex-col justify-start items-start gap-1.5 inline-flex">
-                    <img
-                        className="w-8 h-8 border border-white rounded-full"
-                        src="https://i.pinimg.com/564x/1c/cf/f0/1ccff0a256a5dfd24bf32782326582f7.jpg"
-                    />
-                </div>
-                <p className="right-20 absolute text-white text-[13px] font-semibold">
-                    50/100
-                </p>
-            </div>
-            
-        </div> */}
-    <div>
-      {allMessage.map((text, index) => (
-        <p key={index}>{text}</p>
-      ))}
-      <p>{typedText}</p>
-      <button onClick={testOnclick} className="bg-black text-white rounded-[100px] shadow">
-        다음 메시지
-      </button>
-    </div>
+      
+      {/* <div>
+        {testStorys.map((text, index) => (
+          <Fragment  key={index}>
+            {
+              (text.img !== null) ?
+              <img className="w-[360px] h-[300px] min-w-[360px] bg-black text-white" 
+                src={`${text.img}`}/>
+              : null
+            }
+            <p>{text.story}</p>
+          </Fragment>
+        ))}
+        <p>{typedText}</p>
+        <button onClick={testOnclick} className="bg-black text-white rounded-[100px] shadow">
+          다음 메시지
+        </button>
+      </div> */}
 
     
       <button onClick={SetUserData} className="absolute right-0 p-1.5 bg-black rounded-[100px] shadow justify-start items-start gap-[5.71px] flex">
@@ -821,16 +830,3 @@ export const StoryPage3 = () => {
     </div>
   );
 };
-
-const GetItemBox = styled.div`
-  position: block;
-  width: 90%;
-  height: 50px;
-  border-radius: 6px;
-  background-color: #c9c9c9;
-  margin: 0 10px;
-  font-weight: 700;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
