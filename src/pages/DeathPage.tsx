@@ -38,7 +38,7 @@ export const DeathPage = () => {
                     <h3 className="px-5 pt-6 pb-3 inline-flex text-zinc-900 text-[17px] font-semibold">
                         사망하셨습니다.
                     </h3>
-                    <div className="px-5 pb-3 overflow-y-scroll">
+                    <div className="w-full px-5 pb-3 overflow-y-scroll">
                         <div className="pb-1 text-base font-medium text-zinc-900">
                             {typedText}
                         </div>
