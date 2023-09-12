@@ -17,6 +17,7 @@ declare global {
       userLoseItem: (item: ItemProps[string]) => void | undefined;
       selectDeathToRevival: () => void | undefined;
       checkUserHP: () => number;
+      moveToLobby: () => void | undefined;
     },
     ReactNativeWebView?: {
       postMessage: (message: string) => void;
