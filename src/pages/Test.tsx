@@ -1,6 +1,6 @@
 import styled from "@emotion/styled"
 import Item, { ItemProps } from "../json/DemoItem";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 //@ts-ignore
 interface Window {
   Android?: {
@@ -15,7 +15,7 @@ interface Window {
 }
 
 export const Test = () => {
-    const [userHP, setUserHP] = useState<number>();
+    //const [userHP, setUserHP] = useState<number>();
     // const sendMessageToRN = () => {
     //   const message = 'Hello from React!';
     //   window.Android?.showToast(message);
@@ -39,8 +39,6 @@ export const Test = () => {
     
     const sendCheckUserHPToAndroid = () => {
       try {
-        const userHP: number = window.Android?.checkUserHP() || 0;
-        setUserHP(userHP);
         const hp = Number(localStorage.getItem("hp"));
         localStorage.setItem("hp", (hp-10).toString());
       } catch (error) {
@@ -48,17 +46,17 @@ export const Test = () => {
       }
     }
     useEffect(() => {
-      sendMoveToLobbyAndroid();
+      //sendMoveToLobbyAndroid();
       sendCheckUserHPToAndroid();
       console.log("실행 됨");
     },[])
-    const sendMoveToLobbyAndroid = () => {
-        try {
-          window.Android?.moveToLobby();   
-        } catch (error) {
-          console.error("Error: moveToLobby"+error)
-        }
-    }
+    // const sendMoveToLobbyAndroid = () => {
+    //     try {
+    //       window.Android?.moveToLobby();   
+    //     } catch (error) {
+    //       console.error("Error: moveToLobby"+error)
+    //     }
+    // }
     
 
     // const [story, setStory] = useState<string[]>(["안녕"]);
@@ -88,7 +86,7 @@ export const Test = () => {
         <Frame>
             <Button onClick={sendGetItemToAndroid}>도끼 획득</Button>
             <Button onClick={sendLoseItemToAndroid}>도끼 삭제</Button>
-            {userHP}
+            
         </Frame>
     //     <div className="flex flex-col items-start h-screen pl-4">
     //   {story.map((paragraph, index) => (
