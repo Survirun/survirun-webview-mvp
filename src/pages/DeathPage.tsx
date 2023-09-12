@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { useTypingEffect } from "../hooks"
-import { useNavigate } from "react-router-dom";
 
 //@ts-ignore
 interface Window {
@@ -10,7 +9,7 @@ interface Window {
   }
 
 export const DeathPage = () => {
-    const navigate = useNavigate();
+    
     const deathMessage = "유감입니다.";
     const { typedText, startTyping } = useTypingEffect([deathMessage], 50);
 
@@ -21,8 +20,16 @@ export const DeathPage = () => {
           console.error("Error: sendRevivalToAndroid"+error)
         }
     }
+    const sendMoveToLobbyAndroid = () => {
+        try {
+          window.Android?.moveToLobby();   
+        } catch (error) {
+          console.error("Error: moveToLobby"+error)
+        }
+    }
+    
     const LinkToLobby = () => {
-        navigate('../lobby')
+        sendMoveToLobbyAndroid()
     }
 
     useEffect(() => {
