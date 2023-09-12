@@ -5,6 +5,7 @@ import { useTypingEffect } from "../hooks"
 interface Window {
     Android?: {
       selectDeathToRevival: () => void | undefined;
+      moveToLobby: ()=> void | undefined;
     }
   }
 
