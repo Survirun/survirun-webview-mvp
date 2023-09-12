@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useTypingEffect, useTypingEffect2 } from "../hooks"
+import { useTypingEffect2 } from "../hooks"
 import { SetUserData } from "../hooks";
 
 //@ts-ignore
