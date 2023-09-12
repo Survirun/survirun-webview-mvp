@@ -1,6 +1,6 @@
 import styled from "@emotion/styled"
 import Item, { ItemProps } from "../json/DemoItem";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 //@ts-ignore
 interface Window {
   Android?: {
@@ -10,11 +10,12 @@ interface Window {
     userLoseItem: (item: ItemProps[string]) => void | undefined;
     zombie: () => void | undefined;
     checkUserHP: () => number;
+    moveToLobby: ()=> void | undefined;
   }
 }
 
 export const Test = () => {
-    const [userHP, setUserHP] = useState<number>();
+    //const [userHP, setUserHP] = useState<number>();
     // const sendMessageToRN = () => {
     //   const message = 'Hello from React!';
     //   window.Android?.showToast(message);
@@ -36,20 +37,27 @@ export const Test = () => {
     }
 
     
-    const sendCheckUserHPToAndroid = () => {
-      try {
-        const userHP: number = window.Android?.checkUserHP() || 0;
-        setUserHP(userHP);
-        const hp = Number(localStorage.getItem("hp"));
-        localStorage.setItem("hp", (hp-10).toString());
-      } catch (error) {
-        console.error("Error: sendCheckUserHPToAndroid"+error)
-      }
-    }
+    // const sendCheckUserHPToAndroid = () => {
+    //   try {
+    //     const userHP: number = window.Android?.checkUserHP() || 0;
+    //     setUserHP(userHP);
+    //     const hp = Number(localStorage.getItem("hp"));
+    //     localStorage.setItem("hp", (hp-10).toString());
+    //   } catch (error) {
+    //     console.error("Error: sendCheckUserHPToAndroid"+error)
+    //   }
+    // }
     useEffect(() => {
-      sendCheckUserHPToAndroid();
+      sendMoveToLobbyAndroid();
       console.log("실행 됨");
     },[])
+    const sendMoveToLobbyAndroid = () => {
+        try {
+          window.Android?.moveToLobby();   
+        } catch (error) {
+          console.error("Error: moveToLobby"+error)
+        }
+    }
     
 
     // const [story, setStory] = useState<string[]>(["안녕"]);
@@ -79,7 +87,7 @@ export const Test = () => {
         <Frame>
             <Button onClick={sendGetItemToAndroid}>도끼 획득</Button>
             <Button onClick={sendLoseItemToAndroid}>도끼 삭제</Button>
-            {userHP}
+            
         </Frame>
     //     <div className="flex flex-col items-start h-screen pl-4">
     //   {story.map((paragraph, index) => (
