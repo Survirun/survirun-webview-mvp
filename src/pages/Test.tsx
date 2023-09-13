@@ -36,27 +36,18 @@ export const Test = () => {
       }
     }
 
-    
-    const sendCheckUserHPToAndroid = () => {
-      try {
-        const hp = Number(localStorage.getItem("hp"));
-        localStorage.setItem("hp", (hp-10).toString());
-      } catch (error) {
-        console.error("Error: sendCheckUserHPToAndroid"+error)
-      }
-    }
     useEffect(() => {
-      //sendMoveToLobbyAndroid();
-      sendCheckUserHPToAndroid();
+      sendMoveToLobbyAndroid();
+     
       console.log("실행 됨");
     },[])
-    // const sendMoveToLobbyAndroid = () => {
-    //     try {
-    //       window.Android?.moveToLobby();   
-    //     } catch (error) {
-    //       console.error("Error: moveToLobby"+error)
-    //     }
-    // }
+    const sendMoveToLobbyAndroid = () => {
+        try {
+          window.Android?.moveToLobby();   
+        } catch (error) {
+          console.error("Error: moveToLobby"+error)
+        }
+    }
     
 
     // const [story, setStory] = useState<string[]>(["안녕"]);
