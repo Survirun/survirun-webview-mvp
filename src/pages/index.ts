@@ -8,3 +8,4 @@ export * from './SubCharacter';
 export * from './SubCharacterCheck';
 export * from './DeathPage';
 export * from './Lobby';
+export * from './ZombieHPDown'
