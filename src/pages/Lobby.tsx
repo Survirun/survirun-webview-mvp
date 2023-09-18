@@ -39,11 +39,6 @@ export const Lobby = () => {
         startTyping();     
     }
     const handleClickBG = () => {
-        // const hasMoreMessages = nextProgress();
-        // if (!hasMoreMessages) {
-        //     setClickCharacter(false);
-        // }
-        console.log(progress);
 
         if(story[progress+1] === undefined || story[progress]?.nextProgress === -1) {
             setClickCharacter(false);
