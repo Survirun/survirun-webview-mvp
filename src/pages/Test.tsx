@@ -1,6 +1,7 @@
 import styled from "@emotion/styled"
 import Item, { ItemProps } from "../json/DemoItem";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { io } from "socket.io-client";
 //@ts-ignore
 interface Window {
   Android?: {
@@ -14,32 +15,76 @@ interface Window {
   }
 }
 
+const SERVER_URL = 'http://survirun-single-socket-3d68a52dcb76.herokuapp.com';
+
 export const Test = () => {
+  const [userData, setUserData] = useState({
+    hp: 10,
+    hungry: 10,
+    maxHp: 10,
+    maxHungry: 10,
+  });
     //const [userHP, setUserHP] = useState<number>();
     // const sendMessageToRN = () => {
     //   const message = 'Hello from React!';
     //   window.Android?.showToast(message);
     // };
 
-    const sendGetItemToAndroid = () => {
-      try {
-        window.Android?.userGetItem(Item["도끼"]);   
-      } catch (error) {
-        console.error("Error: sendHPDownToAndroid"+error)
-      }
-    }
-    const sendLoseItemToAndroid = () => {
-      try {
-        window.Android?.userLoseItem(Item["도끼"]);   
-      } catch (error) {
-        console.error("Error: sendHPDownToAndroid"+error)
-      }
+    const socket = io(SERVER_URL);
+
+    const userId = 'test'; // 원하는 유저 고유 값
+    const clientType = 2; // 클라이언트 종류 (상수에 따라 수정 필요)
+
+    const startGame = () => {
+      socket.emit('start', { userId, clientType });
+      socket.on('changedData', (data) => {
+        setUserData(data);
+      });
+    };
+
+    const handleClick = () => {
+      socket.on('changedData', (data) => {
+        setUserData(data);
+      });
     }
 
+    const handleClickRest = () => {
+      socket.emit('reset');
+      socket.on('changedData', (data) => {
+        setUserData(data);
+      });
+    }
+
+    const handleClickHP = () => {
+      socket.emit('updateHp', {
+        value: 12
+      }
+      );
+    }
+  
+
+  const sendGetItemToAndroid = () => {
+    try {
+      window.Android?.userGetItem(Item["도끼"]);   
+    } catch (error) {
+      console.error("Error: sendHPDownToAndroid"+error)
+    }
+  }
+  const sendLoseItemToAndroid = () => {
+    try {
+      window.Android?.userLoseItem(Item["도끼"]);   
+    } catch (error) {
+      console.error("Error: sendHPDownToAndroid"+error)
+    }
+  }
+
     useEffect(() => {
-      sendMoveToLobbyAndroid();
-     
       console.log("실행 됨");
+
+      sendMoveToLobbyAndroid();
+      
+
+      
     },[])
     const sendMoveToLobbyAndroid = () => {
         try {
@@ -77,7 +122,14 @@ export const Test = () => {
         <Frame>
             <Button onClick={sendGetItemToAndroid}>도끼 획득</Button>
             <Button onClick={sendLoseItemToAndroid}>도끼 삭제</Button>
-            
+            <button className="p-3 font-bold text-white rounded-3xl bg-slate-400 active:scale-95 active:opacity-80" onClick={startGame}>게임 시작</button>
+            <button className="p-3 font-bold text-white rounded-3xl bg-slate-400 active:scale-95 active:opacity-80" onClick={handleClickRest}>초기화</button>
+            <button className="p-3 font-bold text-white rounded-3xl bg-slate-400 active:scale-95 active:opacity-80" onClick={handleClick}>값 수신</button>
+            <button className="p-3 font-bold text-white rounded-3xl bg-slate-400 active:scale-95 active:opacity-80" onClick={handleClickHP}>hp 보내기</button>
+            <p>체력 (HP): {userData.hp}</p>
+            <p>공복 (Hungry): {userData.hungry}</p>
+            <p>최대 체력 (Max HP): {userData.maxHp}</p>
+            <p>최대 공복 (Max Hungry): {userData.maxHungry}</p>
         </Frame>
     //     <div className="flex flex-col items-start h-screen pl-4">
     //   {story.map((paragraph, index) => (
