@@ -1,9 +1,16 @@
+type ResultItem = {
+    kind: "hp" | "money" | "hunger" | "charateristic";
+    getOrLose: "get" | "lose";
+    number: number;
+};
+
 export interface ItemProps {
     [key: string]: {
         name: string;
         id: number;
         kind: "item" | "useItem";
         img: string;
+        resultItem?: ResultItem[],
     };
 }
 
@@ -62,17 +69,31 @@ const Item: ItemProps = {
         kind: "item",
         img: "/img/편지.jpg",
     },
-    "테스트": {
-        name: "테스트",
-        id: 10,
-        kind: "item",
-        img: "/img/테스트.jpg",
-    },
     "사용 아이템": {
-        name: "사용 테스트 아이템",
-        id: 11,
+        name: "사용 아이템",
+        id: 10,
         kind: "useItem",
         img: "/img/테스트.jpg",
+        resultItem: [
+            {
+                kind: 'hp',
+                getOrLose: 'get',
+                number: 10
+            },
+        ]
+    },
+    "사용 아이템2": {
+        name: "사용 아이템2",
+        id: 10,
+        kind: "useItem",
+        img: "/img/테스트.jpg",
+        resultItem: [
+            {
+                kind: 'hunger',
+                getOrLose: 'lose',
+                number: 10
+            },
+        ]
     }
 }
 export default Item;
