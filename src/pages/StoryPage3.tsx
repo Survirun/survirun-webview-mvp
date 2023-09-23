@@ -355,6 +355,20 @@ export const StoryPage3 = () => {
             : addInven()
           : deleteInven();
       };
+      const HungerResult = (getOrLose: string, num: number) => {
+            const hp = Number(localStorage.getItem("hp"));
+            const getHP = (hp: number, num:  number) => {
+                localStorage.setItem("hp", (hp + num).toString())
+                
+            }
+            const loseHP = (hp: number, num:  number) => {
+                localStorage.setItem("hp", (hp - num).toString());
+                
+            }
+            getOrLose === "get"
+            ? getHP(hp, num)
+            : loseHP(hp, num)
+        };
       const CharateristicResult = (getOrLose: string, num: number) => {
         const existingArray = JSON.parse(
           localStorage.getItem("charateristic") || "[]"
@@ -387,6 +401,9 @@ export const StoryPage3 = () => {
               break;
             case "charateristic":
               CharateristicResult(result.getOrLose, result.number);
+              break;
+            case "hunger":
+              HungerResult(result.getOrLose, result.number);
               break;
             default:
               console.log("Error: ResultCheck result.kind undifinded");
