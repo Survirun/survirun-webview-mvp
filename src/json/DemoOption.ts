@@ -13,7 +13,7 @@ export interface OptionResult {
   openStroy?: string,
   zombie?: number
   resultItem?: {
-    kind: 'hp' | 'money' | 'item' | 'charateristic',
+    kind: 'hp' | 'money' | 'item' | 'charateristic' | 'hunger',
     getOrLose: 'get' | 'lose',
     number: number
   }[],
