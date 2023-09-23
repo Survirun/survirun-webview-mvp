@@ -16,20 +16,24 @@ interface Window {
 interface ActionButtonsProps {
     onEquip: () => void;
     onDiscard: () => void;
+    item: ItemProps;
 }
   
 
-const ActionButtons = ({ onEquip, onDiscard }: ActionButtonsProps) => {
+const ActionButtons = ({ onEquip, onDiscard, item }: ActionButtonsProps) => {
     return(
         <ActionButtonsStyle>
-            <ActionButtonsButton onClick={onEquip}>장착하기</ActionButtonsButton>
+            {
+                item.resultItem && 
+                <ActionButtonsButton onClick={onEquip}>사용하기</ActionButtonsButton>
+            }
             <ActionButtonsButton onClick={onDiscard}>버리기</ActionButtonsButton>
         </ActionButtonsStyle>
     )
 }
 
 const Inventory = () => {
-    const [userItem, setUserItem] = useState<ItemProps[]>([]);
+    const [userItem, setUserItem] = useState<ItemProps[]>(JSON.parse(localStorage.getItem('userData') || '[]').userItem);
     const [addItem, setAddItem] = useState<ItemProps[string] | null>(null);
     const [selectedSlot, setSelectedSlot] = useState<number | null>(null);
     const inventoryRef = useRef<HTMLDivElement | null>(null);
@@ -43,7 +47,8 @@ const Inventory = () => {
         if(userItem.length < 8){
             setUserItem(AddItemToInventory(item))
         } else {
-            console.log("인벤토리 8이상");
+            window.alert("인벤토리 8이상");
+            //console.log("인벤토리 8이상");
             setAddItem(item);
         }
     }
@@ -82,16 +87,77 @@ const Inventory = () => {
             setSelectedSlot(index);
         }
     }
-    const HandleInventoryAddItemClick = () => {
-        if(selectedSlot === 9) {
-            setSelectedSlot(null);
-        } else {
-            setSelectedSlot(9);
+   
+    const HandleInventoryEquip = (item: ItemProps) => {
+        const itemResults = item.resultItem
+
+        const HPResult = (getOrLose: string, num: number) => {
+            const hp = Number(localStorage.getItem("hp"));
+            const getHP = (hp: number, num:  number) => {
+                localStorage.setItem("hp", (hp + num).toString())    
+            }
+            const loseHP = (hp: number, num:  number) => {
+                localStorage.setItem("hp", (hp - num).toString());
+            }
+            getOrLose === "get"
+            ? getHP(hp, num)
+            : loseHP(hp, num)
+        };
+        const HungerResult = (getOrLose: string, num: number) => {
+            const hp = Number(localStorage.getItem("hp"));
+            const getHP = (hp: number, num:  number) => {
+                localStorage.setItem("hp", (hp + num).toString())
+                
+            }
+            const loseHP = (hp: number, num:  number) => {
+                localStorage.setItem("hp", (hp - num).toString());
+                
+            }
+            getOrLose === "get"
+            ? getHP(hp, num)
+            : loseHP(hp, num)
+        };
+        const MoneyResult = (getOrLose: string, num: number) => {
+            const money = Number(localStorage.getItem("money"));
+            getOrLose === "get"
+            ? localStorage.setItem("money", (money + num).toString())
+            : localStorage.setItem("money", (money - num).toString());
+        };
+       
+        //@ts-ignore
+        for (const result of itemResults) {
+            switch (result.kind) {
+                case "hp":
+                    HPResult(result.getOrLose, result.number);
+                    break;
+                case "money":
+                    MoneyResult(result.getOrLose, result.number);
+                    break;
+                case "hunger":
+                    HungerResult(result.getOrLose, result.number);
+                    break;
+               
+                default:
+                console.log("Error: ResultCheck result.kind undifinded");
+            }
         }
-    }
-    const HandleInventoryEquip = () => {
+      
         setSelectedSlot(null);
+
+        const onAlertUseItem = async (item: ItemProps[string]) => {
+            const AlertLeftButton = () => {
+                
+            }
+            const AlertRightButton = () => {
+                DeletItem(item);
+            }
+    
+            const result = await alert(`${item.name}을/를 사용하시겠습니까?`);
+            result ? AlertRightButton() : AlertLeftButton();
+        }
+        onAlertUseItem(Item[item.name.toString()])
     }
+
     const HandleInventoryDiscard = () => {
         if(selectedSlot !== null) {
             if(selectedSlot === 9) {
@@ -113,30 +179,21 @@ const Inventory = () => {
         const result = await alert(`${item.name}을/를 버리시겠습니까?`);
         result ? AlertRightButton() : AlertLeftButton();
     }
-    const RenderActionButtons = () => {
-        if(selectedSlot !== null) {
+    const RenderActionButtons = (index: number) => {
+        const item: ItemProps = userItem[index];
+        
+        if (selectedSlot !== null && item) {
             return (
                 <ActionButtons
-                    onEquip={HandleInventoryEquip}
+                    onEquip={() => HandleInventoryEquip(item)}
                     onDiscard={HandleInventoryDiscard}
+                    item={item}
                 />
-            )
+            );
         }
         return null;
-    }
-    const RenderAddItem = () => {
-        if(addItem !== null){
-            return(
-                <InventorySlot>
-                    {selectedSlot === 9 && RenderActionButtons()}
-                    <InventoryItem onClick={() => HandleInventoryAddItemClick()}>
-                        {addItem.name}
-                    </InventoryItem>
-                </InventorySlot>
-            )
-        }
-        return null;
-    }
+    };
+   
     useEffect(() => {
         GetInvenItem();
     }, [])
@@ -157,19 +214,18 @@ const Inventory = () => {
         <Frame>
             <TestButtonStyled>
                 <button onClick={() => AddItem(Item["도끼"])}>도끼 획득</button>
-                <button onClick={() => AddItem(Item["백신"])}>백신 획득</button>
+                <button onClick={() => AddItem(Item["사용 아이템"])}>사용 아이템 획득</button>
+                <button onClick={() => AddItem(Item["사용 아이템2"])}>사용 아이템2 획득</button>
                 <button onClick={SetUserData}>아아템 초기화</button>
             </TestButtonStyled>
             <InventoryStyle ref={inventoryRef}>
-                <AddItemStyle>
-                    {addItem !== null && RenderAddItem()}
-                </AddItemStyle>
-                {Array.from({ length: 8 }).map((_, index) => (
-                    <InventorySlot key={index}>
-                        {selectedSlot === index && RenderActionButtons()}
-                        <InventoryItem onClick={() => HandleInventoryItemClick(index)}>{CreateInventoryName(index)}</InventoryItem>
-                    </InventorySlot>
-                ))}  
+   
+            {Array.from({ length: 8 }).map((_, index) => (
+                <InventorySlot key={index}>
+                    {(selectedSlot === index) && RenderActionButtons(index)}
+                    <InventoryItem onClick={() => HandleInventoryItemClick(index)}>{CreateInventoryName(index)}</InventoryItem>
+                </InventorySlot>
+            ))}
             </InventoryStyle>
         </Frame>
     )
@@ -226,14 +282,4 @@ const ActionButtonsButton = styled.button`
     color: white;
     border: none;
     cursor: pointer;
-`
-const AddItemStyle = styled.div`
-    position: absolute;
-    top: -100px;
-    display: flex;
-    width: 100%;
-    margin: 0 auto;
-    justify-content: center;
-    align-items: center;
-    background-color: #ff2b2b;
 `
