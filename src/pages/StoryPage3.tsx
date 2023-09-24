@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useState, useContext } from "react";
-import { DeletItemToInventory, AddItemToInventory } from "../hooks";
+import { DeletItemToInventory, AddItemToInventory, useSocket } from "../hooks";
 //Demo Data
 //import StoryData from '../json/DemoStory4.json';
 import { jsonOption, OptionResult } from "../json/DemoOption";
@@ -43,6 +43,19 @@ export const StoryPage3 = () => {
   const { alert } = useContext(AlertContext);
   const { invenSelect } = useContext(InventorySelectContext);
 
+  const socket = useSocket();
+  
+  const userId = 'test';
+  const clientType = 2;
+
+  socket.on('changedData', (data) => {
+    console.log(data);
+  });
+
+  const startGame = () => {
+      socket.emit('start', { userId, clientType });
+    };
+  
   // const [messages, setMessage] = useState<string>("");
   //const [allMessage, setAllMessage] = useState<string[]>([])
   //const [testMessage, setTestMessage] = useState(0)
@@ -141,7 +154,6 @@ export const StoryPage3 = () => {
             }
         </p>
       );
-      console.log(storyList)
       setStory(storyList);
     } catch (e) {
       console.error("Error: GetStoryData()");
@@ -306,18 +318,21 @@ export const StoryPage3 = () => {
       let userDataItem = userData.userItem;
 
       const HPResult = (getOrLose: string, num: number) => {
-        const hp = Number(localStorage.getItem("hp"));
-        const getHP = (hp: number, num:  number) => {
-          localStorage.setItem("hp", (hp + num).toString())
-          sendHPUpToAndroid(num)
+
+        const getHP = (num:  number) => {
+          socket.emit('updateHp', {
+            value: num
+          });
         }
-        const loseHP = (hp: number, num:  number) => {
-          localStorage.setItem("hp", (hp - num).toString());
-          sendHPDownToAndroid(num)
+        const loseHP = (num:  number) => {
+          socket.emit('updateHp', {
+            value: -num
+          });
+
         }
         getOrLose === "get"
-          ? getHP(hp, num)
-          : loseHP(hp, num)
+          ? getHP(num)
+          : loseHP(num)
       };
       const MoneyResult = (getOrLose: string, num: number) => {
         const money = Number(localStorage.getItem("money"));
@@ -356,19 +371,21 @@ export const StoryPage3 = () => {
           : deleteInven();
       };
       const HungerResult = (getOrLose: string, num: number) => {
-            const hp = Number(localStorage.getItem("hp"));
-            const getHP = (hp: number, num:  number) => {
-                localStorage.setItem("hp", (hp + num).toString())
-                
-            }
-            const loseHP = (hp: number, num:  number) => {
-                localStorage.setItem("hp", (hp - num).toString());
-                
-            }
-            getOrLose === "get"
-            ? getHP(hp, num)
-            : loseHP(hp, num)
-        };
+        
+        const getHunger = (num:  number) => {
+          socket.emit('updateHungry ', {
+            value: num
+          });
+        }
+        const loseHunger = (num:  number) => {
+          socket.emit('updateHungry ', {
+            value: -num
+          });
+        }
+        getOrLose === "get"
+        ? getHunger(num)
+        : loseHunger(num)
+      };
       const CharateristicResult = (getOrLose: string, num: number) => {
         const existingArray = JSON.parse(
           localStorage.getItem("charateristic") || "[]"
@@ -758,6 +775,7 @@ export const StoryPage3 = () => {
 
   useEffect(() => {
     //SetUserData();
+    startGame();
 
     GetRanDomStoryNumber();
     GetUserData();
