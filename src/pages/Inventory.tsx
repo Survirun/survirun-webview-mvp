@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 import { AlertContext } from "../module";
 import { DeletItemToInventory, AddItemToInventory } from "../hooks";
 import Item, {ItemProps} from "../json/DemoItem";
-import { SetUserData } from "../hooks";
+import { SetUserData, useSocket } from "../hooks";
 
 //@ts-ignore
 interface Window { 
@@ -39,6 +39,16 @@ const Inventory = () => {
     const inventoryRef = useRef<HTMLDivElement | null>(null);
 
     const { alert } = useContext(AlertContext);
+
+    const socket = useSocket();
+    const userId = 'test';
+    const clientType = 2;
+    socket.on('changedData', (data) => {
+        console.log(data);
+    });
+    const startGame = () => {
+        socket.emit('start', { userId, clientType });
+    };
 
     const GetInvenItem = () => {
         setUserItem(JSON.parse(localStorage.getItem('userData') || '[]').userItem)
@@ -92,55 +102,52 @@ const Inventory = () => {
         const itemResults = item.resultItem
 
         const HPResult = (getOrLose: string, num: number) => {
-            const hp = Number(localStorage.getItem("hp"));
-            const getHP = (hp: number, num:  number) => {
-                localStorage.setItem("hp", (hp + num).toString())    
+            const getHP = (num:  number) => {
+                socket.emit('updateHp', {
+                    value: num
+                });
             }
-            const loseHP = (hp: number, num:  number) => {
-                localStorage.setItem("hp", (hp - num).toString());
+            const loseHP = (num:  number) => {
+                socket.emit('updateHp', {
+                    value: -num
+                });
             }
             getOrLose === "get"
-            ? getHP(hp, num)
-            : loseHP(hp, num)
+              ? getHP(num)
+              : loseHP(num)
         };
         const HungerResult = (getOrLose: string, num: number) => {
-            const hp = Number(localStorage.getItem("hp"));
-            const getHP = (hp: number, num:  number) => {
-                localStorage.setItem("hp", (hp + num).toString())
-                
+            const getHunger = (num:  number) => {
+                socket.emit('updateHungry', {
+                    value: num
+                });
             }
-            const loseHP = (hp: number, num:  number) => {
-                localStorage.setItem("hp", (hp - num).toString());
-                
+            const loseHunger = (num:  number) => {
+                socket.emit('updateHungry', {
+                    value: -num
+                });
             }
             getOrLose === "get"
-            ? getHP(hp, num)
-            : loseHP(hp, num)
+              ? getHunger(num)
+              : loseHunger(num)
         };
         const MoneyResult = (getOrLose: string, num: number) => {
-            const money = Number(localStorage.getItem("money"));
+            const getHP = (num:  number) => {
+                socket.emit('updateHp', {
+                    value: num
+                });
+            }
+            const loseHP = (num:  number) => {
+                socket.emit('updateHp', {
+                    value: -num
+                });
+            }
             getOrLose === "get"
-            ? localStorage.setItem("money", (money + num).toString())
-            : localStorage.setItem("money", (money - num).toString());
+              ? getHP(num)
+              : loseHP(num)
         };
        
-        //@ts-ignore
-        for (const result of itemResults) {
-            switch (result.kind) {
-                case "hp":
-                    HPResult(result.getOrLose, result.number);
-                    break;
-                case "money":
-                    MoneyResult(result.getOrLose, result.number);
-                    break;
-                case "hunger":
-                    HungerResult(result.getOrLose, result.number);
-                    break;
-               
-                default:
-                console.log("Error: ResultCheck result.kind undifinded");
-            }
-        }
+        
       
         setSelectedSlot(null);
 
@@ -149,6 +156,23 @@ const Inventory = () => {
                 
             }
             const AlertRightButton = () => {
+                //@ts-ignore
+                for (const result of itemResults) {
+                    switch (result.kind) {
+                        case "hp":
+                            HPResult(result.getOrLose, result.number);
+                            break;
+                        case "money":
+                            MoneyResult(result.getOrLose, result.number);
+                            break;
+                        case "hunger":
+                            HungerResult(result.getOrLose, result.number);
+                            break;
+                    
+                        default:
+                        console.log("Error: ResultCheck result.kind undifinded");
+                    }
+                }
                 DeletItem(item);
             }
     
@@ -195,6 +219,7 @@ const Inventory = () => {
     };
    
     useEffect(() => {
+        startGame();
         GetInvenItem();
     }, [])
     useEffect(() => {
