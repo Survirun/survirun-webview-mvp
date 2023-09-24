@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import firebase from 'firebase/app';
+import { storage } from '../../firebaseConfig';
+import { initializeApp } from 'firebase/app';
+import { getStorage, ref, uploadBytes } from 'firebase/storage';
 
 
 export const JsonTest = () => {
   const [name, setName] = useState<string>('');
   const [age, setAge] = useState<number | string>('');
-  
+  const [file, setFile] = useState<File | null>(null);
+ 
 
   const [jsonData, setJsonData] = useState<object | null>(null);
 
@@ -23,6 +27,27 @@ export const JsonTest = () => {
       age: age,
     };
     setJsonData(data);
+  };
+  
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files && e.target.files[0];
+    if (selectedFile) {
+      setFile(selectedFile);
+    }
+  };
+
+  const handleUpload = () => {
+    if (file) {
+      const storageRef = ref(storage, file.name);
+
+      uploadBytes(storageRef, file).then(() => {
+        console.log("파일이 성공적으로 업로드되었습니다.");
+      }).catch((error) => {
+        console.error("파일 업로드 중 오류가 발생했습니다.", error);
+      });
+    } else {
+      console.log("파일을 선택하세요.");
+    }
   };
   
   const downloadJsonFile = () => {
@@ -58,13 +83,19 @@ export const JsonTest = () => {
         />
       </div>
       <button onClick={generateJson}>JSON 생성</button>
-        {jsonData && (
-            <div>
-                <h2>생성된 JSON:</h2>
-                <pre>{JSON.stringify(jsonData, null, 2)}</pre>
-                <button onClick={downloadJsonFile}>JSON 파일 다운로드</button>
-            </div>
-        )}
+      {jsonData && (
+          <div>
+              <h2>생성된 JSON:</h2>
+              <pre>{JSON.stringify(jsonData, null, 2)}</pre>
+              <button onClick={downloadJsonFile}>JSON 파일 다운로드</button>
+          </div>
+      )}
+
+
+      <input type="file" onChange={handleFileChange} />
+      <button onClick={handleUpload}>Upload File</button>
+
+      
     </div>
   );
 }
