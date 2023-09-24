@@ -11,47 +11,35 @@ interface Window {
   }
 }
 
-const SERVER_URL = 'http://survirun-single-socket-3d68a52dcb76.herokuapp.com';
+
 
 export const Test = () => {
+  const SERVER_URL = 'http://survirun-single-socket-3d68a52dcb76.herokuapp.com';
+  
   const [userData, setUserData] = useState({
     hp: 0,
     hungry: 0,
     maxHp: 0,
     maxHungry: 0,
   });
-    //const [userHP, setUserHP] = useState<number>();
-    // const sendMessageToRN = () => {
-    //   const message = 'Hello from React!';
-    //   window.Android?.showToast(message);
-    // };
 
-    const socket = io(SERVER_URL);
+    const [socket, setSocket] = useState(io(SERVER_URL));
+    console.log(socket)
 
     const userId = 'test';
     const clientType = 2; 
 
+    socket.on('changedData', (data) => {
+      setUserData(data);
+      console.log(data);
+    });
+
     const startGame = () => {
       socket.emit('start', { userId, clientType });
-      socket.on('changedData', (data) => {
-        setUserData(data);
-        console.log(data);
-      });
     };
-
-    const handleClick = () => {
-      socket.on('changedData', (data) => {
-        setUserData(data);
-        console.log(data);
-      });
-    }
 
     const handleClickRest = () => {
       socket.emit('reset');
-      socket.on('changedData', (data) => {
-        setUserData(data);
-        console.log(data);
-      });
     }
 
     const handleClickHP = () => {
@@ -66,7 +54,7 @@ export const Test = () => {
 
       sendMoveToLobbyAndroid();
       
-
+      startGame();
       
     },[])
     const sendMoveToLobbyAndroid = () => {
@@ -105,7 +93,6 @@ export const Test = () => {
         <div className="absolute w-screen h-screen">
             <button className="p-3 font-bold text-white rounded-3xl bg-slate-400 active:scale-95 active:opacity-80" onClick={startGame}>게임 시작</button>
             <button className="p-3 font-bold text-white rounded-3xl bg-slate-400 active:scale-95 active:opacity-80" onClick={handleClickRest}>초기화</button>
-            <button className="p-3 font-bold text-white rounded-3xl bg-slate-400 active:scale-95 active:opacity-80" onClick={handleClick}>값 수신</button>
             <button className="p-3 font-bold text-white rounded-3xl bg-slate-400 active:scale-95 active:opacity-80" onClick={handleClickHP}>hp 보내기</button>
             <p>체력 (HP): {userData.hp}</p>
             <p>공복 (Hungry): {userData.hungry}</p>
