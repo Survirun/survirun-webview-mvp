@@ -754,21 +754,7 @@ export const StoryPage3 = () => {
     const result = await invenSelect("취소", "버리기");
     result === -1 ? await CancleToDeleteItem() : DeleteSelectItem();
   };
-  const sendHPUpToAndroid = (num: number) => {
-    try {
-      window.Android?.userHPUp(num);   
-    } catch (error) {
-      console.error("Error: sendHPUpToAndroid"+error)
-    }
-  }
-  const sendHPDownToAndroid = (num: number) => {
-    try {
-      window.Android?.userHPDown(num);   
-    } catch (error) {
-      console.error("Error: sendHPDownToAndroid"+error)
-    }
-  }
-
+  
   useEffect(() => {
     GetStoryData();
   }, [storyNumber, progressNumber]);
