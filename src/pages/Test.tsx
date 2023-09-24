@@ -14,8 +14,8 @@ interface Window {
 
 
 export const Test = () => {
-  const SERVER_URL = 'http://survirun-single-socket-3d68a52dcb76.herokuapp.com';
-  
+  const SERVER_URL = import.meta.env.VITE_SERVER_URL || "";
+
   const [userData, setUserData] = useState({
     hp: 0,
     hungry: 0,
@@ -23,7 +23,7 @@ export const Test = () => {
     maxHungry: 0,
   });
 
-    const [socket, setSocket] = useState(io(SERVER_URL));
+    const [socket, _] = useState(io(SERVER_URL));
     console.log(socket)
 
     const userId = 'test';
