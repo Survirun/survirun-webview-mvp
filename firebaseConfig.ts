@@ -19,4 +19,4 @@ const firebaseConfig = {
 //* firebaseConfig 정보로 firebase 시작
 const fbaseApp = initializeApp(firebaseConfig);
 //* firebase의 storage 인스턴스를 변수에 저장
-export const fstorage = getStorage(fbaseApp);
+export const storage = getStorage(fbaseApp);
