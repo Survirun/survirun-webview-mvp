@@ -77,7 +77,7 @@ const Item: ItemProps = {
         resultItem: [
             {
                 kind: 'hp',
-                getOrLose: 'get',
+                getOrLose: 'lose',
                 number: 10
             },
         ]
