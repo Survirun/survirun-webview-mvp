@@ -236,7 +236,7 @@ const Inventory = () => {
         };
     }, []);
     return(
-        <Frame>
+        <div className="relative w-screen h-screen bg-white">
             <TestButtonStyled>
                 <button onClick={() => AddItem(Item["도끼"])}>도끼 획득</button>
                 <button onClick={() => AddItem(Item["사용 아이템"])}>사용 아이템 획득</button>
@@ -251,8 +251,11 @@ const Inventory = () => {
                     <InventoryItem onClick={() => HandleInventoryItemClick(index)}>{CreateInventoryName(index)}</InventoryItem>
                 </InventorySlot>
             ))}
-            </InventoryStyle>
-        </Frame>
+            </InventoryStyle>   
+        </div>
+        // <Frame>
+     
+        // </Frame>
     )
 }
 export default Inventory;
