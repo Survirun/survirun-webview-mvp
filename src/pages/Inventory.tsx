@@ -260,14 +260,6 @@ const Inventory = () => {
 }
 export default Inventory;
 
-const Frame = styled.div`
-    position: absolute;
-    width: 100vw;
-    height: 100vh;
-    max-width: 412px;
-    max-height: 915px;
-    background-color: #eee;
-`
 const InventoryStyle = styled.div`
     position: absolute;
     bottom: 0;
