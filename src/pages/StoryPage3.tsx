@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState, useContext } from "react";
+import React, { Fragment, useEffect, useState, useContext, ReactElement } from "react";
 import { DeletItemToInventory, AddItemToInventory, useSocket } from "../hooks";
 //Demo Data
 //import StoryData from '../json/DemoStory4.json';
@@ -528,28 +528,29 @@ export const StoryPage3 = () => {
       if (optionResult === null || optionResult === undefined) {
         return;
       }
-      let list = "";
+      const contents:React.ReactNode[] = [];
       optionResult.map((result, i) => {
+        let list = "";
         const optionGetOrLose = result.getOrLose;
         const optionNumber = result.number;
         const optionKind = result.kind;
 
         if (i > 0) {
-          list += ", ";
+          contents.push(<>&nbsp;</>)
         }
         if(optionResult[i-1]?.kind !== optionKind) {
           switch (optionKind) {
             case "hp":
-              list += "체력: ";
+              list += "체력 ";
               break;
             case "money":
-              list += "돈: ";
+              list += "돈 ";
               break;
             case "item":
-              list += "아아템: ";
+              list += "";
               break;
             case "charateristic":
-              list += "특성: ";
+              list += "";
               break;
             default:
               console.error("Error: AddItemStory() unfinded optionKind");
@@ -557,10 +558,10 @@ export const StoryPage3 = () => {
         }
         switch (optionGetOrLose) {
           case "get":
-            list += "+ ";
+            list += "+";
             break;
           case "lose":
-            list += "- ";
+            list += "-";
             break;
           default:
             console.error("Error: AddItemStory() unfinded optionGetOrLose");
@@ -602,10 +603,25 @@ export const StoryPage3 = () => {
           default:
             console.error("Error: AddItemStory() unfinded optionKind");
         }
+        switch (optionGetOrLose) {
+          case "get":
+            contents.push(<p className="text-green-500">{list}</p>)
+            break;
+          case "lose":
+            contents.push(<p className="text-red-500">{list}</p>)
+            break;
+          default:
+            console.error("Error: AddItemStory() unfinded optionGetOrLose");
+        }
       });
       const keyValue = optionNumber * 1000;
-      return <div key={keyValue} className="flex rounded-md items-center justify-center mx-10 font-bold bg-gray-300 w-[9/10] h-[50px] rounded-6 mb-1">
-      {list}</div>
+      // return <div key={keyValue} className="flex rounded-md items-center justify-center mx-10 font-bold bg-gray-300 w-[9/10] h-[50px] rounded-6 mb-1">
+      // {list}</div>
+      return <span key={keyValue}  className="flex ">
+        {contents.map((list, index) => (
+          <React.Fragment key={index}>{list}</React.Fragment>
+        ))}
+      </span>
     } catch (e) {
       console.error("Error: AddItemStory()");
       console.error(e);
@@ -711,7 +727,6 @@ export const StoryPage3 = () => {
         const userStoryList = AddStoryUser(optionNumber) || <></>;
         const itemStoryList = AddItemStory(optionNumber, result) || <></>;
         
-        console.log(story);
         setStory([...story, userStoryList, itemStoryList]);
         ResultCheck(optionNumber, result);
         GetUserData();
