@@ -101,7 +101,7 @@ export const ItemGet = () => {
                         </div>
                     </div>
                     <div className="w-full h-[500px] px-5 pb-3 ">
-                        <img width={360} height={300} className='m-auto'/>
+                        <img width={360} height={300} className='m-auto' src={Item[item || "사용 아이템"]?.img}/>
                         <div className="pb-1 text-base font-medium text-zinc-900">
                             {item}을 얻었다
                         </div>
