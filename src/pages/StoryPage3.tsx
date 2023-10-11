@@ -20,7 +20,7 @@ interface Window {
     zombie: (zombieNumber: number) => void | undefined;
     userHPUp: (num: number) => void | undefined;
     userHPDown: (num: number) => void | undefined;
-  };
+  }
 }
 
 export const StoryPage3 = () => {
@@ -491,6 +491,7 @@ export const StoryPage3 = () => {
   };
   const SendAndroidEndStory = () => {
     try {
+      window.parent.postMessage(true, '*');
       return window.Android?.webViewIsVisible();
     } catch (e) {
       console.error("Error: StoryPage - window.Android.webViewIsVisible()");
