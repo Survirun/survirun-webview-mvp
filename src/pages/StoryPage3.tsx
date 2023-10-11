@@ -13,16 +13,6 @@ import CharateristicData from "../json/DemoCharateristic.json";
 
 import { ChooseParticle, SetUserData, useButtonDelay } from "../hooks";
 
-//@ts-ignore
-interface Window {
-  Android?: {
-    webViewIsVisible: () => void | undefined;
-    zombie: (zombieNumber: number) => void | undefined;
-    userHPUp: (num: number) => void | undefined;
-    userHPDown: (num: number) => void | undefined;
-  }
-}
-
 export const StoryPage3 = () => {
   const [storyNumber, setStoryNumber] = useState<number>();
   const [progressNumber, setProgressNumber] = useState<number>();
@@ -469,7 +459,7 @@ export const StoryPage3 = () => {
       }
 
       if (option.result[resultOption].nextProgress === undefined) {
-        SendAndroidEndStory();
+        SendMapEndStory();
         NextStoryPart();
       } else {
         const optionNextStory = Number(
@@ -482,32 +472,31 @@ export const StoryPage3 = () => {
       if (optionZombie === undefined) {
         return;
       } else {
-        SendAndroidZombie(optionZombie);
+        //SendAndroidZombie(optionZombie);
       }
     } catch (e) {
       console.error("Error: NextStory()");
       console.error(e);
     }
   };
-  const SendAndroidEndStory = () => {
+  const SendMapEndStory = () => {
     try {
-      window.parent.postMessage(true, '*');
-      return window.Android?.webViewIsVisible();
+      return window.parent.postMessage(true, '*');
     } catch (e) {
       console.error("Error: StoryPage - window.Android.webViewIsVisible()");
       console.error(e);
     }
   };
-  const SendAndroidZombie = (optionZombie: number) => {
-    try {
-      for(let i=0; i<optionZombie; i++){
-        window.Android?.zombie();
-      }
-    } catch (e) {
-      console.error("Error: window.Android.zombie()");
-      console.error(e);
-    }
-  };
+  // const SendAndroidZombie = (optionZombie: number) => {
+  //   try {
+  //     for(let i=0; i<optionZombie; i++){
+  //       window.Android?.zombie();
+  //     }
+  //   } catch (e) {
+  //     console.error("Error: window.Android.zombie()");
+  //     console.error(e);
+  //   }
+  // };
   const AddItemStory = (optionNumber: number, resultOption: number) => {
     try {
       if (storyNumber === undefined || progressNumber === undefined) {
