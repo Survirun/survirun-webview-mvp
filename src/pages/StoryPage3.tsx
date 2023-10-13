@@ -35,15 +35,12 @@ export const StoryPage3 = () => {
   const socket = useSocket();
   
   const userId = 'test';
-  const clientType = 2;
-
-  socket.on('changedData', (data) => {
-    console.log(data);
-  });
+  const clientType = 1;
 
   const startGame = () => {
-      socket.emit('start', { userId, clientType });
-    };
+    socket.emit('start', { userId, clientType });
+  };
+
   
   // const [messages, setMessage] = useState<string>("");
   //const [allMessage, setAllMessage] = useState<string[]>([])
@@ -316,6 +313,9 @@ export const StoryPage3 = () => {
             value: -num
           });
 
+          socket.on('changedHp', (data) => {
+            console.log(data);
+          });
         }
         getOrLose === "get"
           ? getHP(num)
