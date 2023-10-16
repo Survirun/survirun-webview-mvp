@@ -1,0 +1,19 @@
+{
+  "title": "테스트 스토리1",
+  "startID": "progressStory-1",
+  "text": {
+    "progressStory-1": {
+      "text": "옛날에 어쩌구 저쩌구",
+      "options": [
+        {
+          "optionID": "option-1",
+          "optionText": "예??"
+        },
+        {
+          "optionID": "option-2",
+          "optionText": "뭔솔이에요?"
+        }
+      ]
+    }
+  }
+}
