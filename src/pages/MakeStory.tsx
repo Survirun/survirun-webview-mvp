@@ -16,6 +16,7 @@ interface Story {
 
 export const MakeStroy = () => {
   const [title, setTitle] = useState<string>("");
+  const [startID, setStartID] = useState<string>("progressStory-1");
   const [stories, setStories] = useState<Story[]>([]);
 
   const { alert } = useContext(AlertContext);
@@ -24,14 +25,18 @@ export const MakeStroy = () => {
     setTitle(event.target.value);
   };
 
+  const handleStartStoryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setStartID(event.target.value);
+  };
+
   const handleStoryChange = (id: string, text: string, index: number) => {
-    const updatedStories = [...stories];
-    updatedStories[index] = { id, text, options: [] };
+    const updatedStories = JSON.parse(JSON.stringify(stories)); // 깊은 복사
+    updatedStories[index] = { id, text, options: stories[index].options };
     setStories(updatedStories);
   };
 
   const addOption = (index: number) => {
-    const updatedStories = [...stories];
+    const updatedStories = JSON.parse(JSON.stringify(stories)); // 깊은 복사
     const newOptionID = `option-${updatedStories[index].options.length + 1}`;
     updatedStories[index].options.push({
       optionID: newOptionID,
@@ -53,13 +58,12 @@ export const MakeStroy = () => {
   };
 
   const removeStory = (index: number) => {
-    const updatedStories = [...stories];
+    const updatedStories = JSON.parse(JSON.stringify(stories)); // 깊은 복사
     updatedStories.splice(index, 1);
     setStories(updatedStories);
   };
-
   const removeOption = (storyIndex: number, optionIndex: number) => {
-    const updatedStories = [...stories];
+    const updatedStories = JSON.parse(JSON.stringify(stories)); // 깊은 복사
     updatedStories[storyIndex].options.splice(optionIndex, 1);
     setStories(updatedStories);
   };
@@ -70,7 +74,7 @@ export const MakeStroy = () => {
       textObj[story.id] = { text: story.text, options: story.options };
     });
 
-    const jsonData = JSON.stringify({ title, text: textObj }, null, 2);
+    const jsonData = JSON.stringify({ title, startID, text: textObj }, null, 2);
     const blob = new Blob([jsonData], { type: "application/json" });
     const url = URL.createObjectURL(blob);
 
@@ -119,6 +123,13 @@ export const MakeStroy = () => {
           placeholder="제목을 입력하세요"
           value={title}
           onChange={handleTitleChange}
+        />
+         <input
+          type="text"
+          className="w-full p-2 mb-4 border border-gray-300 rounded"
+          placeholder="시작 진행 스토리 아이디를 적으세요"
+          value={startID}
+          onChange={handleStartStoryChange}
         />
         {stories.map((story, index) => (
           <div key={index} className="p-4 bg-white rounded shadow-md">
