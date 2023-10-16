@@ -1,7 +1,7 @@
 {
   "title": "테스트 스토리1",
   "startID": "progressStory-1",
-  "text": {
+  "progressStory": {
     "progressStory-1": {
       "text": "옛날에 어쩌구 저쩌구",
       "options": [

@@ -1,5 +1,17 @@
 import testdata from './testData.json'
 
-const Storys = [testdata]
+export interface StoryInterface {
+    title: string;
+    startID: string;
+    progressStory: Record<string, {
+      text: string;
+      options: {
+        optionID: string;
+        optionText: string;
+      }[];
+    }>;
+}
+
+const Storys: StoryInterface[] = [testdata]
 
 export default Storys;
