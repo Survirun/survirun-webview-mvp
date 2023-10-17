@@ -6,7 +6,7 @@ import { AlertContext } from "../module/index";
 interface Option {
   optionID: string;
   optionText: string;
-  nextProgressStory: string | null;
+  nextProgressStory: string | undefined;
 }
 
 interface Story {
@@ -85,7 +85,7 @@ export const MakeStroy = () => {
         options: story.options.map((option) => ({
           optionID: option.optionID,
           optionText: option.optionText,
-          nextProgressStory: option.nextProgressStory || null,
+          nextProgressStory: option.nextProgressStory || undefined,
         })),
       };
       textObj[story.id] = storyData;
@@ -200,8 +200,8 @@ export const MakeStroy = () => {
                       optionID: id,
                       optionText: text,
                       nextProgressStory:
-                      option.nextProgressStory === null
-                          ? null
+                      option.nextProgressStory === undefined
+                          ? undefined
                           : option.nextProgressStory,
                     };
                     setStories(updatedStories);
@@ -218,8 +218,8 @@ export const MakeStroy = () => {
                       optionID: id,
                       optionText: text,
                       nextProgressStory:
-                      nextProgressStory === null
-                          ? null
+                      nextProgressStory === undefined
+                          ? undefined
                           : nextProgressStory,
                     };
                     setStories(updatedStories);

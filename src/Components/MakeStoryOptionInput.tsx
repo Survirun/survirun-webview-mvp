@@ -3,8 +3,8 @@ import React, { useState } from "react";
 interface MakeStoryOptionInputProps {
   optionID: string;
   optionText: string;
-  nextProgressStory: string | null; // nextProgressStory를 string | undefined로 변경
-  onChange: (id: string, text: string, nextProgressStory: string | null) => void; // 타입 변경
+  nextProgressStory: string | undefined; // nextProgressStory를 string | undefined로 변경
+  onChange: (id: string, text: string, nextProgressStory: string | undefined) => void; // 타입 변경
 }
 
 export const MakeStoryOptionInput: React.FC<MakeStoryOptionInputProps> = ({
