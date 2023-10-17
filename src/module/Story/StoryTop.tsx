@@ -1,11 +1,14 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import { SetUserData } from "../../hooks";
 import { StoryMiddle } from ".";
 import { StoryInterface } from '../../json/Storys';
 
-export const StoryTop = (story: StoryInterface) => {
+export const StoryTop = ({ story }: { story: StoryInterface }) => {
   const [progress, setProgress] = useState<string>(story.startID);
-
+  const [storyTitle, setStoryTitle] = useState(story.title)
+  useEffect(()=>{
+    console.log(story)
+  })
   return (
     <>
       <button
@@ -28,8 +31,8 @@ export const StoryTop = (story: StoryInterface) => {
       </button>
 
       <div className="flex flex-col items-center justify-center">
-        {story.title}
-        <StoryMiddle progressStroy={story[progress]}/>
+        {storyTitle}
+        <StoryMiddle progressStory={story.progressStory[progress]} />
       </div>
     </>
   );

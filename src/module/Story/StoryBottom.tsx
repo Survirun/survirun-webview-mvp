@@ -1,151 +1,157 @@
+import { useEffect } from "react";
 import { useButtonDelay } from "../../hooks";
+import { OptionsInterface } from "../../json/Storys";
 
-export const StoryBottom = () => {
-    const ButtonDisable = (optionNumber: number) => {
-          if (storyNumber === undefined || progressNumber === undefined) {
-            return;
-          }
+export const StoryBottom = ({options}: {options: OptionsInterface[]}) => {
+    // const ButtonDisable = (optionNumber: number) => {
+    //       if (storyNumber === undefined || progressNumber === undefined) {
+    //         return;
+    //       }
     
-          let option;
-          if (storyOptionStory[optionNumber] === "next") {
-            option = jsonOption[0][0][0];
-          } else {
-            option =
-              jsonOption[storyParts][storyNumber][storyOptionNum[optionNumber]];
-          }
-          const optionCondition = option.condition;
+    //       let option;
+    //       if (storyOptionStory[optionNumber] === "next") {
+    //         option = jsonOption[0][0][0];
+    //       } else {
+    //         option =
+    //           jsonOption[storyParts]storyNumber][storyOptionNum[optionNumber]];
+    //       }
+    //       const optionCondition = option.condition;
     
-          if (optionCondition === undefined || optionCondition === null)
-            return false;
+    //       if (optionCondition === undefined || optionCondition === null)
+    //         return false;
     
-          let result = false;
+    //       let result = false;
     
-          const MoneyDisable = (num: number) => {
-            return userMoney >= num ? false : true;
-          };
-          const ItemDisable = (num: number) => {
-            const itemName = ItemData.items[num - 1].name;
-            return userItems.indexOf(itemName) > -1
-              ? (result = false)
-              : (result = true);
-          };
-          const CharateristicDisable = (num: number) => {
-            const charateristicName = CharateristicData.charaters[num - 1].name;
-            return userCharateristic.indexOf(charateristicName) > -1
-              ? (result = false)
-              : (result = true);
-          };
-          optionCondition.map((condition) => {
-            switch (condition.kind) {
-              case "money":
-                result = result || MoneyDisable(condition.number);
-                break;
-              case "item":
-                result = result || ItemDisable(condition.number);
-                break;
-              case "charateristic":
-                result = result || CharateristicDisable(condition.number);
-                break;
-              default:
-                console.log("Error: ButtonDisable condition.kind undifinded");
-            }
-          });
-          return result;
-      };
-      const ClickEvent = async(optionNumber: number) => {
-          useButtonDelay(async () => {
-            // testOnclick();
-            const result = await RandomResult(optionNumber);
-            const userStoryList = AddStoryUser(optionNumber) || <></>;
-            const itemStoryList = AddItemStory(optionNumber, result) || <></>;
+    //       const MoneyDisable = (num: number) => {
+    //         return userMoney >= num ? false : true;
+    //       };
+    //       const ItemDisable = (num: number) => {
+    //         const itemName = ItemData.items[num - 1].name;
+    //         return userItems.indexOf(itemName) > -1
+    //           ? (result = false)
+    //           : (result = true);
+    //       };
+    //       const CharateristicDisable = (num: number) => {
+    //         const charateristicName = CharateristicData.charaters[num - 1].name;
+    //         return userCharateristic.indexOf(charateristicName) > -1
+    //           ? (result = false)
+    //           : (result = true);
+    //       };
+    //       optionCondition.map((condition) => {
+    //         switch (condition.kind) {
+    //           case "money":
+    //             result = result || MoneyDisable(condition.number);
+    //             break;
+    //           case "item":
+    //             result = result || ItemDisable(condition.number);
+    //             break;
+    //           case "charateristic":
+    //             result = result || CharateristicDisable(condition.number);
+    //             break;
+    //           default:
+    //             console.log("Error: ButtonDisable condition.kind undifinded");
+    //         }
+    //       });
+    //       return result;
+    //   };
+    //   const ClickEvent = async(optionNumber: number) => {
+    //       useButtonDelay(async () => {
+    //         // testOnclick();
+    //         const result = await RandomResult(optionNumber);
+    //         const userStoryList = AddStoryUser(optionNumber) || <></>;
+    //         const itemStoryList = AddItemStory(optionNumber, result) || <></>;
             
-            setStory([...story, userStoryList, itemStoryList]);
-            ResultCheck(optionNumber, result);
-            GetUserData();
-            OpenStroy(optionNumber, result);
-            NextStory(optionNumber, result);
-          });
+    //         setStory([...story, userStoryList, itemStoryList]);
+    //         ResultCheck(optionNumber, result);
+    //         GetUserData();
+    //         OpenStroy(optionNumber, result);
+    //         NextStory(optionNumber, result);
+    //       });
 
-      };
-      const ButtonOptionName = (optionNumber: number) => {
-        try {
-          if (storyNumber === undefined || progressNumber === undefined) {
-            return;
-          }
+    //   };
+    //   const ButtonOptionName = (optionNumber: number) => {
+    //     try {
+    //       if (storyNumber === undefined || progressNumber === undefined) {
+    //         return;
+    //       }
     
-          let option;
-          if (storyOptionStory[optionNumber] === "next") {
-            option = jsonOption[0][0][0];
-          } else {
-            option =
-              jsonOption[storyParts][storyNumber][storyOptionNum[optionNumber]];
-          }
+    //       let option;
+    //       if (storyOptionStory[optionNumber] === "next") {
+    //         option = jsonOption[0][0][0];
+    //       } else {
+    //         option =
+    //           jsonOption[storyParts][storyNumber][storyOptionNum[optionNumber]];
+    //       }
     
-          const optionName = option.text;
+    //       const optionName = option.text;
     
-          let text = optionName;
-            return text;
+    //       let text = optionName;
+    //         return text;
         
-        } catch (e) {
-          console.error("Error: ButtonOptionName()");
-          console.error(e);
-        }
-      };
-      const ButtonOptionConditionName = (optionNumber: number) => {
-        if (storyNumber === undefined || progressNumber === undefined) {
-            return;
-          }
+    //     } catch (e) {
+    //       console.error("Error: ButtonOptionName()");
+    //       console.error(e);
+    //     }
+    //   };
+    //   const ButtonOptionConditionName = (optionNumber: number) => {
+    //     if (storyNumber === undefined || progressNumber === undefined) {
+    //         return;
+    //       }
     
-          let option;
-          if (storyOptionStory[optionNumber] === "next") {
-            option = jsonOption[0][0][0];
-          } else {
-            option =
-              jsonOption[storyParts][storyNumber][storyOptionNum[optionNumber]];
-          }
+    //       let option;
+    //       if (storyOptionStory[optionNumber] === "next") {
+    //         option = jsonOption[0][0][0];
+    //       } else {
+    //         option =
+    //           jsonOption[storyParts][storyNumber][storyOptionNum[optionNumber]];
+    //       }
     
-          const optionCondition = option.condition;
+    //       const optionCondition = option.condition;
     
-          let text = "";
+    //       let text = "";
     
-          if (optionCondition === undefined || optionCondition === null) {
-            return text;
-          }
+    //       if (optionCondition === undefined || optionCondition === null) {
+    //         return text;
+    //       }
     
-          text += "("
+    //       text += "("
           
-          optionCondition.map((condition, index) => {
-            condition.kind === "item"
-              ? (text =
-                  text +
-                  (index === 0 ? "" : ", ") +
-                  ItemData.items[Number(condition.number) - 1].name)
-              : (text =
-                  text +
-                  (index === 0 ? "" : ", ") +
-                  CharateristicData.charaters[Number(condition.number) - 1].name);
-          });
-          return text + " 필요)";
-      }
+    //       optionCondition.map((condition, index) => {
+    //         condition.kind === "item"
+    //           ? (text =
+    //               text +
+    //               (index === 0 ? "" : ", ") +
+    //               ItemData.items[Number(condition.number) - 1].name)
+    //           : (text =
+    //               text +
+    //               (index === 0 ? "" : ", ") +
+    //               CharateristicData.charaters[Number(condition.number) - 1].name);
+    //       });
+    //       return text + " 필요)";
+    //   }
+    useEffect(() => {
+      console.log(options)
+    },[])
     return(
         <div className="absolute bottom-0">
             <div className="w-screen h-3 bg-gray-100 border-b"/>
             <div className="flex flex-col items-start justify-start w-screen gap-3 px-5 py-4">
-                {Array.from({ length: storyOptionCount }).map((_, index) => (
-                    (ButtonDisable(index)) ?
-                    <button key={index} onClick={() => ClickEvent(index)} disabled={ButtonDisable(index)} className="self-stretch p-3.5 bg-stone-300  rounded-xl justify-between items-center inline-flex">
+                {options.map((option, index) => (
+                  <button key={index} className="self-stretch p-3.5 bg-stone-300  rounded-xl justify-between items-center inline-flex">
+                    <p className="justify-start items-center text-zinc-700 text-[15px] font-semibold">
+                        {option.optionText}
+                        <span className="m-1 text-gray-500 text-[15px] font-semibold">
+                            
+                        </span>
+                    </p>
+                </button>
+                
+                ))}
+                <button className="self-stretch p-3.5 bg-gray-100 rounded-xl justify-between items-center inline-flex active:bg-gray-200 active:scale-95 duration-150 ease-out">
                         <p className="justify-start items-center text-zinc-700 text-[15px] font-semibold">
-                            {ButtonOptionName(index)}
+                            
                             <span className="m-1 text-gray-500 text-[15px] font-semibold">
-                                {ButtonOptionConditionName(index)}
-                            </span>
-                        </p>
-                    </button> :
-                    <button key={index} onClick={() => ClickEvent(index)} disabled={ButtonDisable(index)} className="self-stretch p-3.5 bg-gray-100 rounded-xl justify-between items-center inline-flex active:bg-gray-200 active:scale-95 duration-150 ease-out">
-                        <p className="justify-start items-center text-zinc-700 text-[15px] font-semibold">
-                            {ButtonOptionName(index)}
-                            <span className="m-1 text-gray-500 text-[15px] font-semibold">
-                                {ButtonOptionConditionName(index)}
+                                
                             </span>
                         </p>
                         
@@ -160,7 +166,6 @@ export const StoryBottom = () => {
                             </svg>
                         </div>
                     </button> 
-                 ))}
             </div>
         </div>
     )
