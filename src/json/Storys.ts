@@ -1,8 +1,9 @@
 import testdata from './testData.json'
-import testdata2 from './testData2.json'
+
 export interface OptionsInterface {
   optionID: string;
   optionText: string;
+  nextProgressStory?: string | undefined;
 }
 export interface StoryInterface {
     title: string;
@@ -13,6 +14,20 @@ export interface StoryInterface {
     }>;
 }
 
-const Storys: StoryInterface[] = [testdata, testdata2]
+const Storys: StoryInterface[] = [testdata]
+
+for (const story of Storys) {
+  // Iterate through each progressStory within the story
+  for (const progressKey in story.progressStory) {
+    if (story.progressStory.hasOwnProperty(progressKey)) {
+      const progressItem = story.progressStory[progressKey];
+      for (const option of progressItem.options) {
+        if (!option.nextProgressStory) {
+          option.nextProgressStory = undefined;
+        }
+      }
+    }
+  }
+}
 
 export default Storys;
