@@ -3,16 +3,16 @@ import { MakeStoryInput, MakeStoryOptionInput } from "../Components";
 
 import { AlertContext } from "../module/index";
 
-interface Option {
+export interface OptionInterface {
   optionID: string;
   optionText: string;
-  nextProgressStory: string | undefined;
+  nextProgressStory?: string | undefined;
 }
 
 interface Story {
   id: string;
   text: string;
-  options: Option[];
+  options: OptionInterface[];
 }
 
 export const MakeStroy = () => {
@@ -78,9 +78,9 @@ export const MakeStroy = () => {
   };
 
   const downloadJSONFile = () => {
-    const textObj: { [key: string]: { text: string; options: Option[] } } = {};
+    const textObj: { [key: string]: { text: string; options: OptionInterface[] } } = {};
     stories.forEach((story) => {
-      const storyData: { text: string; options: Option[] } = {
+      const storyData: { text: string; options: OptionInterface[] } = {
         text: story.text,
         options: story.options.map((option) => ({
           optionID: option.optionID,

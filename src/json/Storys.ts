@@ -1,16 +1,12 @@
 import testdata from './testData.json'
+import { OptionInterface } from '../pages';
 
-export interface OptionsInterface {
-  optionID: string;
-  optionText: string;
-  nextProgressStory?: string | undefined;
-}
 export interface StoryInterface {
     title: string;
     startID: string;
     progressStory: Record<string, {
       text: string;
-      options: OptionsInterface[];
+      options: OptionInterface[];
     }>;
 }
 

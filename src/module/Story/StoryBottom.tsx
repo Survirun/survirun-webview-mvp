@@ -1,9 +1,9 @@
 import { useEffect, Dispatch } from "react";
 import { useButtonDelay } from "../../hooks";
-import { OptionsInterface } from "../../json/Storys";
+import { OptionInterface } from "../../pages";
 
-export const StoryBottom = ({ options, setProgress  }: { options: OptionsInterface[], setProgress: Dispatch<React.SetStateAction<string>>; }) => {
-  const handleOptinoButtonClik = (option: OptionsInterface) => {
+export const StoryBottom = ({ options, setProgress  }: { options: OptionInterface[], setProgress: Dispatch<React.SetStateAction<string>>; }) => {
+  const handleOptinoButtonClik = (option: OptionInterface) => {
     useButtonDelay(async() =>{
       clickNextProgress(option.nextProgressStory)
     })
