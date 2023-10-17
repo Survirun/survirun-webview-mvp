@@ -3,7 +3,7 @@ import { MakeStoryInput, MakeStoryOptionInput } from "../Components";
 
 import { AlertContext } from "../module/index";
 
-interface resultItemInterface {
+export interface resultItemInterface {
   kind: 'hp' | 'item' | 'hunger';
   getOrLost: 'get' | 'lose';
   number: number | string;
@@ -12,7 +12,7 @@ export interface OptionInterface {
   optionID: string;
   optionText: string;
   nextProgressStory?: string | undefined;
-  resultItem?: resultItemInterface[];
+  resultItem?: resultItemInterface[] | undefined;
 }
 
 interface Story {
@@ -25,6 +25,7 @@ export const MakeStroy = () => {
   const [title, setTitle] = useState<string>("");
   const [startID, setStartID] = useState<string>("progressStory-1");
   const [stories, setStories] = useState<Story[]>([]);
+  const [resultItems, setResultItems] = useState<resultItemInterface[]>([]);
 
   const { alert } = useContext(AlertContext);
 
@@ -39,18 +40,39 @@ export const MakeStroy = () => {
   };
 
   const handleStoryChange = (id: string, text: string, index: number) => {
-    const updatedStories = JSON.parse(JSON.stringify(stories)); // 깊은 복사
+    const updatedStories = JSON.parse(JSON.stringify(stories));
     updatedStories[index] = { id, text, options: stories[index].options };
     setStories(updatedStories);
   };
 
-  const addOption = (index: number) => {
-    const updatedStories = JSON.parse(JSON.stringify(stories)); // 깊은 복사
-    const newOptionID = `option-${updatedStories[index].options.length + 1}`;
-    updatedStories[index].options.push({
-      optionID: newOptionID,
-      optionText: "",
-    });
+  const handleOptionChange = (id: string, text: string, index: number, optionIndex: number) => {
+    const updatedStories = [...stories];
+    updatedStories[index].options[optionIndex] = {
+      optionID: id,
+      optionText: text,
+    };
+    setStories(updatedStories);
+    setStories(updatedStories);
+  }
+
+  const handleNextProgressStoryChange = (nextProgressStory: string | undefined, index: number, optionIndex: number) => {
+    const updatedStories = [...stories];
+    updatedStories[index].options[optionIndex] = {
+      ...updatedStories[index].options[optionIndex],
+      nextProgressStory:
+        nextProgressStory === undefined
+          ? undefined
+          : nextProgressStory,
+    };
+    setStories(updatedStories);
+  }
+
+  const handleResultItemChange = (newResultItem: resultItemInterface, index: number, optionIndex: number) => {
+    const updatedStories = [...stories];
+    updatedStories[index].options[optionIndex] = {
+      ...updatedStories[index].options[optionIndex],
+      resultItem: [newResultItem] 
+    };
     setStories(updatedStories);
   };
 
@@ -62,23 +84,31 @@ export const MakeStroy = () => {
         id: newStoryId,
         text: "",
         options: [
-          {
-            optionID: `option-${stories.length + 1}`,
-            optionText: "",
-            nextProgressStory: "",
-          },
+
         ],
       },
     ]);
   };
 
+  const addOption = (index: number) => {
+    const updatedStories = JSON.parse(JSON.stringify(stories));
+    const newOptionID = `option-${updatedStories[index].options.length + 1}`;
+    updatedStories[index].options.push({
+      optionID: newOptionID,
+      optionText: "",
+    });
+    setStories(updatedStories);
+    console.log(updatedStories)
+  };
+
   const removeStory = (index: number) => {
-    const updatedStories = JSON.parse(JSON.stringify(stories)); // 깊은 복사
+    const updatedStories = JSON.parse(JSON.stringify(stories));
     updatedStories.splice(index, 1);
     setStories(updatedStories);
   };
+
   const removeOption = (storyIndex: number, optionIndex: number) => {
-    const updatedStories = JSON.parse(JSON.stringify(stories)); // 깊은 복사
+    const updatedStories = JSON.parse(JSON.stringify(stories));
     updatedStories[storyIndex].options.splice(optionIndex, 1);
     setStories(updatedStories);
   };
@@ -92,11 +122,12 @@ export const MakeStroy = () => {
           optionID: option.optionID,
           optionText: option.optionText,
           nextProgressStory: option.nextProgressStory || undefined,
+          resultItem: option.resultItem || undefined
         })),
       };
       textObj[story.id] = storyData;
     });
-
+  
     const jsonData = JSON.stringify(
       { title, startID, progressStory: textObj },
       null,
@@ -104,13 +135,13 @@ export const MakeStroy = () => {
     );
     const blob = new Blob([jsonData], { type: "application/json" });
     const url = URL.createObjectURL(blob);
-
+  
     const a = document.createElement("a");
     a.href = url;
     a.download = "data.json";
     document.body.appendChild(a);
     a.click();
-
+  
     URL.revokeObjectURL(url);
   };
 
@@ -120,7 +151,7 @@ export const MakeStroy = () => {
     index: number,
     optionIndex?: number
   ) => {
-    const AlertLeftButton = () => {};
+    const AlertLeftButton = () => { };
     const AlertRightButton = () => {
       switch (kind) {
         case "story":
@@ -200,36 +231,17 @@ export const MakeStroy = () => {
                 <MakeStoryInput
                   id={option.optionID}
                   text={option.optionText}
-                  onChange={(id, text) => {
-                    const updatedStories = [...stories];
-                    updatedStories[index].options[optionIndex] = {
-                      optionID: id,
-                      optionText: text,
-                      nextProgressStory:
-                      option.nextProgressStory === undefined
-                          ? undefined
-                          : option.nextProgressStory,
-                    };
-                    setStories(updatedStories);
-                    setStories(updatedStories);
-                  }}
+                  onChange={
+                    (id, text) => handleOptionChange(id, text, index, optionIndex)
+                  }
                 />
                 <MakeStoryOptionInput
-                  optionID={option.optionID}
-                  optionText={option.optionText}
                   nextProgressStory={option.nextProgressStory}
-                  onChange={(id, text, nextProgressStory) => {
-                    const updatedStories = [...stories];
-                    updatedStories[index].options[optionIndex] = {
-                      optionID: id,
-                      optionText: text,
-                      nextProgressStory:
-                      nextProgressStory === undefined
-                          ? undefined
-                          : nextProgressStory,
-                    };
-                    setStories(updatedStories);
-                  }}
+                  resultItem={option.resultItem || []}
+                  onNextProgressStoryChange={(nextProgressStory) =>
+                    handleNextProgressStoryChange(nextProgressStory, index, optionIndex)
+                  }
+                  onResultItemChange={(resultItem) => handleResultItemChange(resultItem, index, optionIndex)}
                 />
               </div>
             ))}
