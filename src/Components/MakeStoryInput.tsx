@@ -4,7 +4,7 @@ interface MakeStoryInputProps {
     onChange: (id: string, text: string) => void;
   }
   
- export const MakeStoryInput: React.FC<MakeStoryInputProps> = ({ id, text, onChange }) => {
+ export const MakeStoryInput = ({ id, text, onChange }: MakeStoryInputProps) => {
     return (
       <div className="mb-4">
         <input
