@@ -74,7 +74,7 @@ export const MakeStroy = () => {
       textObj[story.id] = { text: story.text, options: story.options };
     });
 
-    const jsonData = JSON.stringify({ title, startID, progressStroy: textObj }, null, 2);
+    const jsonData = JSON.stringify({ title, startID, progressStory: textObj }, null, 2);
     const blob = new Blob([jsonData], { type: "application/json" });
     const url = URL.createObjectURL(blob);
 
