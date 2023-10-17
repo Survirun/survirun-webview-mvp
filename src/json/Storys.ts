@@ -1,5 +1,5 @@
 import testdata from './testData.json'
-
+import testdata2 from './testData2.json'
 export interface OptionsInterface {
   optionID: string;
   optionText: string;
@@ -13,6 +13,6 @@ export interface StoryInterface {
     }>;
 }
 
-const Storys: StoryInterface[] = [testdata]
+const Storys: StoryInterface[] = [testdata, testdata2]
 
 export default Storys;
