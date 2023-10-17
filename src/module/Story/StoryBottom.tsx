@@ -165,7 +165,7 @@ export const StoryBottom = ({options}: {options: OptionsInterface[]}) => {
                                 </g>
                             </svg>
                         </div>
-                    </button> 
+                </button> 
             </div>
         </div>
     )
