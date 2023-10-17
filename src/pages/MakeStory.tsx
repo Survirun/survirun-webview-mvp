@@ -1,11 +1,12 @@
 import React, { useState, useContext } from "react";
-import { MakeStoryInput } from "../Components";
+import { MakeStoryInput, MakeStoryOptionInput } from "../Components";
 
 import { AlertContext } from "../module/index";
 
 interface Option {
   optionID: string;
   optionText: string;
+  nextProgressStory: string | null;
 }
 
 interface Story {
@@ -25,7 +26,9 @@ export const MakeStroy = () => {
     setTitle(event.target.value);
   };
 
-  const handleStartStoryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleStartStoryChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setStartID(event.target.value);
   };
 
@@ -52,7 +55,13 @@ export const MakeStroy = () => {
       {
         id: newStoryId,
         text: "",
-        options: [{ optionID: `option-${stories.length + 1}`, optionText: "" }],
+        options: [
+          {
+            optionID: `option-${stories.length + 1}`,
+            optionText: "",
+            nextProgressStory: "",
+          },
+        ],
       },
     ]);
   };
@@ -71,10 +80,22 @@ export const MakeStroy = () => {
   const downloadJSONFile = () => {
     const textObj: { [key: string]: { text: string; options: Option[] } } = {};
     stories.forEach((story) => {
-      textObj[story.id] = { text: story.text, options: story.options };
+      const storyData: { text: string; options: Option[] } = {
+        text: story.text,
+        options: story.options.map((option) => ({
+          optionID: option.optionID,
+          optionText: option.optionText,
+          nextProgressStory: option.nextProgressStory || null,
+        })),
+      };
+      textObj[story.id] = storyData;
     });
 
-    const jsonData = JSON.stringify({ title, startID, progressStory: textObj }, null, 2);
+    const jsonData = JSON.stringify(
+      { title, startID, progressStory: textObj },
+      null,
+      2
+    );
     const blob = new Blob([jsonData], { type: "application/json" });
     const url = URL.createObjectURL(blob);
 
@@ -87,20 +108,25 @@ export const MakeStroy = () => {
     URL.revokeObjectURL(url);
   };
 
-  const onAlertDelet = async (kind: 'story' | 'option', id: string, index: number, optionIndex?: number) => {
+  const onAlertDelet = async (
+    kind: "story" | "option",
+    id: string,
+    index: number,
+    optionIndex?: number
+  ) => {
     const AlertLeftButton = () => {};
     const AlertRightButton = () => {
-      switch(kind){
-        case 'story' :
-          removeStory(index)
+      switch (kind) {
+        case "story":
+          removeStory(index);
           break;
-        case 'option' :
-          if (typeof optionIndex === 'number') {
+        case "option":
+          if (typeof optionIndex === "number") {
             removeOption(index, optionIndex);
           }
           break;
-        default: 
-          alert('Error: 지울 수 없어요')
+        default:
+          alert("Error: 지울 수 없어요");
       }
     };
 
@@ -124,7 +150,7 @@ export const MakeStroy = () => {
           value={title}
           onChange={handleTitleChange}
         />
-         <input
+        <input
           type="text"
           className="w-full p-2 mb-4 border border-gray-300 rounded"
           placeholder="시작 진행 스토리 아이디를 적으세요"
@@ -137,7 +163,7 @@ export const MakeStroy = () => {
               진행 스토리 - {index + 1}
               <button
                 className="text-lg text-red-500"
-                onClick={() => onAlertDelet('story', story.id, index)}
+                onClick={() => onAlertDelet("story", story.id, index)}
               >
                 삭제
               </button>
@@ -153,7 +179,14 @@ export const MakeStroy = () => {
                   옵션 - {optionIndex + 1}
                   <button
                     className="text-lg text-red-500"
-                    onClick={() => onAlertDelet('option', option.optionID, index, optionIndex)}
+                    onClick={() =>
+                      onAlertDelet(
+                        "option",
+                        option.optionID,
+                        index,
+                        optionIndex
+                      )
+                    }
                   >
                     삭제
                   </button>
@@ -166,6 +199,28 @@ export const MakeStroy = () => {
                     updatedStories[index].options[optionIndex] = {
                       optionID: id,
                       optionText: text,
+                      nextProgressStory:
+                      option.nextProgressStory === null
+                          ? null
+                          : option.nextProgressStory,
+                    };
+                    setStories(updatedStories);
+                    setStories(updatedStories);
+                  }}
+                />
+                <MakeStoryOptionInput
+                  optionID={option.optionID}
+                  optionText={option.optionText}
+                  nextProgressStory={option.nextProgressStory}
+                  onChange={(id, text, nextProgressStory) => {
+                    const updatedStories = [...stories];
+                    updatedStories[index].options[optionIndex] = {
+                      optionID: id,
+                      optionText: text,
+                      nextProgressStory:
+                      nextProgressStory === null
+                          ? null
+                          : nextProgressStory,
                     };
                     setStories(updatedStories);
                   }}
@@ -187,7 +242,7 @@ export const MakeStroy = () => {
           이야기 추가
         </button>
         <button
-          className="px-4 py-2 text-white bg-blue-500 rounded"
+          className="px-4 py-2 ml-4 text-white bg-blue-500 rounded"
           onClick={downloadJSONFile}
         >
           JSON 다운로드
