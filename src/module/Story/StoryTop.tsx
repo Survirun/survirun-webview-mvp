@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { SetUserData } from "../../hooks";
 import { StoryMiddle } from ".";
 import { StoryInterface } from "../../json/Storys";
 
@@ -19,7 +18,7 @@ export const StoryTop = ({ story }: { story: StoryInterface }) => {
           위치에 대한 설명 한줄 짜리
         </p>
       </div>
-      <StoryMiddle progressStory={story.progressStory[progress]} />
+      <StoryMiddle progressStory={story.progressStory[progress]} setProgress={setProgress}/>
     </>
   );
 };

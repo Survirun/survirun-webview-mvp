@@ -1,17 +1,28 @@
 {
-  "title": "테스트 스토리1",
+  "title": "테스트",
   "startID": "progressStory-1",
   "progressStory": {
     "progressStory-1": {
-      "text": "옛날에 어쩌구 저쩌구",
+      "text": "테스트1",
       "options": [
         {
           "optionID": "option-1",
-          "optionText": "예??"
+          "optionText": "2로 ㄱㄱ",
+          "nextProgressStory": "progressStory-2"
         },
         {
+          "optionID": "option-1",
+          "optionText": "2로 ㄱ?"
+        }
+      ]
+    },
+    "progressStory-2": {
+      "text": "테스트 2",
+      "options": [
+        {
           "optionID": "option-2",
-          "optionText": "뭔솔이에요?"
+          "optionText": "1로 ㄱㄱ",
+          "nextProgressStory": "progressStory-1"
         }
       ]
     }
