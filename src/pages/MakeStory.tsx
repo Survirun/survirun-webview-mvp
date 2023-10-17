@@ -3,10 +3,16 @@ import { MakeStoryInput, MakeStoryOptionInput } from "../Components";
 
 import { AlertContext } from "../module/index";
 
+interface resultItemInterface {
+  kind: 'hp' | 'item' | 'hunger';
+  getOrLost: 'get' | 'lose';
+  number: number | string;
+}
 export interface OptionInterface {
   optionID: string;
   optionText: string;
   nextProgressStory?: string | undefined;
+  resultItem?: resultItemInterface[];
 }
 
 interface Story {
@@ -140,8 +146,8 @@ export const MakeStroy = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen">
-      <div className="p-4 bg-white rounded shadow-md">
+    <div className="flex items-center justify-center w-screen">
+      <div className="w-full p-4 bg-white rounded shadow-md">
         <h1 className="mb-4 text-2xl font-semibold">스토리</h1>
         <input
           type="text"
