@@ -1,5 +1,5 @@
-import React, { useState, useContext } from "react";
-import { MakeStoryInput, MakeStoryOptionInput } from "../Components";
+import React, { useState, useContext, Dispatch } from "react";
+import { MakeStoryInput, MakeStoryOptionInput, Input } from "../Components";
 
 import { AlertContext } from "../module/index";
 
@@ -21,7 +21,23 @@ interface Story {
   options: OptionInterface[];
 }
 
+function CreateInputIDText(
+  id: string, 
+  startID: string, 
+  setID: Dispatch<React.SetStateAction<string>>, 
+  setStartID: Dispatch<React.SetStateAction<string>>, 
+  textPlaceholder: string = "제목을 입력하세요", // textPlaceholder에만 기본값 설정
+) {
+return (
+  <>
+    <Input text={id} placeholder="ID를 입력하세요" setState={setID} />
+    <Input text={startID} placeholder={textPlaceholder} setState={setStartID} />
+  </>
+);
+}
+
 export const MakeStroy = () => {
+  const [id, setID] = useState<string>("");
   const [title, setTitle] = useState<string>("");
   const [startID, setStartID] = useState<string>("progressStory-1");
   const [stories, setStories] = useState<Story[]>([]);
@@ -73,13 +89,16 @@ export const MakeStroy = () => {
     setStories(updatedStories);
   }
 
-  const handleResultItemChange = (newResultItem: resultItemInterface, index: number, optionIndex: number) => {
-    const updatedStories = [...stories];
-    updatedStories[index].options[optionIndex] = {
-      ...updatedStories[index].options[optionIndex],
-      resultItem: [newResultItem] 
-    };
+  const handleResultItemChange = (newResultItem: resultItemInterface, storyIndex: number, optionIndex: number, resultItemIndex: number) => {
+     const updatedStories = [...stories];
+     const updatedOption = { ...updatedStories[storyIndex].options[optionIndex] };
+     const resultItems = updatedOption.resultItem || [];
+     resultItems.push(newResultItem);
+     console.log(newResultItem)
+
+    updatedStories[storyIndex].options[optionIndex] = newResultItem;
     setStories(updatedStories);
+ 
   };
 
   const addStory = () => {
@@ -186,6 +205,7 @@ export const MakeStroy = () => {
     <div className="flex items-center justify-center w-screen">
       <div className="w-full p-4 bg-white rounded shadow-md">
         <h1 className="mb-4 text-2xl font-semibold">스토리</h1>
+        {CreateInputIDText(id, startID, setID, setStartID, "시작 진행 스토리 아이디를 적으세요")}
         <input
           type="text"
           className="w-full p-2 mb-4 border border-gray-300 rounded"
@@ -243,12 +263,13 @@ export const MakeStroy = () => {
                 />
                 <MakeStoryOptionInput
                   nextProgressStory={option.nextProgressStory}
-                  resultItem={option.resultItem || []}
+                  resultItems={option.resultItem}
                   onNextProgressStoryChange={(nextProgressStory) =>
                     handleNextProgressStoryChange(nextProgressStory, index, optionIndex)
                   }
-                  onResultItemChange={(resultItem) => handleResultItemChange(resultItem, index, optionIndex)}
+                  onResultItemsChange={(resultItems) => handleResultItemChange(resultItems, index, optionIndex)}
                 />
+
               </div>
             ))}
             <button

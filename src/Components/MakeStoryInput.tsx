@@ -12,7 +12,7 @@ interface MakeStoryInputProps {
           className="w-full p-2 border border-gray-300 rounded"
           placeholder="ID를 입력하세요"
           value={id}
-          onChange={(e) => onChange(e.target.value, text)}
+          onChange={(e) => onChange(text, e.target.value)}
         />
         <input
           type="text"
