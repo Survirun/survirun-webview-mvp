@@ -47,11 +47,17 @@ export const MakeStroy = () => {
 
   const handleOptionChange = (id: string, text: string, index: number, optionIndex: number) => {
     const updatedStories = [...stories];
-    updatedStories[index].options[optionIndex] = {
+    
+    const currentOption = updatedStories[index].options[optionIndex];
+  
+    const updatedOption = {
+      ...currentOption,
       optionID: id,
       optionText: text,
     };
-    setStories(updatedStories);
+  
+    updatedStories[index].options[optionIndex] = updatedOption;
+  
     setStories(updatedStories);
   }
 
