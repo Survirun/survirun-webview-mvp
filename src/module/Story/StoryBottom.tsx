@@ -8,19 +8,22 @@ export const StoryBottom = ({ options, setProgress  }: { options: OptionInterfac
       clickNextProgress(option.nextProgressStory)
     })
   }
-  const SendMapEndStory = () => {
-    try {
-      return window.parent.postMessage(true, '*');
-    } catch (e) {
-      console.error("Error: StoryPage - window.Android.webViewIsVisible()");
-      console.error(e);
+  const sendMapPosstMassage = () => {
+    const data = {
+      endStory: true,
+      battle: true,
     }
-  };
+    try {
+      return window.parent.postMessage(data, '*');
+    } catch (err) {
+      console.error("Error: sendMapPosstMassage"+err);
+    }
+  }
   const clickNextProgress = (nextProgressStory: string | undefined) => {
     if(nextProgressStory !== undefined){
       setProgress(nextProgressStory)
     } else {
-      SendMapEndStory();
+      sendMapPosstMassage();
       console.log("끝");
     }
   }

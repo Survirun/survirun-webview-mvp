@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { Test, ItemGet, StoryPage, Battle, SubCharacter, SubCharacterCheck, DeathPage, Lobby, ZombieHPDown, MakeStroy } from './pages';
+import { Test, ItemGet, StoryPage, Battle, SubCharacter, SubCharacterCheck, DeathPage, Lobby, ZombieHPDown, MakeStroy, BattlePage } from './pages';
 import Inventory from './pages/Inventory';
 import AlertDialog from './module/Alert/AlertDialog';
 import InventorySelectDialog from './module/InventorySelect/InventoryDialog';
@@ -25,7 +25,8 @@ function App() {
           <Route element={<DeathPage/>} path="deathPage"/>
           <Route element={<Lobby/>} path="lobby"/>
           <Route element={<ZombieHPDown/>} path="zombie-hp-down"/>
-          <Route element={<MakeStroy/>} path="makeStory"/>
+          <Route element={<MakeStroy/>} path="/makeStory"/>
+          <Route element={<BattlePage/>} path="/battlePage"/>
         </Routes>
       </BrowserRouter>
     </InventorySelectDialog>
