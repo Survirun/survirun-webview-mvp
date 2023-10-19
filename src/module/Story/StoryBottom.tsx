@@ -8,10 +8,19 @@ export const StoryBottom = ({ options, setProgress  }: { options: OptionInterfac
       clickNextProgress(option.nextProgressStory)
     })
   }
+  const SendMapEndStory = () => {
+    try {
+      return window.parent.postMessage(true, '*');
+    } catch (e) {
+      console.error("Error: StoryPage - window.Android.webViewIsVisible()");
+      console.error(e);
+    }
+  };
   const clickNextProgress = (nextProgressStory: string | undefined) => {
     if(nextProgressStory !== undefined){
       setProgress(nextProgressStory)
     } else {
+      SendMapEndStory();
       console.log("끝");
     }
   }
