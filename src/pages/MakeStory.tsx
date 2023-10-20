@@ -198,7 +198,7 @@ export const MakeStroy = () => {
 
     const a = document.createElement("a");
     a.href = url;
-    a.download = "data.json";
+    a.download = `${title}.json`;
     document.body.appendChild(a);
     a.click();
 
