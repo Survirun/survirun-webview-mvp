@@ -8,10 +8,22 @@ export const StoryBottom = ({ options, setProgress  }: { options: OptionInterfac
       clickNextProgress(option.nextProgressStory)
     })
   }
+  const sendMapPosstMassage = () => {
+    const data = {
+      endStory: true,
+      battle: true,
+    }
+    try {
+      return window.parent.postMessage(data, '*');
+    } catch (err) {
+      console.error("Error: sendMapPosstMassage"+err);
+    }
+  }
   const clickNextProgress = (nextProgressStory: string | undefined) => {
     if(nextProgressStory !== undefined){
       setProgress(nextProgressStory)
     } else {
+      sendMapPosstMassage();
       console.log("끝");
     }
   }
