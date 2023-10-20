@@ -154,7 +154,6 @@ export const MakeStroy = () => {
     updatedStories[index].options[optionIndex] = currentOption;
     setStories(updatedStories);
 };
-  
 
   const removeStory = (index: number) => {
     const updatedStories = JSON.parse(JSON.stringify(stories));
@@ -300,6 +299,9 @@ export const MakeStroy = () => {
         updatedResultItem[resultIndex] = { ...updatedResultItem[resultIndex], kind: text };
         updatedOption.resultItem = updatedResultItem;
         updatedStories[index].options[optionIndex] = updatedOption;
+        if(text === 'item') {
+          updatedResultItem[resultIndex] = { ...updatedResultItem[resultIndex], number: "통조림" };
+        }
       }
 
       return updatedStories;
