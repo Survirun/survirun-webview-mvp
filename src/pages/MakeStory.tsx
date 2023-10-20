@@ -23,74 +23,36 @@ export interface Story {
 
 function CreateInputIDText(
   id: string,
-  startID: string,
-  index: number,
-  setID: (id: string, index?: number) => void,
-  setText: (id: string, index?: number) => void,
+  text: string,
+  setID: (id: string) => void,
+  setText: (text: string) => void,
   textPlaceholder: string = "제목을 입력하세요", 
 ) {
   return (
     <>
-      <Input index={index} text={id} placeholder="ID를 입력하세요" setState={setID} />
-      <Input index={index} text={startID} placeholder={textPlaceholder} setState={setText} />
+      <Input text={id} placeholder="ID를 입력하세요" setState={setID} />
+      <Input text={text} placeholder={textPlaceholder} setState={setText} />
     </>
   );
 }
 
+function CreateOptionAddtionInput (
+  nextProgressStory: string | undefined,
+  setNextProgressStory: (nextProgressStor: string) => void
+) {
+  return(
+    <>
+      <Input text={nextProgressStory || ""} placeholder="ID를 입력하세요" setState={setNextProgressStory} />
+    </>
+  )
+}
+
 export const MakeStroy = () => {
-  const [id, setID] = useState<string>("");
   const [title, setTitle] = useState<string>("");
   const [startID, setStartID] = useState<string>("progressStory-1");
   const [stories, setStories] = useState<Story[]>([]);
-  const [resultItems, setResultItems] = useState<resultItemInterface[]>([]);
 
   const { alert } = useContext(AlertContext);
-
-  const handleStoryChange = (id: string, text: string, index: number) => {
-    const updatedStories = JSON.parse(JSON.stringify(stories));
-    updatedStories[index] = { id, text, options: stories[index].options };
-    setStories(updatedStories);
-  };
-
-  const handleOptionChange = (id: string, text: string, index: number, optionIndex: number) => {
-    const updatedStories = [...stories];
-    
-    const currentOption = updatedStories[index].options[optionIndex];
-  
-    const updatedOption = {
-      ...currentOption,
-      optionID: id,
-      optionText: text,
-    };
-  
-    updatedStories[index].options[optionIndex] = updatedOption;
-  
-    setStories(updatedStories);
-  }
-
-  const handleNextProgressStoryChange = (nextProgressStory: string | undefined, index: number, optionIndex: number) => {
-    const updatedStories = [...stories];
-    updatedStories[index].options[optionIndex] = {
-      ...updatedStories[index].options[optionIndex],
-      nextProgressStory:
-        nextProgressStory === undefined
-          ? undefined
-          : nextProgressStory,
-    };
-    setStories(updatedStories);
-  }
-
-  const handleResultItemChange = (newResultItem: resultItemInterface, storyIndex: number, optionIndex: number, resultItemIndex: number) => {
-     const updatedStories = [...stories];
-     const updatedOption = { ...updatedStories[storyIndex].options[optionIndex] };
-     const resultItems = updatedOption.resultItem || [];
-     resultItems.push(newResultItem);
-     console.log(newResultItem)
-
-    updatedStories[storyIndex].options[optionIndex] = newResultItem;
-    setStories(updatedStories);
- 
-  };
 
   const addStory = () => {
     const newStoryId = `progressStory-${stories.length + 1}`;
@@ -200,7 +162,7 @@ export const MakeStroy = () => {
     setStartID(id)
   };
 
-  const handleStoryIdChange = (id: string, index: number = 0) => {
+  const handleStoryIdChange = (index: number) => (id: string) => {
     setStories((prevStories) => {
       const updatedStories = [...prevStories];
       console.log(updatedStories[index])
@@ -209,7 +171,7 @@ export const MakeStroy = () => {
       return updatedStories;
     });
   }
-  const handleStoryTextChange = (text: string, index: number = 0) => {
+  const handleStoryTextChange = (index: number) => (text: string ) => {
     setStories((prevStories) => {
       const updatedStories = [...prevStories];
       updatedStories[index].text = text;
@@ -217,11 +179,26 @@ export const MakeStroy = () => {
       return updatedStories;
     });
   }
-  const handleOptionIdChange = (id: string, index: number = 0) => {
+  const handleOptionIdChange = (index: number, optionIndex: number) => (id: string) => {
     setStories((prevStories) => {
       const updatedStories = [...prevStories];
-      console.log(updatedStories[index])
-      updatedStories[index].id = id;
+      updatedStories[index].options[optionIndex].optionID = id;
+
+      return updatedStories;
+    });
+  }
+  const handleOptionTextChange = (index: number, optionIndex: number) => (text: string) => {
+    setStories((prevStories) => {
+      const updatedStories = [...prevStories];
+      updatedStories[index].options[optionIndex].optionText = text;
+
+      return updatedStories;
+    });
+  }
+  const handleNextProgressStoryChange = (index: number, optionIndex: number) => (text: string) => {
+    setStories((prevStories) => {
+      const updatedStories = [...prevStories];
+      updatedStories[index].options[optionIndex].nextProgressStory = text;
 
       return updatedStories;
     });
@@ -231,7 +208,7 @@ export const MakeStroy = () => {
     <div className="flex items-center justify-center w-screen">
       <div className="w-full p-4 bg-white rounded shadow-md">
         <h1 className="mb-4 text-2xl font-semibold">스토리</h1>
-        {CreateInputIDText(title, startID, 0, handleTitleChange, handleStartIDChange, "시작 진행 스토리 아이디를 적으세요")}
+        {CreateInputIDText(title, startID, handleTitleChange, handleStartIDChange, "시작 진행 스토리 아이디를 적으세요")}
       
         {stories.map((story, index) => (
           <div key={index} className="p-4 bg-white rounded shadow-md">
@@ -244,7 +221,7 @@ export const MakeStroy = () => {
                 삭제
               </button>
             </h2>
-            {CreateInputIDText(story.id, story.text, index, handleStoryIdChange, handleStoryTextChange)}
+            {CreateInputIDText(story.id, story.text, handleStoryIdChange(index), handleStoryTextChange(index))}
             {story.options.map((option, optionIndex) => (
               <div key={optionIndex} className="p-4 bg-white rounded shadow-md">
                 <h1 className="flex items-center justify-between mb-4 text-lg font-semibold">
@@ -263,23 +240,8 @@ export const MakeStroy = () => {
                     삭제
                   </button>
                 </h1>
-                {CreateInputIDText(option.optionID, option.optionText, index, handleStoryIdChange, handleStoryTextChange)}
-                <MakeStoryInput
-                  id={option.optionID}
-                  text={option.optionText}
-                  onChange={
-                    (id, text) => handleOptionChange(id, text, index, optionIndex)
-                  }
-                />
-                <MakeStoryOptionInput
-                  nextProgressStory={option.nextProgressStory}
-                  resultItems={option.resultItem}
-                  onNextProgressStoryChange={(nextProgressStory) =>
-                    handleNextProgressStoryChange(nextProgressStory, index, optionIndex)
-                  }
-                  onResultItemsChange={(resultItems) => handleResultItemChange(resultItems, index, optionIndex)}
-                />
-
+                {CreateInputIDText(option.optionID, option.optionText, handleOptionIdChange(index, optionIndex),  handleOptionTextChange(index, optionIndex))}
+                {CreateOptionAddtionInput(option.nextProgressStory, handleNextProgressStoryChange(index, optionIndex))}
               </div>
             ))}
             <button
