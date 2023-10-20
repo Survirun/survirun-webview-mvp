@@ -9,7 +9,7 @@ export const StoryMiddle = ({
   progressStory: StoryInterface["progressStory"][string];
   setProgress: Dispatch<React.SetStateAction<string>>;
 }) => {
-  const [stroyText, setStroyText] = useState(progressStory.text);
+  const [_stroyText, _setStroyText] = useState(progressStory.text);
   useEffect(() => {
     console.log(progressStory);
   }, []);
