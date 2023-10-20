@@ -1,10 +1,10 @@
 interface InputProps {
-    text: string;
+    text: string | number;
     placeholder: string;
     setState: (id: string) => void
 }
 
-const onChange = (e: React.ChangeEvent<HTMLInputElement>, setState: (id: string, number?: number) => void) => {
+const onChange = (e: React.ChangeEvent<HTMLInputElement>, setState: (id: string) => void) => {
    setState(e.target.value);
 };
   
