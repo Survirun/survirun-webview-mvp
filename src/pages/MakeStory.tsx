@@ -15,25 +15,26 @@ export interface OptionInterface {
   resultItem?: resultItemInterface[] | undefined;
 }
 
-interface Story {
+export interface Story {
   id: string;
   text: string;
   options: OptionInterface[];
 }
 
 function CreateInputIDText(
-  id: string, 
-  startID: string, 
-  setID: Dispatch<React.SetStateAction<string>>, 
-  setStartID: Dispatch<React.SetStateAction<string>>, 
-  textPlaceholder: string = "제목을 입력하세요", // textPlaceholder에만 기본값 설정
+  id: string,
+  startID: string,
+  index: number,
+  setID: (id: string, index?: number) => void,
+  setText: (id: string, index?: number) => void,
+  textPlaceholder: string = "제목을 입력하세요", 
 ) {
-return (
-  <>
-    <Input text={id} placeholder="ID를 입력하세요" setState={setID} />
-    <Input text={startID} placeholder={textPlaceholder} setState={setStartID} />
-  </>
-);
+  return (
+    <>
+      <Input index={index} text={id} placeholder="ID를 입력하세요" setState={setID} />
+      <Input index={index} text={startID} placeholder={textPlaceholder} setState={setText} />
+    </>
+  );
 }
 
 export const MakeStroy = () => {
@@ -44,16 +45,6 @@ export const MakeStroy = () => {
   const [resultItems, setResultItems] = useState<resultItemInterface[]>([]);
 
   const { alert } = useContext(AlertContext);
-
-  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
-  };
-
-  const handleStartStoryChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setStartID(event.target.value);
-  };
 
   const handleStoryChange = (id: string, text: string, index: number) => {
     const updatedStories = JSON.parse(JSON.stringify(stories));
@@ -201,25 +192,47 @@ export const MakeStroy = () => {
     result ? await AlertRightButton() : AlertLeftButton();
   };
 
+  const handleTitleChange = (title: string) => {
+    setTitle(title)
+  };
+
+  const handleStartIDChange = (id: string) => {
+    setStartID(id)
+  };
+
+  const handleStoryIdChange = (id: string, index: number = 0) => {
+    setStories((prevStories) => {
+      const updatedStories = [...prevStories];
+      console.log(updatedStories[index])
+      updatedStories[index].id = id;
+
+      return updatedStories;
+    });
+  }
+  const handleStoryTextChange = (text: string, index: number = 0) => {
+    setStories((prevStories) => {
+      const updatedStories = [...prevStories];
+      updatedStories[index].text = text;
+
+      return updatedStories;
+    });
+  }
+  const handleOptionIdChange = (id: string, index: number = 0) => {
+    setStories((prevStories) => {
+      const updatedStories = [...prevStories];
+      console.log(updatedStories[index])
+      updatedStories[index].id = id;
+
+      return updatedStories;
+    });
+  }
+
   return (
     <div className="flex items-center justify-center w-screen">
       <div className="w-full p-4 bg-white rounded shadow-md">
         <h1 className="mb-4 text-2xl font-semibold">스토리</h1>
-        {CreateInputIDText(id, startID, setID, setStartID, "시작 진행 스토리 아이디를 적으세요")}
-        <input
-          type="text"
-          className="w-full p-2 mb-4 border border-gray-300 rounded"
-          placeholder="제목을 입력하세요"
-          value={title}
-          onChange={handleTitleChange}
-        />
-        <input
-          type="text"
-          className="w-full p-2 mb-4 border border-gray-300 rounded"
-          placeholder="시작 진행 스토리 아이디를 적으세요"
-          value={startID}
-          onChange={handleStartStoryChange}
-        />
+        {CreateInputIDText(title, startID, 0, handleTitleChange, handleStartIDChange, "시작 진행 스토리 아이디를 적으세요")}
+      
         {stories.map((story, index) => (
           <div key={index} className="p-4 bg-white rounded shadow-md">
             <h2 className="flex items-center justify-between mb-4 text-xl font-semibold">
@@ -231,11 +244,7 @@ export const MakeStroy = () => {
                 삭제
               </button>
             </h2>
-            <MakeStoryInput
-              id={story.id}
-              text={story.text}
-              onChange={(id, text) => handleStoryChange(id, text, index)}
-            />
+            {CreateInputIDText(story.id, story.text, index, handleStoryIdChange, handleStoryTextChange)}
             {story.options.map((option, optionIndex) => (
               <div key={optionIndex} className="p-4 bg-white rounded shadow-md">
                 <h1 className="flex items-center justify-between mb-4 text-lg font-semibold">
@@ -254,6 +263,7 @@ export const MakeStroy = () => {
                     삭제
                   </button>
                 </h1>
+                {CreateInputIDText(option.optionID, option.optionText, index, handleStoryIdChange, handleStoryTextChange)}
                 <MakeStoryInput
                   id={option.optionID}
                   text={option.optionText}
