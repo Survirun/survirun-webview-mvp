@@ -4,7 +4,7 @@ import { StoryInterface } from "../../json/Storys";
 
 export const StoryTop = ({ story }: { story: StoryInterface }) => {
   const [progress, setProgress] = useState<string>(story.startID);
-  const [storyTitle, setStoryTitle] = useState(story.title);
+  const [storyTitle, _setStoryTitle] = useState(story.title);
   useEffect(() => {
     console.log(story);
   });
