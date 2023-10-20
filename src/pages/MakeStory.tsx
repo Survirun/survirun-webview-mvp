@@ -157,6 +157,12 @@ export const MakeStroy = () => {
     setStories(updatedStories);
   };
 
+  const removeResultItem = (storyIndex: number, optionIndex: number, resultIndex: number) => {
+    const updatedStories = JSON.parse(JSON.stringify(stories));
+    updatedStories[storyIndex].options[optionIndex].resultItem.splice(resultIndex, 1);
+    setStories(updatedStories);
+  };
+
   const downloadJSONFile = () => {
     const textObj: { [key: string]: { text: string; options: OptionInterface[] } } = {};
     stories.forEach((story) => {
@@ -190,10 +196,11 @@ export const MakeStroy = () => {
   };
 
   const onAlertDelet = async (
-    kind: "story" | "option",
+    kind: "story" | "option"| "resultItem",
     id: string,
     index: number,
-    optionIndex?: number
+    optionIndex?: number,
+    resultIndex?: number
   ) => {
     const AlertLeftButton = () => { };
     const AlertRightButton = () => {
@@ -204,6 +211,11 @@ export const MakeStroy = () => {
         case "option":
           if (typeof optionIndex === "number") {
             removeOption(index, optionIndex);
+          }
+          break;
+        case "resultItem":
+          if (typeof resultIndex === "number" && typeof optionIndex === "number") {
+            removeResultItem(index, optionIndex, resultIndex);
           }
           break;
         default:
@@ -359,10 +371,11 @@ export const MakeStroy = () => {
                         className="text-lg text-red-500"
                         onClick={() =>
                           onAlertDelet(
-                            "option",
-                            option.optionID,
+                            "resultItem",
+                            `선택 결과-${resultIndex + 1}`,
                             index,
-                            optionIndex
+                            optionIndex,
+                            resultIndex
                           )
                         }
                       >
