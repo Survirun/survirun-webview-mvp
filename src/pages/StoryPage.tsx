@@ -1,82 +1,32 @@
-import React, { Fragment, useEffect, useState, useContext } from "react";
-import { DeletItemToInventory, AddItemToInventory, useSocket } from "../hooks";
-//Demo Data
-//import StoryData from '../json/DemoStory4.json';
-import { jsonOption, OptionResult } from "../json/DemoOption";
-import { jsonStory } from "../json/DemoStory";
-import Item, { ItemProps } from "../json/DemoItem";
+import { useState } from "react";
 
-import { AlertContext, InventorySelectContext } from "../module/index";
 
-import ItemData from "../json/DemoItem2.json";
-import CharateristicData from "../json/DemoCharateristic.json";
-
-import { ChooseParticle, SetUserData, useButtonDelay } from "../hooks";
+import { SetUserData } from "../hooks";
 import { ProgressBar } from "../Components";
 import { StoryTop } from "../module/Story";
 import Storys from "../json/Storys";
 
 export const StoryPage = () => {
-  const [storyNumber, setStoryNumber] = useState<number>(
+  const [storyNumber, _setStoryNumber] = useState<number>(
     Math.floor(Math.random() * Storys.length)
   );
 
-  const { alert } = useContext(AlertContext);
-  const { invenSelect } = useContext(InventorySelectContext);
+  // const { alert } = useContext(AlertContext);
+  // const { invenSelect } = useContext(InventorySelectContext);
 
-  const sendSocket = () => {
-    try {
-      const socket = useSocket();
+  // const sendSocket = () => {
+  //   try {
+  //     const socket = useSocket();
 
-      const userId = "test";
-      const clientType = 1;
+  //     const userId = "test";
+  //     const clientType = 1;
 
-      socket.emit("start", { userId, clientType });
-    } catch (err) {
-      console.error("Error Socket: " + err);
-    }
-  };
+  //     socket.emit("start", { userId, clientType });
+  //   } catch (err) {
+  //     console.error("Error Socket: " + err);
+  //   }
+  // };
 
-  const GetStoryData = () => {
-    console.log(Storys);
-    // setStoryOptionNum(
-    //   jsonStory[storyParts][storyNumber].progressStory[
-    //     progressNumber
-    //   ].optionNumber.map((option) => Number(option.split("-")[1]) - 1)
-    // );
-    // setStoryOptionStory(
-    //   jsonStory[storyParts][storyNumber].progressStory[
-    //     progressNumber
-    //   ].optionNumber.map((option) => option.split("-")[0])
-    // );
-    // setStoryOptionCount(
-    //   jsonStory[storyParts][storyNumber].progressStory[progressNumber]
-    //     .optionNumber.length
-    // );
-    // const storyList = [...story];
-    // const keyValue = storyNumber * 100 + progressNumber;
-    // // setMessage(jsonStory[storyParts][storyNumber].progressStory[progressNumber].storyText)
-    // // setTestStory(
-    // //   {img: jsonStory[storyParts][storyNumber].progressStory[progressNumber].img,
-    // //     story: jsonStory[storyParts][storyNumber].progressStory[progressNumber].storyText
-    // //   } as Test)
-    // storyList.push(
-    //   <p className="pb-1 text-base font-medium text-zinc-900" key={keyValue}>
-    //       {
-    //           jsonStory[storyParts][storyNumber].progressStory[progressNumber]
-    //           .storyText
-    //       }
-    //   </p>
-    // );
-    // setStory(storyList);
-  };
-  const GetUserData = () => {
-    try {
-    } catch (e) {
-      console.error("Error: GetUserData()");
-      console.error(e);
-    }
-  };
 
   return (
     <div className="relative flex flex-col w-screen h-screen bg-white">
