@@ -27,7 +27,7 @@ export const Input = <T extends string | number>({
             type={type}
             className="w-full p-2 mb-4 border border-gray-300 rounded"
             placeholder={placeholder}
-            value={text as string} // 필요한 경우 타입 캐스팅
+            value={text as string}
             onChange={(e) => onChange(e, setState, isNumberInput)}
         />
     );
