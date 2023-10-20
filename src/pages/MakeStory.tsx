@@ -98,8 +98,8 @@ function CreateOptionResultItem(
       <Select<resultItemInterface['getOrLose']> value={resultItem.getOrLose} options={getOrLose} setState={setResultItemGL} />
       {
       resultItem.kind === "item" ? 
-      <Select value={resultItem.number} options={ItemList} setState={setResultItemNumber} />
-      :<Input text={resultItem.number} placeholder="숫자를 입력하세요" setState={setResultItemNumber} />
+        <Select value={resultItem.number} options={ItemList} setState={setResultItemNumber} />
+        : <Input text={resultItem.number} placeholder="숫자를 입력하세요" type="number" setState={setResultItemNumber} />
       }
     </>
   );
@@ -324,9 +324,9 @@ export const MakeStroy = () => {
     setStories((prevStories) => {
       const updatedStories = [...prevStories];
       const updatedOption = { ...updatedStories[index].options[optionIndex] };
-
+      console.log(typeof text)
       if (Array.isArray(updatedOption.resultItem)) {
-        const updatedResultItem = [...updatedOption.resultItem];
+        const updatedResultItem = [...updatedOption.resultItem]; 
         updatedResultItem[resultIndex] = { ...updatedResultItem[resultIndex], number: text };
         updatedOption.resultItem = updatedResultItem;
         updatedStories[index].options[optionIndex] = updatedOption;
