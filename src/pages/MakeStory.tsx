@@ -5,7 +5,7 @@ import { AlertContext } from "../module/index";
 
 export interface resultItemInterface {
   kind: 'hp' | 'item' | 'hunger';
-  getOrLost: 'get' | 'lose';
+  getOrLose: 'get' | 'lose';
   number: number | string;
 }
 export interface OptionInterface {
@@ -26,7 +26,7 @@ function CreateInputIDText(
   text: string,
   setID: (id: string) => void,
   setText: (text: string) => void,
-  textPlaceholder: string = "제목을 입력하세요", 
+  textPlaceholder: string = "제목을 입력하세요",
 ) {
   return (
     <>
@@ -36,13 +36,13 @@ function CreateInputIDText(
   );
 }
 
-function CreateOptionAddtionInput (
+function CreateOptionAddtionInput(
   nextProgressStory: string | undefined,
   setNextProgressStory: (nextProgressStor: string) => void
 ) {
-  return(
+  return (
     <>
-      <Input text={nextProgressStory || ""} placeholder="ID를 입력하세요" setState={setNextProgressStory} />
+      <Input text={nextProgressStory || ""} placeholder="다음 스토리 ID를 입력하세요" setState={setNextProgressStory} />
     </>
   )
 }
@@ -76,7 +76,26 @@ export const MakeStroy = () => {
       optionText: "",
     });
     setStories(updatedStories);
-    console.log(updatedStories)
+  };
+
+  const addResultItem = (index: number, optionIndex: number) => {
+    setStories(prevStories => {
+      const updatedStories = [...prevStories];
+      const currentOption = { ...updatedStories[index].options[optionIndex] };
+      
+      if (!currentOption.resultItem) {
+        currentOption.resultItem = [];
+      }
+  
+      currentOption.resultItem.push({
+        kind: "hp",
+        getOrLose: "get",
+        number: 0
+      });
+  
+      updatedStories[index].options[optionIndex] = currentOption;
+      return updatedStories;
+    });
   };
 
   const removeStory = (index: number) => {
@@ -105,7 +124,7 @@ export const MakeStroy = () => {
       };
       textObj[story.id] = storyData;
     });
-  
+
     const jsonData = JSON.stringify(
       { title, startID, progressStory: textObj },
       null,
@@ -113,13 +132,13 @@ export const MakeStroy = () => {
     );
     const blob = new Blob([jsonData], { type: "application/json" });
     const url = URL.createObjectURL(blob);
-  
+
     const a = document.createElement("a");
     a.href = url;
     a.download = "data.json";
     document.body.appendChild(a);
     a.click();
-  
+
     URL.revokeObjectURL(url);
   };
 
@@ -171,7 +190,7 @@ export const MakeStroy = () => {
       return updatedStories;
     });
   }
-  const handleStoryTextChange = (index: number) => (text: string ) => {
+  const handleStoryTextChange = (index: number) => (text: string) => {
     setStories((prevStories) => {
       const updatedStories = [...prevStories];
       updatedStories[index].text = text;
@@ -209,7 +228,7 @@ export const MakeStroy = () => {
       <div className="w-full p-4 bg-white rounded shadow-md">
         <h1 className="mb-4 text-2xl font-semibold">스토리</h1>
         {CreateInputIDText(title, startID, handleTitleChange, handleStartIDChange, "시작 진행 스토리 아이디를 적으세요")}
-      
+
         {stories.map((story, index) => (
           <div key={index} className="p-4 bg-white rounded shadow-md">
             <h2 className="flex items-center justify-between mb-4 text-xl font-semibold">
@@ -240,8 +259,36 @@ export const MakeStroy = () => {
                     삭제
                   </button>
                 </h1>
-                {CreateInputIDText(option.optionID, option.optionText, handleOptionIdChange(index, optionIndex),  handleOptionTextChange(index, optionIndex))}
+                {CreateInputIDText(option.optionID, option.optionText, handleOptionIdChange(index, optionIndex), handleOptionTextChange(index, optionIndex))}
                 {CreateOptionAddtionInput(option.nextProgressStory, handleNextProgressStoryChange(index, optionIndex))}
+                {option.resultItem?.map((resultItem, resultIndex) => (
+                  <div key={resultIndex} className="p-4 bg-white rounded shadow-md">
+                    <h1 className="flex items-center justify-between mb-4 text-lg font-semibold">
+                      선택 결과 - {resultIndex + 1}
+                      <button
+                        className="text-lg text-red-500"
+                        onClick={() =>
+                          onAlertDelet(
+                            "option",
+                            option.optionID,
+                            index,
+                            optionIndex
+                          )
+                        }
+                      >
+                        삭제
+                      </button>
+                    </h1>
+                    
+                    
+                  </div>
+                ))}
+                <button
+                  className="px-4 py-2 text-white bg-blue-500 rounded"
+                  onClick={() => addResultItem(index, optionIndex)}
+                >
+                  결과 추가
+                </button>
               </div>
             ))}
             <button
