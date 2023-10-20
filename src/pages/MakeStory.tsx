@@ -1,5 +1,5 @@
-import React, { useState, useContext, Dispatch } from "react";
-import { MakeStoryInput, MakeStoryOptionInput, Input } from "../Components";
+import { useState, useContext } from "react";
+import { Input, Select } from "../Components";
 
 import { AlertContext } from "../module/index";
 
@@ -47,6 +47,53 @@ function CreateOptionAddtionInput(
   )
 }
 
+function CreateOptionResultItem(
+  resultItem: resultItemInterface,
+  setResultItemKind: (kind: resultItemInterface['kind']) => void,
+  setResultItemGL: (getOrLose: resultItemInterface['getOrLose']) => void,
+  setResultItemNumber: (number: number | string) => void
+) {
+  const kind: {
+    value: resultItemInterface['kind'],
+    view: string
+  }[] = [
+    {
+      value: "hp",
+      view: "체력",
+    },
+    {
+      value: "item",
+      view: "아이템",
+    },
+    {
+      value: "hunger",
+      view: "배고픔",
+    }
+  ];
+
+  const getOrLose: {
+    value: resultItemInterface['getOrLose'],
+    view: string
+  }[] = [
+    {
+      value: "get",
+      view: "얻음"
+    },
+    {
+      value: "lose",
+      view: "잃음"
+    }
+  ];
+
+  return (
+    <>
+      <Select<resultItemInterface['kind']> value={resultItem.kind} options={kind} setState={setResultItemKind} />
+      <Select<resultItemInterface['getOrLose']> value={resultItem.getOrLose} options={getOrLose} setState={setResultItemGL} />
+      <Input text={resultItem.number} placeholder="숫자를 입력하세요" setState={setResultItemNumber} />
+    </>
+  );
+}
+
 export const MakeStroy = () => {
   const [title, setTitle] = useState<string>("");
   const [startID, setStartID] = useState<string>("progressStory-1");
@@ -79,24 +126,24 @@ export const MakeStroy = () => {
   };
 
   const addResultItem = (index: number, optionIndex: number) => {
-    setStories(prevStories => {
-      const updatedStories = [...prevStories];
-      const currentOption = { ...updatedStories[index].options[optionIndex] };
-      
-      if (!currentOption.resultItem) {
-        currentOption.resultItem = [];
-      }
+    const updatedStories = JSON.parse(JSON.stringify(stories));
+    const currentOption = updatedStories[index].options[optionIndex];
+
+    if (!currentOption.resultItem) {
+      currentOption.resultItem = [];
+    }
+
+    const newItem: resultItemInterface = {
+      kind: "hp",
+      getOrLose: "get",
+      number: "0"
+    };
+    currentOption.resultItem.push(newItem);
+
+    updatedStories[index].options[optionIndex] = currentOption;
+    setStories(updatedStories);
+};
   
-      currentOption.resultItem.push({
-        kind: "hp",
-        getOrLose: "get",
-        number: 0
-      });
-  
-      updatedStories[index].options[optionIndex] = currentOption;
-      return updatedStories;
-    });
-  };
 
   const removeStory = (index: number) => {
     const updatedStories = JSON.parse(JSON.stringify(stories));
@@ -176,11 +223,9 @@ export const MakeStroy = () => {
   const handleTitleChange = (title: string) => {
     setTitle(title)
   };
-
   const handleStartIDChange = (id: string) => {
     setStartID(id)
   };
-
   const handleStoryIdChange = (index: number) => (id: string) => {
     setStories((prevStories) => {
       const updatedStories = [...prevStories];
@@ -218,6 +263,51 @@ export const MakeStroy = () => {
     setStories((prevStories) => {
       const updatedStories = [...prevStories];
       updatedStories[index].options[optionIndex].nextProgressStory = text;
+
+      return updatedStories;
+    });
+  }
+  const handleResultItemKindChange = (index: number, optionIndex: number, resultIndex: number) => (text: resultItemInterface['kind']) => {
+    setStories((prevStories) => {
+      const updatedStories = [...prevStories];
+      const updatedOption = { ...updatedStories[index].options[optionIndex] };
+
+      if (Array.isArray(updatedOption.resultItem)) {
+        const updatedResultItem = [...updatedOption.resultItem];
+        updatedResultItem[resultIndex] = { ...updatedResultItem[resultIndex], kind: text };
+        updatedOption.resultItem = updatedResultItem;
+        updatedStories[index].options[optionIndex] = updatedOption;
+      }
+
+      return updatedStories;
+    });
+  }
+  const handleResultItemGLChange = (index: number, optionIndex: number, resultIndex: number) => (text: resultItemInterface['getOrLose']) => {
+    setStories((prevStories) => {
+      const updatedStories = [...prevStories];
+      const updatedOption = { ...updatedStories[index].options[optionIndex] };
+
+      if (Array.isArray(updatedOption.resultItem)) {
+        const updatedResultItem = [...updatedOption.resultItem];
+        updatedResultItem[resultIndex] = { ...updatedResultItem[resultIndex], getOrLose: text };
+        updatedOption.resultItem = updatedResultItem;
+        updatedStories[index].options[optionIndex] = updatedOption;
+      }
+
+      return updatedStories;
+    });
+  }
+  const handleResultItemNumberChange = (index: number, optionIndex: number, resultIndex: number) => (text: resultItemInterface['number']) => {
+    setStories((prevStories) => {
+      const updatedStories = [...prevStories];
+      const updatedOption = { ...updatedStories[index].options[optionIndex] };
+
+      if (Array.isArray(updatedOption.resultItem)) {
+        const updatedResultItem = [...updatedOption.resultItem];
+        updatedResultItem[resultIndex] = { ...updatedResultItem[resultIndex], number: text };
+        updatedOption.resultItem = updatedResultItem;
+        updatedStories[index].options[optionIndex] = updatedOption;
+      }
 
       return updatedStories;
     });
@@ -279,8 +369,7 @@ export const MakeStroy = () => {
                         삭제
                       </button>
                     </h1>
-                    
-                    
+                    {CreateOptionResultItem(resultItem, handleResultItemKindChange(index, optionIndex, resultIndex), handleResultItemGLChange(index, optionIndex, resultIndex), handleResultItemNumberChange(index, optionIndex, resultIndex))}
                   </div>
                 ))}
                 <button
