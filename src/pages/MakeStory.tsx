@@ -3,6 +3,8 @@ import { Input, Select } from "../Components";
 
 import { AlertContext } from "../module/index";
 
+import Item from "../json/DemoItem";
+
 export interface resultItemInterface {
   kind: 'hp' | 'item' | 'hunger';
   getOrLose: 'get' | 'lose';
@@ -85,11 +87,20 @@ function CreateOptionResultItem(
     }
   ];
 
+  const ItemList = Object.keys(Item).map((key) => ({
+    value: key,
+    view: Item[key].name,
+  }));
+
   return (
     <>
       <Select<resultItemInterface['kind']> value={resultItem.kind} options={kind} setState={setResultItemKind} />
       <Select<resultItemInterface['getOrLose']> value={resultItem.getOrLose} options={getOrLose} setState={setResultItemGL} />
-      <Input text={resultItem.number} placeholder="숫자를 입력하세요" setState={setResultItemNumber} />
+      {
+      resultItem.kind === "item" ? 
+      <Select value={resultItem.number} options={ItemList} setState={setResultItemNumber} />
+      :<Input text={resultItem.number} placeholder="숫자를 입력하세요" setState={setResultItemNumber} />
+      }
     </>
   );
 }
@@ -136,7 +147,7 @@ export const MakeStroy = () => {
     const newItem: resultItemInterface = {
       kind: "hp",
       getOrLose: "get",
-      number: "0"
+      number: 0
     };
     currentOption.resultItem.push(newItem);
 
