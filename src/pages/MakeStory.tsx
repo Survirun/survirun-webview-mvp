@@ -3,7 +3,7 @@ import { Input, Select } from "../Components";
 
 import { AlertContext } from "../module/index";
 
-import Item from "../json/DemoItem";
+import Item from "../json/Item";
 
 export interface resultItemInterface {
   kind: 'hp' | 'item' | 'hunger';
@@ -300,7 +300,7 @@ export const MakeStroy = () => {
         updatedOption.resultItem = updatedResultItem;
         updatedStories[index].options[optionIndex] = updatedOption;
         if(text === 'item') {
-          updatedResultItem[resultIndex] = { ...updatedResultItem[resultIndex], number: "통조림" };
+          updatedResultItem[resultIndex] = { ...updatedResultItem[resultIndex], number: Object.values(Item)[0].name };
         }
       }
 
