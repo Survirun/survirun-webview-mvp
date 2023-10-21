@@ -22,12 +22,10 @@ function transformJsonData(data: any): StoryInterface {
     if (data.progressStory.hasOwnProperty(key)) {
       const storyData = data.progressStory[key];
       const transformedStory = {
-        text: storyData.text,
+        ...storyData,
         options: storyData.options.map((option: OptionInterface) => {
           return {
-            optionID: option.optionID,
-            optionText: option.optionText,
-            nextProgressStory: option.nextProgressStory,
+            ...option,
             resultItem: option.resultItem?.map(result => {
               return {
                 kind: result.kind as "item" | "hp" | "hunger",
