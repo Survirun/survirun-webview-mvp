@@ -44,7 +44,7 @@ function transformJsonData(data: any): StoryInterface {
   return transformedData;
 }
 
-const Storys = [testStory, testStory, testStory];
+const Storys = [testStory];
 const newArray: StoryInterface[] = [];
 
 Storys.forEach(story => {
@@ -63,6 +63,7 @@ for (const story of newArray) {
       }
     }
   }
+  console.log(newArray)
 }
 
 export default newArray;
