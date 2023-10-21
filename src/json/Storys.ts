@@ -11,7 +11,6 @@ export interface StoryInterface {
 }
 
 function transformJsonData(data: any): StoryInterface {
-  // JSON 데이터를 변환하고 StoryInterface에 맞게 형식을 맞춘다
   const transformedData: StoryInterface = {
     title: data.title,
     startID: data.startID,
@@ -56,9 +55,7 @@ for (const story of newArray) {
     if (story.progressStory.hasOwnProperty(progressKey)) {
       const progressItem = story.progressStory[progressKey];
       for (const option of progressItem.options) {
-        if (!option.nextProgressStory) {
-          option.nextProgressStory = undefined;
-        }
+          option.nextProgressStory ??= undefined;
       }
     }
   }
