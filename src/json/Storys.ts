@@ -27,6 +27,7 @@ function transformJsonData(data: any): StoryInterface {
           return {
             optionID: option.optionID,
             optionText: option.optionText,
+            nextProgressStory: option.nextProgressStory,
             resultItem: option.resultItem?.map(result => {
               return {
                 kind: result.kind as "item" | "hp" | "hunger",
