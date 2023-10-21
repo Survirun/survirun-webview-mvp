@@ -1,0 +1,22 @@
+{
+  "title": "Example Story",
+  "startID": "progressStory-1",
+  "progressStory": {
+    "progressStory-1": {
+      "text": "This is a story",
+      "options": [
+        {
+          "optionID": "option-1",
+          "optionText": "Choose option 1",
+          "resultItem": [
+            {
+              "kind": "item",
+              "getOrLose": "get",
+              "number": "통조림"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
