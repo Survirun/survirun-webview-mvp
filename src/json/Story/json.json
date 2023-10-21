@@ -1,18 +1,42 @@
 {
-  "title": "Example Story",
+  "title": "좀비 떼가 나온다 좀비 떼!",
   "startID": "progressStory-1",
   "progressStory": {
     "progressStory-1": {
-      "text": "This is a story",
+      "text": "좀비다!! 도망가자!",
       "options": [
         {
           "optionID": "option-1",
-          "optionText": "Choose option 1",
+          "optionText": "도망가자!",
+          "nextProgressStory": "progressStory-2"
+        },
+        {
+          "optionID": "option-2",
+          "optionText": "좀비가 되는 것도 나쁘지 않을지도 몰라.",
+          "nextProgressStory": "progressStory-3"
+        }
+      ]
+    },
+    "progressStory-2": {
+      "text": "죽기살기로 도망치자!",
+      "options": [
+        {
+          "optionID": "option-1",
+          "optionText": "도망친다"
+        }
+      ]
+    },
+    "progressStory-3": {
+      "text": "좀비에게 물려 장엄히 전사했다..",
+      "options": [
+        {
+          "optionID": "option-1",
+          "optionText": "모험 계속하기",
           "resultItem": [
             {
-              "kind": "item",
-              "getOrLose": "get",
-              "number": "통조림"
+              "kind": "hp",
+              "getOrLose": "lose",
+              "number": 100
             }
           ]
         }
