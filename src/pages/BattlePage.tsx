@@ -1,30 +1,37 @@
 import { useEffect, useState } from "react";
 import { UpProgress } from "../Components";
 
-function createBattle() {
+function createBattle(hp: number, maxHp: number, distance: number ) {
   return (
     <>
-      <UpProgress width={50} height={400} max={100} value={80} color="#fd3232" bgColor="#fff"/>
-      <UpProgress width={100} height={400} max={100} value={80} color="#fd3232" bgColor="#fff"/>
+      <UpProgress width={16} max={maxHp} value={hp} color="#fd3232" bgColor="#F0EFF5"/>
+      <div className="flex flex-col h-full">
+        <div className="justify-start flex-initial p-1 w-[76px]">9m / 10m</div>
+        <UpProgress className="flex-1" width={76} max={100} value={distance} color="#5539FF" bgColor="#F0EFF5"/>
+      </div>
+      <div className="flex-1 h-full my-5 rounded-2xl bg-slate-500">
+
+      </div>
     </>
   );
 }
 
 export const BattlePage = () => {
-  const [data, setData] = useState();
+  const [data, setData] = useState<number>(0);
   useEffect(() => {
     window.addEventListener("message", function (e) {
       setData(e.data.distance);
+      this.alert(data);
     });
   }, []);
 
   return (
     <div className="flex flex-col w-screen h-screen">
-      <div className="flex-row w-full bg-black h-1/2">
-        {createBattle()}
+      <div className="flex flex-row items-center justify-center w-full gap-4 p-6 h-1/2">
+        {createBattle(100, 100, 30)}
         </div>
-      <div className="flex-row-reverse w-full h-1/2 bg-slate-400">
-        {createBattle()}
+      <div className="flex flex-row-reverse items-center justify-center w-full gap-4 p-6 h-1/2">
+        {createBattle(100, 100, data)}
       </div>
     </div>
   );
