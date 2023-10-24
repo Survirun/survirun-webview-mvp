@@ -24,7 +24,7 @@ export const BattlePage = () => {
   const [enemyHp, setEnemyHp] = useState<number>(100);
   useEffect(() => {
     window.addEventListener("message", function (e) {
-      if(userDistance !== 0) {
+      if(userDistance === 0) {
         setUserDistance(e.data.distance);
       } else {
         setData(e.data.distance - userDistance);
