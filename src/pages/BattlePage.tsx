@@ -24,9 +24,10 @@ export const BattlePage = () => {
   const [enemyHp, setEnemyHp] = useState<number>(100);
   useEffect(() => {
     window.addEventListener("message", function (e) {
-      setUserDistance(e.data.distance);
+      setData(e.data.distance - userDistance);
+
       if(userDistance !== -1) {
-        setData(e.data.distance - userDistance);
+        setUserDistance(e.data.distance);
       }
     });
 
@@ -38,6 +39,7 @@ export const BattlePage = () => {
   useEffect(() => {
     if(Math.floor(data*1000) >= 10){
       setEnemyHp((pre) => pre-10);
+      setUserDistance((pre) => pre+0.01)
       setData(0);
     }
     if(Math.floor(enemyDistance*1000) >= 10){
