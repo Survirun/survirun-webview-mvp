@@ -19,6 +19,9 @@ function createBattle(hp: number, maxHp: number, distance: number ) {
 export const BattlePage = () => {
   const [data, setData] = useState<number>(0);
   const [userDistance, setUserDistance] = useState<number>(-1);
+  const [enemyDistance, setEnemyDistance] = useState<number>(0)
+  const [userHp, setUserHp] = useState<number>(100);
+  const [enemyHp, setEnemyHp] = useState<number>(100);
   useEffect(() => {
     window.addEventListener("message", function (e) {
       setUserDistance(e.data.distance);
@@ -26,15 +29,30 @@ export const BattlePage = () => {
         setData(e.data.distance - userDistance);
       }
     });
+
+    setInterval(() => {
+      setEnemyDistance((pre)=> pre+0.0001);
+    }, 500)
   }, []);
+
+  useEffect(() => {
+    if(Math.floor(data*1000) >= 10){
+      setEnemyHp((pre) => pre-10);
+      setData(0);
+    }
+    if(Math.floor(enemyDistance*1000) >= 10){
+      setUserHp((pre) => pre-10);
+      setEnemyDistance(0);
+    }
+  }, [data, enemyDistance]);
 
   return (
     <div className="flex flex-col w-screen h-screen">
       <div className="flex flex-row items-center justify-center w-full gap-4 p-6 h-1/2">
-        {createBattle(100, 100, 0.01)}
+        {createBattle(enemyHp, 100, enemyDistance)}
         </div>
       <div className="flex flex-row-reverse items-center justify-center w-full gap-4 p-6 h-1/2">
-        {createBattle(100, 100, data)}
+        {createBattle(userHp, 100, data)}
       </div>
     </div>
   );
