@@ -2,7 +2,6 @@ import { css } from "@emotion/react";
 
 interface ProgressBar {
   width?: number;
-  height?: number;
   max?: number;
   value?: number;
   color?: string;
@@ -12,7 +11,6 @@ interface ProgressBar {
 
 export const UpProgress = ({
   width = 50,
-  height = 100,
   max = 100,
   value = 100,
   color = "#F1D0CC",
@@ -20,26 +18,30 @@ export const UpProgress = ({
   className,
 }: ProgressBar) => {
   return (
-    <progress
-      max={max}
-      value={value}
+    <div
       css={css`
-        appearance: none;
-        transform: rotate(-90deg);
-        width: ${height}px;
-        height: ${width}px;
-        transform-origin: top left;
-        margin-top: ${height}px;
-        &::-webkit-progress-bar {
-          background: ${bgColor};
-          border-radius: 10px;
-        }
-        &::-webkit-progress-value {
-          border-radius: 10px;
-          background: ${color};
-        }
+      position: relative;
+        display: block;
+        width: ${width}px;
+        height: 100%;
+        background-color: ${bgColor};
+        border-radius: 10px;
       `}
       className={`${className}`}
-    />
+    >
+      <div
+        css={css`
+        position: absolute;
+        bottom: 0;
+          background-color: ${color};
+          width: ${width}px;
+          height: ${value/max*100}%;
+          border-radius: 10px;
+          transition: height 0.3s ease-out;
+        `}
+      >
+        
+      </div>
+    </div>
   );
 };
