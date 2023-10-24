@@ -18,9 +18,13 @@ function createBattle(hp: number, maxHp: number, distance: number ) {
 
 export const BattlePage = () => {
   const [data, setData] = useState<number>(0);
+  const [userDistance, setUserDistance] = useState<number>(-1);
   useEffect(() => {
     window.addEventListener("message", function (e) {
-      setData(e.data.distance);
+      setUserDistance(e.data.distance);
+      if(userDistance !== -1) {
+        setData(e.data.distance - userDistance);
+      }
     });
   }, []);
 
