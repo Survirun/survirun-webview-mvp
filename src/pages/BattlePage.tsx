@@ -4,7 +4,7 @@ import { useSocket } from "../hooks";
 
 import { AlertContext } from "../module/index";
 
-function createBattle(hp: number, maxHp: number, distance: number) {
+function createBattle(hp: number, maxHp: number, distance: number, isVisible: boolean) {
   return (
     <>
       <UpProgress
@@ -27,7 +27,9 @@ function createBattle(hp: number, maxHp: number, distance: number) {
           bgColor="#F0EFF5"
         />
       </div>
-      <div className="flex-1 h-full my-5 rounded-2xl bg-slate-500"></div>
+      <div className="flex-1 h-full my-5 rounded-2xl bg-slate-500">
+      {isVisible && <img src="/img/공격.png" className="w-full h-full opacity-30"></img>}
+      </div>
     </>
   );
 }
@@ -39,14 +41,16 @@ export const BattlePage = () => {
   const [enemyDistance, setEnemyDistance] = useState<number>(0);
   const [userHp, setUserHp] = useState<number>(100);
   const [enemyHp, setEnemyHp] = useState<number>(100);
+  const [isUserVisible, setIsUserVisible] = useState(false);
+  const [isEnemyVisible, setIsEnemyVisible] = useState(false);
 
   const { alert } = useContext(AlertContext);
-const socket = useSocket();
+  const socket = useSocket();
 
-      const userId = "test";
-      const clientType = 1;
+  const userId = "test";
+  const clientType = 1;
 
-   const sendSocketStart = () => {
+  const sendSocketStart = () => {
     try {
       socket.emit("start", { userId, clientType });
     } catch (err) {
@@ -56,7 +60,7 @@ const socket = useSocket();
 
   useEffect(() => {
     sendSocketStart();
-    
+
     setInterval(() => {
       setEnemyDistance((prev) => prev + 0.0001);
     }, 100);
@@ -83,14 +87,28 @@ const socket = useSocket();
   }, [userDistance]);
 
   useEffect(() => {
-    if (Math.floor(data * 1000) >= 10) {
+    const handleAttackEnemy = () => {
+      setIsUserVisible(true);
       setEnemyHp((pre) => pre - 10);
       setUserStartDistance((pre) => pre && pre + 0.01);
       setData(0);
+      setTimeout(() => {
+        setIsUserVisible(false);
+      }, 300)
     }
-    if (Math.floor(enemyDistance * 1000) >= 10) {
+    const handleAttckUser = () => {
+      setIsEnemyVisible(true);
       setUserHp((pre) => pre - 10);
       setEnemyDistance(0);
+      setTimeout(() => {
+        setIsEnemyVisible(false);
+      }, 300)
+    }
+    if (Math.floor(data * 1000) >= 10) {
+      handleAttackEnemy();
+    }
+    if (Math.floor(enemyDistance * 1000) >= 10) {
+      handleAttckUser();
     }
   }, [userDistance, enemyDistance]);
 
@@ -114,15 +132,15 @@ const socket = useSocket();
         console.error("Error: sendMapPosstMassage" + err);
       }
     };
-    const userLose = async() => {
-      await alert("좀비에지고 말았다.", "이런", "확인");
+    const userLose = async () => {
+      await alert("좀비에 지고 말았다", "유감입니다" ,"이런", "확인");
       sendSocket();
       sendWebBattleEnd();
-    }
-    const enemyLose = async() => {
-      await alert("좀비를 잡았다.", "나이스", "확인");
+    };
+    const enemyLose = async () => {
+      await alert("좀비를 잡았다.", "개꿀", "나이스", "확인");
       sendWebBattleEnd();
-    }
+    };
     if (userHp <= 0) {
       userLose();
     }
@@ -134,10 +152,10 @@ const socket = useSocket();
   return (
     <div className="flex flex-col w-screen h-screen">
       <div className="flex flex-row items-center justify-center w-full gap-4 p-6 h-1/2">
-        {createBattle(enemyHp, 100, enemyDistance)}
+        {createBattle(enemyHp, 100, enemyDistance, isEnemyVisible)}
       </div>
       <div className="flex flex-row-reverse items-center justify-center w-full gap-4 p-6 h-1/2">
-        {createBattle(userHp, 100, data)}
+        {createBattle(userHp, 100, data, isUserVisible)}
       </div>
     </div>
   );
