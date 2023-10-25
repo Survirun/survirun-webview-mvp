@@ -45,7 +45,7 @@ export const BattlePage = () => {
   useEffect(() => {
     setInterval(() => {
       setEnemyDistance((prev) => prev + 0.0001);
-    }, 500);
+    }, 100);
   }, []);
 
   useEffect(() => {
