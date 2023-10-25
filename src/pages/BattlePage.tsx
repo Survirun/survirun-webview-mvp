@@ -41,8 +41,22 @@ export const BattlePage = () => {
   const [enemyHp, setEnemyHp] = useState<number>(100);
 
   const { alert } = useContext(AlertContext);
+const socket = useSocket();
+
+      const userId = "test";
+      const clientType = 1;
+
+   const sendSocketStart = () => {
+    try {
+      socket.emit("start", { userId, clientType });
+    } catch (err) {
+      console.error("Error Socket: " + err);
+    }
+  };
 
   useEffect(() => {
+    sendSocketStart();
+    
     setInterval(() => {
       setEnemyDistance((prev) => prev + 0.0001);
     }, 100);
@@ -83,8 +97,7 @@ export const BattlePage = () => {
   useEffect(() => {
     const sendSocket = () => {
       try {
-        const socket = useSocket();
-        socket.emit("UpdateHp", {
+        socket.emit("updateHp", {
           value: -10,
         });
       } catch (err) {
@@ -101,14 +114,20 @@ export const BattlePage = () => {
         console.error("Error: sendMapPosstMassage" + err);
       }
     };
-    if (userHp <= 0) {
-      alert("좀비에지고 말았다.", "이런", "확인");
+    const userLose = async() => {
+      await alert("좀비에지고 말았다.", "이런", "확인");
       sendSocket();
       sendWebBattleEnd();
     }
-    if (enemyHp <= 0) {
-      alert("좀비를 잡았다.", "나이스", "확인");
+    const enemyLose = async() => {
+      await alert("좀비를 잡았다.", "나이스", "확인");
       sendWebBattleEnd();
+    }
+    if (userHp <= 0) {
+      userLose();
+    }
+    if (enemyHp <= 0) {
+      enemyLose();
     }
   }, [userHp, enemyHp]);
 
