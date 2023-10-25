@@ -69,9 +69,9 @@ export const BattlePage = () => {
   }, [userDistance]);
 
   useEffect(() => {
-    if (Math.floor(data * 1000) >= 5) {
+    if (Math.floor(data * 1000) >= 10) {
       setEnemyHp((pre) => pre - 10);
-      setUserStartDistance((pre) => pre && pre + 0.005);
+      setUserStartDistance((pre) => pre && pre + 0.01);
       setData(0);
     }
     if (Math.floor(enemyDistance * 1000) >= 10) {
