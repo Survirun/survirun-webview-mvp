@@ -36,6 +36,7 @@ export const UpProgress = ({
           background-color: ${color};
           width: ${width}px;
           height: ${value/max*100}%;
+          max-height: 100%;
           border-radius: 10px;
           transition: height 0.3s ease-out;
         `}
