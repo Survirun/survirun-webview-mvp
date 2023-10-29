@@ -88,7 +88,7 @@ export const BattlePage = () => {
 
   useEffect(() => {
     const handleAttackEnemy = () => {
-      setIsUserVisible(true);
+      setIsEnemyVisible(true);
       setEnemyHp((pre) => pre - 10);
       setUserStartDistance((pre) => pre && pre + 0.01);
       setData(0);
@@ -97,7 +97,7 @@ export const BattlePage = () => {
       }, 300)
     }
     const handleAttckUser = () => {
-      setIsEnemyVisible(true);
+      setIsUserVisible(true);
       setUserHp((pre) => pre - 10);
       setEnemyDistance(0);
       setTimeout(() => {
@@ -152,10 +152,10 @@ export const BattlePage = () => {
   return (
     <div className="flex flex-col w-screen h-screen">
       <div className="flex flex-row items-center justify-center w-full gap-4 p-6 h-1/2">
-        {createBattle(enemyHp, 100, enemyDistance, isUserVisible)}
+        {createBattle(enemyHp, 100, enemyDistance, isEnemyVisible)}
       </div>
       <div className="flex flex-row-reverse items-center justify-center w-full gap-4 p-6 h-1/2">
-        {createBattle(userHp, 100, data, isEnemyVisible)}
+        {createBattle(userHp, 100, data, isUserVisible)}
       </div>
     </div>
   );
