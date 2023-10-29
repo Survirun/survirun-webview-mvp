@@ -152,10 +152,10 @@ export const BattlePage = () => {
   return (
     <div className="flex flex-col w-screen h-screen">
       <div className="flex flex-row items-center justify-center w-full gap-4 p-6 h-1/2">
-        {createBattle(enemyHp, 100, enemyDistance, isEnemyVisible)}
+        {createBattle(enemyHp, 100, enemyDistance, isUserVisible)}
       </div>
       <div className="flex flex-row-reverse items-center justify-center w-full gap-4 p-6 h-1/2">
-        {createBattle(userHp, 100, data, isUserVisible)}
+        {createBattle(userHp, 100, data, isEnemyVisible)}
       </div>
     </div>
   );
