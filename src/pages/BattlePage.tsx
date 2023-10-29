@@ -47,16 +47,16 @@ export const BattlePage = () => {
   const { alert } = useContext(AlertContext);
   const socket = useSocket();
 
-  const userId = "test";
-  const clientType = 1;
+  // const userId = "test";
+  // const clientType = 1;
 
-  const sendSocketStart = () => {
-    try {
-      socket.emit("start", { userId, clientType });
-    } catch (err) {
-      console.error("Error Socket: " + err);
-    }
-  };
+  // const sendSocketStart = () => {
+  //   try {
+  //     socket.emit("start", { userId, clientType });
+  //   } catch (err) {
+  //     console.error("Error Socket: " + err);
+  //   }
+  // };
 
   useEffect(() => {
     //sendSocketStart();
