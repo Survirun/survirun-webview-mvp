@@ -59,7 +59,7 @@ export const BattlePage = () => {
   };
 
   useEffect(() => {
-    sendSocketStart();
+    //sendSocketStart();
 
     setInterval(() => {
       setEnemyDistance((prev) => prev + 0.0001);
@@ -93,7 +93,7 @@ export const BattlePage = () => {
       setUserStartDistance((pre) => pre && pre + 0.01);
       setData(0);
       setTimeout(() => {
-        setIsUserVisible(false);
+        setIsEnemyVisible(false);
       }, 300)
     }
     const handleAttckUser = () => {
@@ -101,7 +101,7 @@ export const BattlePage = () => {
       setUserHp((pre) => pre - 10);
       setEnemyDistance(0);
       setTimeout(() => {
-        setIsEnemyVisible(false);
+        setIsUserVisible(false);
       }, 300)
     }
     if (Math.floor(data * 1000) >= 10) {
