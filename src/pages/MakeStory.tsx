@@ -50,6 +50,10 @@ function CreateOptionAddtionInput(
     value: key,
     view: Zombies[key].name,
   }));
+  ZombieList.unshift({
+    value: "",
+    view: "없음",
+  });
 
   return (
     <>

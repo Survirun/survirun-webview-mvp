@@ -10,12 +10,6 @@ export interface ZombiesInterface {
 }
 
 const Zombies: ZombiesInterface = {
-    "none": {
-        name: "없음",
-        id: 0,
-        kind: "item",
-        img: "/img/통조림.jpg",
-    },
     "좀비1": {
         name: "좀비1",
         id: 1,

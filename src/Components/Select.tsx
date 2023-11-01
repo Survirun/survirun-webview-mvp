@@ -3,7 +3,7 @@ import React from 'react';
 interface SelectProps<T> {
   value: T,
   options: {
-    value: T,
+    value: T | undefined,
     view: string
   }[],
   setState: (id: T) => void
