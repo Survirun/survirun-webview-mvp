@@ -4,6 +4,7 @@ import { Input, Select } from "../Components";
 import { AlertContext } from "../module/index";
 
 import Item from "../json/Item";
+import Zombies from "../json/Zombies";
 
 export interface resultItemInterface {
   kind: 'hp' | 'item' | 'hunger';
@@ -15,6 +16,7 @@ export interface OptionInterface {
   optionText: string;
   nextProgressStory?: string | undefined;
   resultItem?: resultItemInterface[] | undefined;
+  battleZombie?: string | undefined
 }
 
 export interface Story {
@@ -40,11 +42,19 @@ function CreateInputIDText(
 
 function CreateOptionAddtionInput(
   nextProgressStory: string | undefined,
-  setNextProgressStory: (nextProgressStor: string) => void
+  battleZombie: string | undefined,
+  setNextProgressStory: (nextProgressStor: string) => void,
+  setBattleZombie: (nextProgressStor: string) => void
 ) {
+  const ZombieList = Object.keys(Zombies).map((key) => ({
+    value: key,
+    view: Zombies[key].name,
+  }));
+
   return (
     <>
       <Input text={nextProgressStory || ""} placeholder="다음 스토리 ID를 입력하세요" setState={setNextProgressStory} />
+      <Select value={battleZombie || ""} options={ZombieList} setState={setBattleZombie} />
     </>
   )
 }
@@ -182,7 +192,8 @@ export const MakeStroy = () => {
           optionID: option.optionID,
           optionText: option.optionText,
           nextProgressStory: option.nextProgressStory || undefined,
-          resultItem: option.resultItem || undefined
+          resultItem: option.resultItem || undefined,
+          battleZombie: option.battleZombie || undefined
         })),
       };
       textObj[story.id] = storyData;
@@ -289,6 +300,14 @@ export const MakeStroy = () => {
       return updatedStories;
     });
   }
+  const handleBattleZombieChange = (index: number, optionIndex: number) => (text: string) => {
+    setStories((prevStories) => {
+      const updatedStories = [...prevStories];
+      updatedStories[index].options[optionIndex].battleZombie = text;
+
+      return updatedStories;
+    });
+  }
   const handleResultItemKindChange = (index: number, optionIndex: number, resultIndex: number) => (text: resultItemInterface['kind']) => {
     setStories((prevStories) => {
       const updatedStories = [...prevStories];
@@ -375,7 +394,7 @@ export const MakeStroy = () => {
                   </button>
                 </h1>
                 {CreateInputIDText(option.optionID, option.optionText, handleOptionIdChange(index, optionIndex), handleOptionTextChange(index, optionIndex))}
-                {CreateOptionAddtionInput(option.nextProgressStory, handleNextProgressStoryChange(index, optionIndex))}
+                {CreateOptionAddtionInput(option.nextProgressStory, option.battleZombie, handleNextProgressStoryChange(index, optionIndex), handleBattleZombieChange(index, optionIndex))}
                 {option.resultItem?.map((resultItem, resultIndex) => (
                   <div key={resultIndex} className="p-4 bg-white rounded shadow-md">
                     <h1 className="flex items-center justify-between mb-4 text-lg font-semibold">
