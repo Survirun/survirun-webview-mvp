@@ -5,6 +5,7 @@ import { AlertContext } from "../module/index";
 
 import Item from "../json/Item";
 import Zombies from "../json/Zombies";
+import { QuestName } from "../json/Quest";
 
 export interface resultItemInterface {
   kind: 'hp' | 'item' | 'hunger';
@@ -16,7 +17,11 @@ export interface OptionInterface {
   optionText: string;
   nextProgressStory?: string | undefined;
   resultItem?: resultItemInterface[] | undefined;
-  battleZombie?: string | undefined
+  battleZombie?: string | undefined,
+  quest: {
+    name: string,
+    number: number
+  } | undefined,
 }
 
 export interface Story {
@@ -43,8 +48,14 @@ function CreateInputIDText(
 function CreateOptionAddtionInput(
   nextProgressStory: string | undefined,
   battleZombie: string | undefined,
+  quest: {
+    name: string,
+    number: number
+  } | undefined,
   setNextProgressStory: (nextProgressStor: string) => void,
-  setBattleZombie: (nextProgressStor: string) => void
+  setBattleZombie: (nextProgressStor: string) => void,
+  setQuestName: (nextProgressStor: string) => void,
+  setQuestNumber: (nextProgressStor: number) => void,
 ) {
   const ZombieList = Object.keys(Zombies).map((key) => ({
     value: key,
@@ -52,13 +63,28 @@ function CreateOptionAddtionInput(
   }));
   ZombieList.unshift({
     value: "",
-    view: "없음",
+    view: "좀비 전투 없음",
   });
+
+  const QuestList = QuestName.map((key) => ({
+    value: key,
+    view: key,
+  }));
+  QuestList.unshift({
+    value: "",
+    view: "퀘스트 없음",
+  });
+
 
   return (
     <>
       <Input text={nextProgressStory || ""} placeholder="다음 스토리 ID를 입력하세요" setState={setNextProgressStory} />
       <Select value={battleZombie || ""} options={ZombieList} setState={setBattleZombie} />
+      <Select value={quest?.name || ""} options={QuestList} setState={setQuestName} />
+      {
+        quest?.name && 
+        <Input text={quest?.number || 0} type="number" placeholder="다음 스토리 ID를 입력하세요" setState={setQuestNumber} />
+      }
     </>
   )
 }
@@ -197,7 +223,8 @@ export const MakeStroy = () => {
           optionText: option.optionText,
           nextProgressStory: option.nextProgressStory || undefined,
           resultItem: option.resultItem || undefined,
-          battleZombie: option.battleZombie || undefined
+          battleZombie: option.battleZombie || undefined,
+          quest: option.quest || undefined
         })),
       };
       textObj[story.id] = storyData;
@@ -312,6 +339,34 @@ export const MakeStroy = () => {
       return updatedStories;
     });
   }
+  const handleQuestNameChange = (index: number, optionIndex: number) => (text: string) => {
+    setStories((prevStories) => {
+      const updatedStories = [...prevStories];
+      if (!updatedStories[index].options[optionIndex].quest) {
+        updatedStories[index].options[optionIndex].quest = { name: "", number: 0 };
+      } 
+      const quest = updatedStories[index].options[optionIndex].quest;
+      if (quest) {
+        quest.name = text;
+      }
+
+      return updatedStories;
+    });
+  }
+  const handleQuestNumberChange = (index: number, optionIndex: number) => (num: number) => {
+    setStories((prevStories) => {
+      const updatedStories = [...prevStories];
+      if (!updatedStories[index].options[optionIndex].quest) {
+        updatedStories[index].options[optionIndex].quest = { name: "", number: 0 };
+      } 
+      const quest = updatedStories[index].options[optionIndex].quest;
+      if (quest) {
+        quest.number = num;
+      }
+
+      return updatedStories;
+    });
+  }
   const handleResultItemKindChange = (index: number, optionIndex: number, resultIndex: number) => (text: resultItemInterface['kind']) => {
     setStories((prevStories) => {
       const updatedStories = [...prevStories];
@@ -398,7 +453,7 @@ export const MakeStroy = () => {
                   </button>
                 </h1>
                 {CreateInputIDText(option.optionID, option.optionText, handleOptionIdChange(index, optionIndex), handleOptionTextChange(index, optionIndex))}
-                {CreateOptionAddtionInput(option.nextProgressStory, option.battleZombie, handleNextProgressStoryChange(index, optionIndex), handleBattleZombieChange(index, optionIndex))}
+                {CreateOptionAddtionInput(option.nextProgressStory, option.battleZombie, option.quest, handleNextProgressStoryChange(index, optionIndex), handleBattleZombieChange(index, optionIndex), handleQuestNameChange(index, optionIndex), handleQuestNumberChange(index, optionIndex))}
                 {option.resultItem?.map((resultItem, resultIndex) => (
                   <div key={resultIndex} className="p-4 bg-white rounded shadow-md">
                     <h1 className="flex items-center justify-between mb-4 text-lg font-semibold">
