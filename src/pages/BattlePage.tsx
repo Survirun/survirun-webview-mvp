@@ -61,9 +61,13 @@ export const BattlePage = () => {
   useEffect(() => {
     //sendSocketStart();
 
-    setInterval(() => {
+    const intervalID = setInterval(() => {
       setEnemyDistance((prev) => prev + 0.0001);
     }, 100);
+
+    return () => {
+      clearInterval(intervalID);
+    }
   }, []);
 
   useEffect(() => {
